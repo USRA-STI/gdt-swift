@@ -33,8 +33,8 @@ from gdt.core.heasarc import BrowseCatalog
 
 __all__ = ['GrbCatalog', 'MasterCatalog']
 
-gbm_cache_path = os.path.join(cache_path, 'swiftbat')
-print(gbm_cache_path)
+bat_cache_path = os.path.join(cache_path, 'swiftbat')
+print(bat_cache_path)
 class GrbCatalog(BrowseCatalog):
     """Class that interfaces with the GBM Trigger Catalog via HEASARC Browse.
 
@@ -53,10 +53,10 @@ class GrbCatalog(BrowseCatalog):
         num_cols (int): The total number of columns (fields) in the data table
         num_rows: (int): The total number of rows in the data table
     """
-    def __init__(self, cache_path=gbm_cache_path, **kwargs):
+    def __init__(self, cache_path=bat_cache_path, **kwargs):
         super().__init__(cache_path, table='swiftgrb', **kwargs)
 
-class MastrCatalog(BrowseCatalog):
+class MasterCatalog(BrowseCatalog):
     """Class that interfaces with the GBM Burst Catalog via HEASARC Browse.
 
     Note:
@@ -75,5 +75,5 @@ class MastrCatalog(BrowseCatalog):
         num_cols (int): The total number of columns (fields) in the data table
         num_rows: (int): The total number of rows in the data table
     """
-    def __init__(self, cache_path=gbm_cache_path, **kwargs):
+    def __init__(self, cache_path=bat_cache_path, **kwargs):
         super().__init__(cache_path, table='swiftmastr', **kwargs)

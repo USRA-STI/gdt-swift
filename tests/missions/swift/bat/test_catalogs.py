@@ -31,21 +31,21 @@ import os
 import numpy as np
 import unittest
 
-from gdt.missions.fermi.gbm.catalogs import *
+from gdt.missions.swift.bat.catalogs import *
 
 
-class TestTriggerCatalog(unittest.TestCase):
-    
+class TestGrbCatalog(unittest.TestCase):
+
     def setUp(self):
-        self.cat = TriggerCatalog(cached=False)
-    
+        self.cat = GrbCatalog(cached=False)
+
     def test_num_cols(self):
-        self.assertEqual(self.cat.num_cols, 29)
+        self.assertEqual(self.cat.num_cols, 178)
 
-class TestBurstCatalog(unittest.TestCase):
-    
+class TestMastertCatalog(unittest.TestCase):
+
     def setUp(self):
-        self.cat = BurstCatalog(cached=False)
-    
+        self.cat = MasterCatalog(cached=False)
+
     def test_num_cols(self):
         self.assertEqual(self.cat.num_cols, 306)

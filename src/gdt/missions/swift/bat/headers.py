@@ -31,7 +31,7 @@ from gdt.core.headers import Header, FileHeaders
 from ..time import Time
 
 
-__all__ = ['SaoHeaders', 'RspHeaders', 'PhaHeaders']
+__all__ = ['SaoHeaders']#, 'RspHeaders', 'PhaHeaders']
 
 # mission definitions
 _telescope = 'SWIFT'
@@ -46,8 +46,8 @@ _mjdreff = '7.428703703703703e-4'
 
 # common keyword cards
 _date_card = ('DATE', '', 'file creation date (YYYY-MM-DDThh:mm:ss UT)')
-_date_end_card = ('DATE-END', '', '')
-_date_obs_card = ('DATE-OBS', '', '')
+_date_end_card = ('DATE-END', '',)
+_date_obs_card = ('DATE-OBS', '',)
 _dec_obj_card = ('DEC_OBJ', 0.0, '[dec] Dec Object')
 _extname_card = ('EXTNAME', '', 'name of this binary table extension')
 _equinox_card = ('EQUINOX', _equinox, 'Equinox for pointing RA/Dec')
@@ -62,6 +62,8 @@ _timesys_card = ('TIMESYS', _timesys, 'time system')
 _timeunit_card = ('TIMEUNIT', _timeunit, 'Time unit for timing header keywords')
 _tstart_card = ('TSTART', 0.0, 'As in the TIME column')
 _tstop_card = ('TSTOP', 0.0, 'As in the TIME column')
+_time_obs_card = ('TIME-OBS', ' Start time for data')
+_time_end_card = ('TIME-END', '', 'End time for data')
 _trigtime_card = ('TRIGTIME', 0.0, 'MET TRIGger Time for Automatic Target')
 _deltat_card = ('DELTAT', 0.0, 'Interval between records [s]')
 _ra_nom_card = ('RA_NOM', 0.0, 'Nominal right ascension (degrees)')
@@ -114,174 +116,174 @@ class BatHeader(Header):
 
 class SaoPrimaryHeader(BatHeader):
     name = 'PRIMARY'
-    keywords = [Header.creator(), _deltat_card, _ra_nom_card, _dec_nom_card,
+    keywords = [_date_obs_card, _time_obs_card, _date_end_card,
+                _time_end_card, _tstart_card, _tstop_card, _deltat_card, _ra_nom_card, _dec_nom_card,
                 _telescope_card, _timesys_card, _timeunit_card, _mjdrefi_card,
                 _mjdreff_card, _equinox_card, _radecsys_card, _creator_card,
                 _origin_card, _date_card, _checksum_card, _datasum_card, _procver_card,
                 _softver_card, _caldbver_card, _clockapp_card, _obs_id_card,_seqpnum_card,
                 _targ_id_card, _seg_num_card, _object_card, _ra_obj_card, _dec_obj_card,
-                _ra_pnt_card, _dec_pnt_card, _trigtime_card, _utcfinit_card]
+                _ra_pnt_card, _dec_pnt_card,_pa_pnt_card, _trigtime_card, _utcfinit_card]
 
 
 
 class SaoPreFilterHeader(BatHeader):
     name = 'PREFILTER'
-    keywords = [_extname_card, ('TTYPE1',  '', 'seconds since mission epoch'),
-                _date_obs_card, ('TIME-OBS', '' , 'Start time for data'),
-                _date_end_card, ('TIME-END', '', 'End time for data'),
+    keywords = [_extname_card,
+                _date_obs_card, _time_obs_card, _date_end_card, _time_end_card,
                 _tstart_card, _tstop_card, _deltat_card, _ra_nom_card, _dec_nom_card,
                 _telescope_card, _timesys_card, _timeunit_card, _mjdrefi_card,
                 _mjdreff_card, _equinox_card, _radecsys_card, _creator_card, _origin_card,
                 _date_card, _checksum_card, _datasum_card, _procver_card,
                 _softver_card, _caldbver_card,
                 ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
-                ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),
+                ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),_clockapp_card,
                 _obs_id_card, _seqpnum_card, _targ_id_card, _seg_num_card,
                 _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card,
                 _dec_pnt_card, _pa_pnt_card, _trigtime_card, _utcfinit_card]
 
-class PhaPrimaryHeader(BatHeader):
-    name='PRIMARY'
-    keywords= [_telescope_card, _instrument_card, _obs_id_card,
-               _targ_id_card, _seg_num_card, _timesys_card,
-               _mjdrefi_card, _mjdreff_card, _clockapp_card,
-               _timeunit_card, _tstart_card, _tstop_card, _date_obs_card, _date_end_card,_origin_card,
-               _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
-               _date_card, ('NEVENTS', 0, 'Number of events'), ('DATAMODE', '' , 'Datamode'),
-               _object_card, ('MJD-OBS', 0.00000000000E+04, 'MJD of data start time'),
-               ('TIMEREF', 'LOCAL   ', 'reference time'), _equinox_card, _radecsys_card, ('USER', '', 'User name of creator'),
-               ('FILIN001', '', 'Input file name'), ('TIMEZERO', 0.000000000000000E+00, 'Time Zero'),
-               _checksum_card, _datasum_card, _procver_card, _softver_card, _caldbver_card,
-               _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card,
-               _pa_pnt_card, _trigtime_card, _catsrc_card, _attflag_card, _utcfinit_card]
-
-class PhaSpectrumHeader(BatHeader):
-    name='SPECTRUM'
-    keywords= [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains spectrum'),
-               ('GAINAPP', '', 'Gain correction has been applied'),
-               _timesys_card, _mjdrefi_card, _mjdreff_card, ('TIMEREF', '', 'reference time'),
-               ('TASSIGN', 'SATELLITE', 'Time assigned by clock'),
-               _timeunit_card, ('TIERRELA', 0.0E-0, '[s/s] relative errors expressed as rate'),
-               ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
-               _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
-               _clockapp_card, ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
-               ('ONTIME', 0.0, '[s] Accumulated on-time'), ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
-               ('EXPOSURE', 0.0, '[s] Accumulated exposure'), ('DEADC', 0., 'Dead time correction factor'),
-               ('TIMEPIXR', 0., 'Time bin alignment'), ('TIMEDEL', 0.0E-00, '[s] time resolution of data'),
-               _telescope_card, _instrument_card, ('DATAMODE', '', 'Datamode'),
-               _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card,
-               _radecsys_card, ('OBS_MODE', '', 'default'),
-               _origin_card, _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
-               _date_card, _procver_card, _softver_card, _caldbver_card,
-               _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
-               _catsrc_card, _attflag_card,_utcfinit_card, _checksum_card, _datasum_card]
-
-class PhaEboundsHeader(BatHeader):
-    name='EBOUNDS'
-    keywords=[_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains spectrum'),
-             ('GAINAPP', '', 'Gain correction has been applied'),
-             _timesys_card, _mjdrefi_card, _mjdreff_card,
-             ('TIMEREF', '' , 'reference time'),
-             ('TASSIGN', '', 'Time assigned by clock'),
-             _timeunit_card, ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
-             ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),
-             _tstart_card, _tstop_card, _date_obs_card, _date_end_card, _clockapp_card,
-             ('DEADC', 1., 'dead time correction'), ('TIMEPIXR', 0.0 , 'Bin time beginning=0 middle=0.5 end=1'),
-             ('TIMEDEL', 100.0E-6, '[s] time resolution of data'),
-             _telescope_card, _instrument_card, ('DATAMODE', '' , 'Datamode'),
-            _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
-            ('OBS_MODE', '', 'default'), _origin_card, _creator_card,
-            ('TLM2FITS', '' , 'Telemetry converter version number'),
-            _date_card, _procver_card, _softver_card, _caldbver_card, _seqpnum_card, _ra_obj_card, _dec_obj_card,
-            _ra_pnt_card, _dec_pnt_card, _catsrc_card, _attflag_card, _utcfinit_card, _checksum_card, _datasum_card]
-
-class PhaStdgtiHeader(BatHeader):
-    name='STDGTI'
-    keywords= [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains good time intervals'),
-              ('HDUCLAS2', '', 'Contains standard good time intervals'),
-              ('HDUVERS', '', 'Version of GTI header'),
-              ('TIMEZERO', 0., 'Zero-point offset for TIME column'),
-              ('MJDREF', 0.000000000E+00, 'MJD Epoch of TIME = 0'), _tstart_card, _tstop_card,
-              ('GAINAPP', '', 'Gain correction has been applied'), _timesys_card,
-              ('TIMEREF', '', 'reference time'), ('TASSIGN', '', 'Time assigned by clock'),
-              _timeunit_card, ('TIERRELA', 0.0E-0, '[s/s] relative errors expressed as rate'),
-              ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
-              _date_obs_card, _date_end_card, _clockapp_card,
-              ('DEADC', 0., 'dead time correction'),
-              ('TIMEPIXR', 0.0, 'Bin time beginning=0 middle=0.5 end=1'),
-              ('TIMEDEL', 00.0E-0, '[s] time resolution of data'),
-              _telescope_card, _instrument_card, ('DATAMODE', '', 'Datamode'),
-              _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
-              ('OBS_MODE', '', 'default'),
-              _origin_card, _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
-              _date_card, ('APERTURE', '', 'BAT aperture file name'), ('BTELDEF' , '', 'BAT teldef file name'),
-              _object_card, ('MJD-OBS', 5.899743394888889E+04, 'MJD of data start time'),
-              ('USER', '', 'User name of creator'), ('FILIN001', '',  'Input file name'),
-              ('NPIXSOU', 0.0000000E+00, 'Number of pixels in selected region'),
-              _procver_card, _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
-              _catsrc_card, _attflag_card, _utcfinit_card, _checksum_card, _datasum_card]
-
-class RspPrimaryHeader(BatHeader):
-     name = 'PRIMARY'
-     keywords=[_procver_card, _softver_card, _caldbver_card, _timesys_card,
-            _mjdrefi_card, _mjdreff_card, _clockapp_card, _timeunit_card,
-            _obs_id_card, _seqpnum_card, _targ_id_card, _seg_num_card,
-            _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card,
-            _pa_pnt_card, _trigtime_card, _catsrc_card, _attflag_card, _checksum_card, _datasum_card]
-
-class SpecRspHeader(BatHeader):
-      name = 'SPECRESP MATRIX'
-      keywords =[ _extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'),
-      ('HDUCLAS1', '', 'Dataset relates to spectral response'),
-      ('GAINAPP' , '','Gain correction has been applied'),
-      _timesys_card, _mjdrefi_card, _mjdreff_card,
-      ('TIMEREF', '',  'reference time'),
-      ('TASSIGN', '', 'Time assigned by clock'),
-      _timeunit_card,
-      ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
-      ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
-       _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
-      ('CLOCKAPP', '', 'default'),
-      ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
-      ('ONTIME', 0.0, '[s] Accumulated on-time'),
-      ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
-      ('EXPOSURE', 0.0, '[s] Accumulated exposure'),
-      ('DEADC', 0.,  'Dead time correction factor'),
-      ('TIMEPIXR', 0., 'Time bin alignment'),
-      ('TIMEDEL', 100.0E-6, '[s] time resolution of data'),
-      _telescope_card, _instrument_card,
-      ('DATAMODE', '', 'Datamode'),
-      _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
-      ('OBS_MODE', '', 'default'),
-      _origin_card, _creator_card,
-      ('TLM2FITS', '', 'Telemetry converter version number'), _date_card]
-
-class EboundsRspHeader(BatHeader):
-    name = 'EBOUNDS'
-    keywords = [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'),
-    ('HDUCLAS1', '','Contains spectrum'),
-    ('GAINAPP' , '','Gain correction has been applied'),
-    _timesys_card, _mjdrefi_card, _mjdreff_card,
-    ('TIMEREF', '',  'reference time'),
-    ('TASSIGN', '', 'Time assigned by clock'),
-     _timeunit_card,
-     ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
-     ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
-     _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
-     ('CLOCKAPP', '', 'default'),
-     ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
-     ('ONTIME', 0.0, '[s] Accumulated on-time'),
-     ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
-     ('EXPOSURE', 0.0, '[s] Accumulated exposure'),]
+# class PhaPrimaryHeader(BatHeader):
+#     name='PRIMARY'
+#     keywords= [_telescope_card, _instrument_card, _obs_id_card,
+#                _targ_id_card, _seg_num_card, _timesys_card,
+#                _mjdrefi_card, _mjdreff_card, _clockapp_card,
+#                _timeunit_card, _tstart_card, _tstop_card, _date_obs_card, _date_end_card,_origin_card,
+#                _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
+#                _date_card, ('NEVENTS', 0, 'Number of events'), ('DATAMODE', '' , 'Datamode'),
+#                _object_card, ('MJD-OBS', 0.00000000000E+04, 'MJD of data start time'),
+#                ('TIMEREF', 'LOCAL   ', 'reference time'), _equinox_card, _radecsys_card, ('USER', '', 'User name of creator'),
+#                ('FILIN001', '', 'Input file name'), ('TIMEZERO', 0.000000000000000E+00, 'Time Zero'),
+#                _checksum_card, _datasum_card, _procver_card, _softver_card, _caldbver_card,
+#                _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card,
+#                _pa_pnt_card, _trigtime_card, _catsrc_card, _attflag_card, _utcfinit_card]
+#
+# class PhaSpectrumHeader(BatHeader):
+#     name='SPECTRUM'
+#     keywords= [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains spectrum'),
+#                ('GAINAPP', '', 'Gain correction has been applied'),
+#                _timesys_card, _mjdrefi_card, _mjdreff_card, ('TIMEREF', '', 'reference time'),
+#                ('TASSIGN', 'SATELLITE', 'Time assigned by clock'),
+#                _timeunit_card, ('TIERRELA', 0.0E-0, '[s/s] relative errors expressed as rate'),
+#                ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
+#                _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
+#                _clockapp_card, ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
+#                ('ONTIME', 0.0, '[s] Accumulated on-time'), ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
+#                ('EXPOSURE', 0.0, '[s] Accumulated exposure'), ('DEADC', 0., 'Dead time correction factor'),
+#                ('TIMEPIXR', 0., 'Time bin alignment'), ('TIMEDEL', 0.0E-00, '[s] time resolution of data'),
+#                _telescope_card, _instrument_card, ('DATAMODE', '', 'Datamode'),
+#                _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card,
+#                _radecsys_card, ('OBS_MODE', '', 'default'),
+#                _origin_card, _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
+#                _date_card, _procver_card, _softver_card, _caldbver_card,
+#                _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
+#                _catsrc_card, _attflag_card,_utcfinit_card, _checksum_card, _datasum_card]
+#
+# class PhaEboundsHeader(BatHeader):
+#     name='EBOUNDS'
+#     keywords=[_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains spectrum'),
+#              ('GAINAPP', '', 'Gain correction has been applied'),
+#              _timesys_card, _mjdrefi_card, _mjdreff_card,
+#              ('TIMEREF', '' , 'reference time'),
+#              ('TASSIGN', '', 'Time assigned by clock'),
+#              _timeunit_card, ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
+#              ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),
+#              _tstart_card, _tstop_card, _date_obs_card, _date_end_card, _clockapp_card,
+#              ('DEADC', 1., 'dead time correction'), ('TIMEPIXR', 0.0 , 'Bin time beginning=0 middle=0.5 end=1'),
+#              ('TIMEDEL', 100.0E-6, '[s] time resolution of data'),
+#              _telescope_card, _instrument_card, ('DATAMODE', '' , 'Datamode'),
+#             _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
+#             ('OBS_MODE', '', 'default'), _origin_card, _creator_card,
+#             ('TLM2FITS', '' , 'Telemetry converter version number'),
+#             _date_card, _procver_card, _softver_card, _caldbver_card, _seqpnum_card, _ra_obj_card, _dec_obj_card,
+#             _ra_pnt_card, _dec_pnt_card, _catsrc_card, _attflag_card, _utcfinit_card, _checksum_card, _datasum_card]
+#
+# class PhaStdgtiHeader(BatHeader):
+#     name='STDGTI'
+#     keywords= [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'), ('HDUCLAS1', '', 'Contains good time intervals'),
+#               ('HDUCLAS2', '', 'Contains standard good time intervals'),
+#               ('HDUVERS', '', 'Version of GTI header'),
+#               ('TIMEZERO', 0., 'Zero-point offset for TIME column'),
+#               ('MJDREF', 0.000000000E+00, 'MJD Epoch of TIME = 0'), _tstart_card, _tstop_card,
+#               ('GAINAPP', '', 'Gain correction has been applied'), _timesys_card,
+#               ('TIMEREF', '', 'reference time'), ('TASSIGN', '', 'Time assigned by clock'),
+#               _timeunit_card, ('TIERRELA', 0.0E-0, '[s/s] relative errors expressed as rate'),
+#               ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
+#               _date_obs_card, _date_end_card, _clockapp_card,
+#               ('DEADC', 0., 'dead time correction'),
+#               ('TIMEPIXR', 0.0, 'Bin time beginning=0 middle=0.5 end=1'),
+#               ('TIMEDEL', 00.0E-0, '[s] time resolution of data'),
+#               _telescope_card, _instrument_card, ('DATAMODE', '', 'Datamode'),
+#               _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
+#               ('OBS_MODE', '', 'default'),
+#               _origin_card, _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
+#               _date_card, ('APERTURE', '', 'BAT aperture file name'), ('BTELDEF' , '', 'BAT teldef file name'),
+#               _object_card, ('MJD-OBS', 5.899743394888889E+04, 'MJD of data start time'),
+#               ('USER', '', 'User name of creator'), ('FILIN001', '',  'Input file name'),
+#               ('NPIXSOU', 0.0000000E+00, 'Number of pixels in selected region'),
+#               _procver_card, _seqpnum_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
+#               _catsrc_card, _attflag_card, _utcfinit_card, _checksum_card, _datasum_card]
+#
+# class RspPrimaryHeader(BatHeader):
+#      name = 'PRIMARY'
+#      keywords=[_procver_card, _softver_card, _caldbver_card, _timesys_card,
+#             _mjdrefi_card, _mjdreff_card, _clockapp_card, _timeunit_card,
+#             _obs_id_card, _seqpnum_card, _targ_id_card, _seg_num_card,
+#             _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card,
+#             _pa_pnt_card, _trigtime_card, _catsrc_card, _attflag_card, _checksum_card, _datasum_card]
+#
+# class SpecRspHeader(BatHeader):
+#       name = 'SPECRESP MATRIX'
+#       keywords =[ _extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'),
+#       ('HDUCLAS1', '', 'Dataset relates to spectral response'),
+#       ('GAINAPP' , '','Gain correction has been applied'),
+#       _timesys_card, _mjdrefi_card, _mjdreff_card,
+#       ('TIMEREF', '',  'reference time'),
+#       ('TASSIGN', '', 'Time assigned by clock'),
+#       _timeunit_card,
+#       ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
+#       ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
+#        _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
+#       ('CLOCKAPP', '', 'default'),
+#       ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
+#       ('ONTIME', 0.0, '[s] Accumulated on-time'),
+#       ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
+#       ('EXPOSURE', 0.0, '[s] Accumulated exposure'),
+#       ('DEADC', 0.,  'Dead time correction factor'),
+#       ('TIMEPIXR', 0., 'Time bin alignment'),
+#       ('TIMEDEL', 100.0E-6, '[s] time resolution of data'),
+#       _telescope_card, _instrument_card,
+#       ('DATAMODE', '', 'Datamode'),
+#       _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
+#       ('OBS_MODE', '', 'default'),
+#       _origin_card, _creator_card,
+#       ('TLM2FITS', '', 'Telemetry converter version number'), _date_card]
+#
+# class EboundsRspHeader(BatHeader):
+#     name = 'EBOUNDS'
+#     keywords = [_extname_card, ('HDUCLASS', '', 'Conforms to OGIP/GSFC standards'),
+#     ('HDUCLAS1', '','Contains spectrum'),
+#     ('GAINAPP' , '','Gain correction has been applied'),
+#     _timesys_card, _mjdrefi_card, _mjdreff_card,
+#     ('TIMEREF', '',  'reference time'),
+#     ('TASSIGN', '', 'Time assigned by clock'),
+#      _timeunit_card,
+#      ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
+#      ('TIERABSO', 0.0, '[s] timing  precision  in seconds'),
+#      _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
+#      ('CLOCKAPP', '', 'default'),
+#      ('TELAPSE', 0.0, '[s] Total elapsed time from start to stop'),
+#      ('ONTIME', 0.0, '[s] Accumulated on-time'),
+#      ('LIVETIME', 0.0, '[s] ONTIME multiplied by DEADC'),
+#      ('EXPOSURE', 0.0, '[s] Accumulated exposure'),]
 
 #-------------------------------------
 
 #_header_templates = [RspPrimaryHeader(), EboundsHeader(), SpecRespHeader()]
-class RspHeaders(FileHeaders):
-    _header_templates = [RspPrimaryHeader(), SpecRspHeader(), EboundsRspHeader()]
+# class RspHeaders(FileHeaders):
+#     _header_templates = [RspPrimaryHeader(), SpecRspHeader(), EboundsRspHeader()]
 
 class SaoHeaders(FileHeaders):
     _header_templates = [SaoPrimaryHeader(), SaoPreFilterHeader()]
 
-class PhaHeaders(FileHeaders):
-    _header_templates =[PhaPrimaryHeader(), PhaSpectrumHeader(), PhaEboundsHeader(), PhaStdgtiHeader()]
+# class PhaHeaders(FileHeaders):
+#     _header_templates =[PhaPrimaryHeader(), PhaSpectrumHeader(), PhaEboundsHeader(), PhaStdgtiHeader()]
