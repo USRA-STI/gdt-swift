@@ -137,7 +137,7 @@ class SaoPreFilterHeader(BatHeader):
                 _date_card, _checksum_card, _datasum_card, _procver_card,
                 _softver_card, _caldbver_card,
                 ('TIERRELA', 1.0E-8, '[s/s] relative errors expressed as rate'),
-                ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),_clockapp_card,
+                ('TIERABSO', 1.0, '[s] timing  precision  in seconds'),
                 _obs_id_card, _seqpnum_card, _targ_id_card, _seg_num_card,
                 _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card,
                 _dec_pnt_card, _pa_pnt_card, _trigtime_card, _utcfinit_card]
