@@ -54,23 +54,23 @@ def test_get_spacecraft_frame(test_file):
         assert pos.quaternion == Quaternion((-0.351979, -0.3443668, -0.7507802,
                                              0.4402855))
 
-        assert np.all(pos.obsgeoloc.xyz.value == np.array((-6165.602, -2728.582, 1604.041)))
-        assert str(pos.obsgeoloc.xyz.unit) == 'km'
+        assert np.all(pos.obsgeoloc.xyz.value == np.array((-6165.602, -2728.5823, 1604.0405), dtype=np.float32))
+        assert str(pos.obsgeoloc.xyz.unit) == 'm'
 
-        assert np.all(pos.obsgeovel.xyz.value == np.array((3.400097, -6.478799, 2.006092), dtype=np.float32))
-        assert str(pos.obsgeovel.xyz.unit) == 'km / s'
+        assert np.all(pos.obsgeovel.xyz.value == np.array((3.400097, -6.4787993, 2.0060916), dtype=np.float32))
+        assert str(pos.obsgeovel.xyz.unit) == 'm / s'
 
         # Let's verify the last row
         pos = frame[-1]
-        assert pos.obstime.fermi == 612355697.6006
+        assert pos.obstime.swift == 612355697.6006
         assert pos.quaternion == Quaternion((-0.2434614, 0.3955951, -0.5530058,
                                              0.691676))
 
-        assert np.all(pos.obsgeoloc.xyz.value == np.array((6571.58, -2167.505, 118.4959), dtype=np.float32))
-        assert str(pos.obsgeoloc.xyz.unit) == 'km'
+        assert np.all(pos.obsgeoloc.xyz.value == np.array((6571.5796, -2167.505, 118.49594), dtype=np.float32))
+        assert str(pos.obsgeoloc.xyz.unit) == 'm'
 
-        assert np.all(pos.obsgeovel.xyz.value == np.array((2.276282, 6.739486, -2.669837), dtype=np.float32))
-        assert str(pos.obsgeovel.xyz.unit) == 'km / s'
+        assert np.all(pos.obsgeovel.xyz.value == np.array((2.2762816, 6.7394857, -2.6698375), dtype=np.float32))
+        assert str(pos.obsgeovel.xyz.unit) == 'm / s'
 
 
 def test_get_spacecraft_states(test_file):

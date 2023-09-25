@@ -48,27 +48,28 @@ class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileCont
     """Class for reading a GBM Position history file.
     """
     def get_spacecraft_frame(self) -> SpacecraftFrame:
-
-        q1 = self.ndim_column_as_array(1, 'QUATERNION', 0).byteswap().newbyteorder()
-        q2 =self.ndim_column_as_array(1, 'QUATERNION', 1).byteswap().newbyteorder()
-        q3 = self.ndim_column_as_array(1, 'QUATERNION', 2).byteswap().newbyteorder()
-        q4 = self.ndim_column_as_array(1, 'QUATERNION', 3).byteswap().newbyteorder()
+        # q1 = self.ndim_column_as_array(1, 'QUATERNION', 0).byteswap().newbyteorder()
+        # q2 =self.ndim_column_as_array(1, 'QUATERNION', 1).byteswap().newbyteorder()
+        # q3 = self.ndim_column_as_array(1, 'QUATERNION', 2).byteswap().newbyteorder()
+        # q4 = self.ndim_column_as_array(1, 'QUATERNION', 3).byteswap().newbyteorder()
 
         sc_frame = SpacecraftFrame(
             obsgeoloc=r.CartesianRepresentation(
                 x = self.ndim_column_as_array(1, 'POSITION', 0).byteswap().newbyteorder(),
                 y = self.ndim_column_as_array(1, 'POSITION', 1).byteswap().newbyteorder(),
                 z = self.ndim_column_as_array(1, 'POSITION', 2).byteswap().newbyteorder(),
-                unit=u.km
+                unit=u.m
             ),
             obsgeovel=r.CartesianRepresentation(
-                x=self.ndim_column_as_array(1, 'VELOCITY', 0).byteswap().newbyteorder() * u.km / u.s,
-                y=self.ndim_column_as_array(1, 'VELOCITY', 1).byteswap().newbyteorder() * u.km / u.s,
-                z=self.ndim_column_as_array(1, 'VELOCITY', 2).byteswap().newbyteorder() * u.km / u.s,
-                unit=u.km / u.s
+                x=self.ndim_column_as_array(1, 'VELOCITY', 0).byteswap().newbyteorder() ,
+                y=self.ndim_column_as_array(1, 'VELOCITY', 1).byteswap().newbyteorder(),
+                z=self.ndim_column_as_array(1, 'VELOCITY', 2).byteswap().newbyteorder(),
+                unit=u.m/u.s
             ),
             quaternion=Quaternion(self.column(1,'QUATERNION').byteswap().newbyteorder()),
             obstime=Time(self.column(1, 'TIME'), format='swift')
+        )
+        print(sc_frame
         )
         return sc_frame
 
@@ -82,6 +83,23 @@ class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileCont
             }
         )
         return series
+
+    def ndim_column_as_array(self, hdu_num: int, col_name: str, arr_num: int)-> np.array:
+        """Return a list of columns from an HDU as an array.
+
+        Args:
+            hdu_num (int): The HDU number
+            col_names (list of str): The names of the columns
+            dtype (np.dtype, optional): The custom dtype of the output array
+
+        Returns:
+            (np.array)
+        """
+        items = self.column(hdu_num, col_name)
+        new_array = []
+        for item in items:
+            new_array += [item[arr_num]]
+        return np.array(new_array)
 
     @classmethod
     def open(cls, file_path, **kwargs):
