@@ -30,81 +30,70 @@ import numpy as np
 import astropy.io.fits as fits
 
 from gdt.core.pha import Pha
-from gdt.core.data_primitives import Ebounds, Gti, TimeEnergyBins
-from .detectors import GbmDetectors
-from .headers import PhaiiHeaders, PhaiiTriggerHeaders
+from gdt.core.data_primitives import Ebounds, Gti, EnergyBins
+#from .detectors import Detectors
+from .headers import PhaHeaders#, PhaTriggerHeaders
 from ..time import Time
 
-__all__ = ['GbmPhaii', 'Ctime', 'Cspec']
+__all__ = ['BatPha']
 
 
-class GbmPhaii(Phaii):
-    """PHAII class for GBM time history spectra.
+class BatPha(Pha):
+    """PHA class for GBM time history spectra.
     """
-    @property
-    def detector(self):
-        """(str): The detector name"""
-        try:
-            return GbmDetectors.from_full_name(self.headers[0]['DETNAM']).name
-        except:
-            return self.headers[0]['DETNAM']
-
+    
     @classmethod
     def open(cls, file_path, **kwargs):
-        """Open a GBM PHAII FITS file and return the GbmPhaii object
+        """Open a BAT Pha FITS file and return the BatPha object
 
         Args:
             file_path (str): The file path of the FITS file
 
         Returns:
-            (:class:`GbmPhaii`)
+            (:class:`BatPha`)
         """
+
         obj = super().open(file_path, **kwargs)
         trigtime = None
 
         # get the headers
         hdrs = [hdu.header for hdu in obj.hdulist]
+
         if 'TRIGTIME' in hdrs[0].keys():
-            headers = PhaiiTriggerHeaders.from_headers(hdrs)
+            headers = PhaHeaders.from_headers(hdrs)
             trigtime = float(headers['PRIMARY']['TRIGTIME'])
+
         else:
-            headers = PhaiiHeaders.from_headers(hdrs)
+            headers = PhaHeaders.from_headers(hdrs)
+
+        if 'TSTART' in hdrs[0].keys():
+            tstart = float(headers['PRIMARY']['TSTART'])
+            tstop =  float(headers['PRIMARY']['TSTOP'])
+
 
         # the channel energy bounds
-        ebounds = Ebounds.from_bounds(obj.column(1, 'E_MIN'),
-                                      obj.column(1, 'E_MAX'))
+        ebounds = Ebounds.from_bounds(obj.column(2, 'E_MIN'),
+                                      obj.column(2, 'E_MAX'))
 
-        # the 2D time-channel counts data
-        time = obj.column(2, 'TIME')
-        endtime = obj.column(2, 'ENDTIME')
-        exposure = obj._assert_exposure(obj.column(2, 'EXPOSURE'))
+        channel = obj.column(1,'CHANNEL')
+        rate = obj.column(1, 'RATE')
+        stat_err = obj.column(1, 'STAT_ERR')
+        sys_err = obj.column(1, 'SYS_ERR')
+
+        #the good time intervals
+        stdgti_start = obj.column(3, 'START')
+        stdgti_stop = obj.column(3, 'STOP')
         if trigtime is not None:
-            time -= trigtime
-            endtime -= trigtime
-        data = TimeEnergyBins(obj.column(2, 'COUNTS'), time, endtime, exposure,
-                              obj.column(1, 'E_MIN'), obj.column(1, 'E_MAX'),
-                              quality=obj.column(2, 'QUALITY'))
+            stdgti_start -= trigtime
+            stdgti_stop -= trigtime
+        stdgti = Gti.from_bounds(stdgti_start, stdgti_stop)
 
-        # the good time intervals
-        gti_start = obj.column(3, 'START')
-        gti_stop = obj.column(3, 'STOP')
-        if trigtime is not None:
-            gti_start -= trigtime
-            gti_stop -= trigtime
-        gti = Gti.from_bounds(gti_start, gti_stop)
-
-
-        if headers[0]['DATATYPE'] == 'CSPEC':
-            class_ = Cspec
-        elif headers[0]['DATATYPE'] == 'CTIME':
-            class_ = Ctime
-        else:
-            class_ = cls
-
-        obj.close()
-
-        return class_.from_data(data, gti=gti, trigger_time=trigtime,
+        exposure =  np.ones_like(rate)
+        data = EnergyBins(obj.column(1, 'RATE'), obj.column(2, 'E_MIN'), obj.column(2, 'E_MAX'), exposure,
+                        )
+        return cls.from_data(data, gti=stdgti, trigger_time=trigtime,
                                 filename=obj.filename, headers=headers)
+
 
     def _build_hdulist(self):
 
@@ -124,8 +113,8 @@ class GbmPhaii(Phaii):
         hdulist.append(spectrum_hdu)
 
         # the GTI extension
-        gti_hdu = self._gti_table()
-        hdulist.append(gti_hdu)
+        stdgti_hdu = self._stdgti_table()
+        hdulist.append(stdgti_hdu)
 
         return hdulist
 
@@ -135,10 +124,6 @@ class GbmPhaii(Phaii):
         for hdu in headers:
             hdu['TSTART'] = tstart
             hdu['TSTOP'] = tstop
-            try:
-                hdu['DETCHANS'] = num_chans
-            except:
-                pass
             if trigtime is not None:
                 hdu['TRIGTIME'] = trigtime
 
@@ -160,34 +145,19 @@ class GbmPhaii(Phaii):
         return hdu
 
     def _spectrum_table(self):
-        tstart = np.copy(self.data.tstart)
-        tstop = np.copy(self.data.tstop)
-        if self.trigtime is not None:
-            tstart += self.trigtime
-            tstop += self.trigtime
+        chan_col = fits.Column(name='CHANNEL', format='1I',
+                               array=np.arange(self.num_chans, dtype=int))
+        rates_col = fits.Column(name='RATES', format='1D', unit='count/s',
+                                array=self.data.rates)
+        staterr_col = fits.Column(name='STAT_ERR', format='1D', unit='count/s',
+                                  array=self.data.rate_uncertainty)
+        syserr_col = fits.Column(name='SYS_ERR', format='1D', unit='count/s',
+                                  array=self.data.rate_uncertainty)
 
-        counts_col = fits.Column(name='COUNTS',
-                                 format='{}I'.format(self.num_chans),
-                                 bzero=32768, bscale=1, unit='count',
-                                 array=self.data.counts)
-        expos_col = fits.Column(name='EXPOSURE', format='1E', unit='s',
-                                array=self.data.exposure)
-        qual_col = fits.Column(name='QUALITY', format='1I',
-                               array=self.data.quality)
-        time_col = fits.Column(name='TIME', format='1D', unit='s',
-                               bzero=self.trigtime, array=tstart)
-        endtime_col = fits.Column(name='ENDTIME', format='1D', unit='s',
-                                  bzero=self.trigtime, array=tstop)
-        hdu = fits.BinTableHDU.from_columns([counts_col, expos_col, qual_col,
-                                             time_col, endtime_col],
+        hdu = fits.BinTableHDU.from_columns([chan_col, rates_col, staterr_col],
                                             header=self.headers['SPECTRUM'])
-
         for key, val in self.headers['SPECTRUM'].items():
             hdu.header[key] = val
-        hdu.header.comments['TZERO1'] = 'offset for unsigned integers'
-        hdu.header.comments['TSCAL1'] = 'data are not scaled'
-        hdu.header.comments['TZERO4'] = 'Offset, equal to TRIGTIME'
-        hdu.header.comments['TZERO5'] = 'Offset, equal to TRIGTIME'
         return hdu
 
     def _gti_table(self):
@@ -202,20 +172,10 @@ class GbmPhaii(Phaii):
         stop_col = fits.Column(name='STOP', format='1D', unit='s',
                                 bzero=self.trigtime, array=tstop)
         hdu = fits.BinTableHDU.from_columns([start_col, stop_col],
-                                            header=self.headers['GTI'])
+                                            header=self.headers['STDGTI'])
 
-        for key, val in self.headers['GTI'].items():
+        for key, val in self.headers['STDGTI'].items():
             hdu.header[key] = val
-        hdu.header.comments['TZERO1'] = 'Offset, equal to TRIGTIME'
-        hdu.header.comments['TZERO2'] = 'Offset, equal to TRIGTIME'
+        hdu.header.comments['TZERO'] = 'Zero-point offset for TIME column'
+
         return hdu
-
-
-class Cspec(GbmPhaii):
-    """Class for GBM CSPEC data.
-    """
-
-
-class Ctime(GbmPhaii):
-    """Class for GBM CTIME data.
-    """
