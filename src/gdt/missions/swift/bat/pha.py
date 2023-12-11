@@ -31,17 +31,107 @@ import astropy.io.fits as fits
 
 from gdt.core.pha import Pha
 from gdt.core.data_primitives import Ebounds, Gti, EnergyBins
+from gdt.core.file import FitsFileContextManager
 #from .detectors import Detectors
-from .headers import PhaHeaders#, PhaTriggerHeaders
+from .headers import PhaHeaders #, PhaTriggerHeaders
 from ..time import Time
 
 __all__ = ['BatPha']
 
 
 class BatPha(Pha):
+    def __init__(self):
+        super().__init__()
     """PHA class for GBM time history spectra.
     """
-    
+
+    @classmethod
+    def from_data(cls, data, gti=None, trigger_time=None, filename=None,
+                  headers=None, channel_mask=None, header_type=PhaHeaders,
+                  **kwargs):
+        """Create a PHA object from an
+        :class:`~.data_primitives.EnergyBins` object.
+
+        Args:
+            data (:class:`~.data_primitives.EnergyBins`):
+                 The PHA count spectrum data
+            gti (:class:`~.data_primitives.Gti`), optional):
+                The good time intervals of the pectrum data.  If omitted, then
+                assumes the range (0, exposure).
+            trigger_time (float, optional): The trigger time, if applicable.
+                                            If provided, the data times will be
+                                            shifted relative to the trigger time.
+                                            Default is zero.
+            headers (:class:`~.headers.FileHeaders`): The file headers
+            channel_mask (np.array(dtype=bool)):
+                A boolean array representing the valid channels. If omitted,
+                assumes all non-zero count channels are valid.
+            header_type (:class:`~.headers.FileHeaders`):
+                Default file header class. Only used if ``headers`` is not
+                defined
+
+        Returns:
+            (:class:`Pha`)
+        """
+        obj = cls()
+        obj._filename = filename
+
+        # set data and ebounds
+        if not isinstance(data, EnergyBins):
+            raise TypeError('data must be of type EnergyBins')
+        obj._data = data
+        obj._ebounds = Ebounds.from_bounds(data.lo_edges, data.hi_edges)
+
+        # set GTI
+        if gti is not None:
+            if not isinstance(gti, Gti):
+                raise TypeError('gti must be of type Gti')
+        else:
+            gti = Gti.from_list([(0.0, data.exposure[0])])
+        obj._gti = gti
+
+        # update times to be relative to ...if trigtime is set
+        if trigger_time is not None:
+            if trigger_time < 0.0:
+                raise ValueError('trigger_time must be non-negative')
+            obj._trigtime = trigger_time
+
+        # set headers
+        if headers is not None:
+            if not isinstance(headers, PhaHeaders):
+                raise TypeError('headers must be of type FileHeaders')
+            obj._headers = headers
+        else:
+            obj._headers = header_type()
+            tstart, tstop = obj._gti.range
+            obj._headers['PRIMARY']['TSTART'] = tstart
+            obj._headers['PRIMARY']['TSTOP'] = tstop
+            obj._headers['PRIMARY']['TRIGTIME'] = trigger_time
+
+            obj._headers['SPECTRUM']['DETCHANS'] = data.size
+            obj._headers['SPECTRUM']['EXPOSURE'] = obj._data.exposure[0]
+            obj._headers['SPECTRUM']['TELAPSE'] = tstop-tstart
+
+            obj._headers['EBOUNDS']['DETCHANS'] = data.size
+
+        # set the channel mask
+        # if no channel mask is given, assume zero-count channels are bad
+        if channel_mask is None:
+            channel_mask = np.zeros(data.size, dtype=bool)
+            channel_mask[data.counts > 0] = True
+        try:
+            iter(channel_mask)
+            channel_mask = np.asarray(channel_mask).flatten().astype(bool)
+        except:
+            raise TypeError('channel_mask must be a Boolean array')
+        if channel_mask.size != obj._data.size:
+            raise ValueError('channel_mask must be the same size as the ' \
+                             'number of data bins')
+        obj._channel_mask = channel_mask
+
+        return obj
+
+
     @classmethod
     def open(cls, file_path, **kwargs):
         """Open a BAT Pha FITS file and return the BatPha object
@@ -53,7 +143,7 @@ class BatPha(Pha):
             (:class:`BatPha`)
         """
 
-        obj = super().open(file_path, **kwargs)
+        obj = super(Pha, cls).open(file_path, **kwargs)
         trigtime = None
 
         # get the headers
@@ -104,16 +194,17 @@ class BatPha(Pha):
             primary_hdu.header[key] = val
         hdulist.append(primary_hdu)
 
-        # the ebounds extension
-        ebounds_hdu = self._ebounds_table()
-        hdulist.append(ebounds_hdu)
 
         # the spectrum extension
         spectrum_hdu = self._spectrum_table()
         hdulist.append(spectrum_hdu)
 
+        # the ebounds extension
+        ebounds_hdu = self._ebounds_table()
+        hdulist.append(ebounds_hdu)
+
         # the GTI extension
-        stdgti_hdu = self._stdgti_table()
+        stdgti_hdu = self._gti_table()
         hdulist.append(stdgti_hdu)
 
         return hdulist
@@ -126,6 +217,7 @@ class BatPha(Pha):
             hdu['TSTOP'] = tstop
             if trigtime is not None:
                 hdu['TRIGTIME'] = trigtime
+
 
         return headers
 
@@ -147,14 +239,14 @@ class BatPha(Pha):
     def _spectrum_table(self):
         chan_col = fits.Column(name='CHANNEL', format='1I',
                                array=np.arange(self.num_chans, dtype=int))
-        rates_col = fits.Column(name='RATES', format='1D', unit='count/s',
+        rates_col = fits.Column(name='RATE', format='1D', unit='count/s',
                                 array=self.data.rates)
         staterr_col = fits.Column(name='STAT_ERR', format='1D', unit='count/s',
                                   array=self.data.rate_uncertainty)
         syserr_col = fits.Column(name='SYS_ERR', format='1D', unit='count/s',
                                   array=self.data.rate_uncertainty)
 
-        hdu = fits.BinTableHDU.from_columns([chan_col, rates_col, staterr_col],
+        hdu = fits.BinTableHDU.from_columns([chan_col, rates_col, staterr_col, syserr_col],
                                             header=self.headers['SPECTRUM'])
         for key, val in self.headers['SPECTRUM'].items():
             hdu.header[key] = val
@@ -176,6 +268,6 @@ class BatPha(Pha):
 
         for key, val in self.headers['STDGTI'].items():
             hdu.header[key] = val
-        hdu.header.comments['TZERO'] = 'Zero-point offset for TIME column'
+        hdu.header.comments['TIMEZERO'] = 'Zero-point offset for TIME column'
 
         return hdu
