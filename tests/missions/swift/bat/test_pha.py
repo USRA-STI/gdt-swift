@@ -42,7 +42,7 @@ sl_file = data_path / 'sw00974827000bevsl.pha'
 
 
 @unittest.skipIf(not ps_file.exists(), "test files aren't downloaded. run gdt-download-data.")
-class TestBatPha(unittest.TestCase):
+class TestBatPha_Ps(unittest.TestCase):
 
     def setUp(self):
         self.pha = BatPha.open(ps_file)
@@ -67,7 +67,7 @@ class TestBatPha(unittest.TestCase):
         t0, t1 = self.pha.time_range
         t0 += self.pha.trigtime
         t1 += self.pha.trigtime
-        self.assertAlmostEqual(t0, 612354468.276, places=3)
+        self.assertAlmostEqual(t0,  612354468.276, places=3)
         self.assertAlmostEqual(t1, 612354479.4006, places=3)
 
     def test_trigtime(self):
@@ -102,10 +102,10 @@ class TestBatPha(unittest.TestCase):
         pha.close()
 
 @unittest.skipIf(not as_file.exists(), "test files aren't downloaded. run gdt-download-data.")
-class TestBatPha(unittest.TestCase):
+class TestBatPha_As(unittest.TestCase):
 
     def setUp(self):
-        self.pha = BatPha.open(ps_file)
+        self.pha = BatPha.open(as_file)
 
     def tearDown(self):
         self.pha.close()
@@ -115,7 +115,7 @@ class TestBatPha(unittest.TestCase):
         self.assertAlmostEqual(self.pha.energy_range[1], 6553.6, places=1)
 
     def test_filename(self):
-        self.assertEqual(self.pha.filename, ps_file.name)
+        self.assertEqual(self.pha.filename, as_file.name)
 
     def test_headers(self):
         self.assertEqual(self.pha.headers.num_headers, 4)
@@ -127,8 +127,8 @@ class TestBatPha(unittest.TestCase):
         t0, t1 = self.pha.time_range
         t0 += self.pha.trigtime
         t1 += self.pha.trigtime
-        self.assertAlmostEqual(t0, 612354468.276, places=3)
-        self.assertAlmostEqual(t1, 612354479.4006, places=3)
+        self.assertAlmostEqual(t0, 612354538.60058, places=3)
+        self.assertAlmostEqual(t1,  612354582.068, places=3)
 
     def test_trigtime(self):
         self.assertAlmostEqual(self.pha.trigtime, 612354468.864, places=3)
@@ -162,10 +162,10 @@ class TestBatPha(unittest.TestCase):
         pha.close()
 
 @unittest.skipIf(not sl_file.exists(), "test files aren't downloaded. run gdt-download-data.")
-class TestBatPha(unittest.TestCase):
+class TestBatPha_Sl(unittest.TestCase):
 
     def setUp(self):
-        self.pha = BatPha.open(ps_file)
+        self.pha = BatPha.open(sl_file)
 
     def tearDown(self):
         self.pha.close()
@@ -175,7 +175,7 @@ class TestBatPha(unittest.TestCase):
         self.assertAlmostEqual(self.pha.energy_range[1], 6553.6, places=1)
 
     def test_filename(self):
-        self.assertEqual(self.pha.filename, ps_file.name)
+        self.assertEqual(self.pha.filename, sl_file.name)
 
     def test_headers(self):
         self.assertEqual(self.pha.headers.num_headers, 4)
@@ -187,8 +187,8 @@ class TestBatPha(unittest.TestCase):
         t0, t1 = self.pha.time_range
         t0 += self.pha.trigtime
         t1 += self.pha.trigtime
-        self.assertAlmostEqual(t0, 612354468.276, places=3)
-        self.assertAlmostEqual(t1, 612354479.4006, places=3)
+        self.assertAlmostEqual(t0, 612354479.4006, places=3)
+        self.assertAlmostEqual(t1,  612354538.60058, places=3)
 
     def test_trigtime(self):
         self.assertAlmostEqual(self.pha.trigtime, 612354468.864, places=3)
