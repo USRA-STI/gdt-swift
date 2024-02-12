@@ -8,7 +8,7 @@
 # Copyright 2024 by Universities Space Research Association (USRA). All rights
 # reserved.
 #
-# Developed by: Cori Fletcher
+# Developed by: Corinne Fletcher
 #               Universities Space Research Association
 #               Science and Technology Institute
 #               https://sti.usra.edu
@@ -37,7 +37,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations under
 # the License.
-
+#
 import os
 from math import floor
 from gdt.core.heasarc import FtpFinder
