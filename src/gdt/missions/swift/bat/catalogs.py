@@ -43,7 +43,7 @@ import os
 from gdt.core import cache_path
 from gdt.core.heasarc import BrowseCatalog
 
-__all__ = ['GrbCatalog', 'MasterCatalog']
+__all__ = ['GrbCatalog']#, 'MasterCatalog']
 
 bat_cache_path = os.path.join(cache_path, 'swiftbat')
 print(bat_cache_path)
@@ -68,24 +68,24 @@ class GrbCatalog(BrowseCatalog):
     def __init__(self, cache_path=bat_cache_path, **kwargs):
         super().__init__(cache_path, table='swiftgrb', **kwargs)
 
-class MasterCatalog(BrowseCatalog):
-    """Class that interfaces with the GBM Burst Catalog via HEASARC Browse.
-
-    Note:
-        Because this calls HEASARC's w3query.pl script on initialization,
-        it may take several seconds up to a couple of minutes for the object
-        to load.
-
-    Parameters:
-        cache_path (str): The path where the cached catalog will live.
-        cached (bool, optional): Set to True to read from the cached file
-                                 instead of querying HEASARC. Default is False.
-        verbose (bool, optional): Default is True
-
-    Attributes:
-        columns (np.array): The names of the columns available in the table
-        num_cols (int): The total number of columns (fields) in the data table
-        num_rows: (int): The total number of rows in the data table
-    """
-    def __init__(self, cache_path=bat_cache_path, **kwargs):
-        super().__init__(cache_path, table='swiftmastr', **kwargs)
+# class MasterCatalog(BrowseCatalog):
+#     """Class that interfaces with the GBM Burst Catalog via HEASARC Browse.
+#
+#     Note:
+#         Because this calls HEASARC's w3query.pl script on initialization,
+#         it may take several seconds up to a couple of minutes for the object
+#         to load.
+#
+#     Parameters:
+#         cache_path (str): The path where the cached catalog will live.
+#         cached (bool, optional): Set to True to read from the cached file
+#                                  instead of querying HEASARC. Default is False.
+#         verbose (bool, optional): Default is True
+#
+#     Attributes:
+#         columns (np.array): The names of the columns available in the table
+#         num_cols (int): The total number of columns (fields) in the data table
+#         num_rows: (int): The total number of rows in the data table
+#     """
+#     def __init__(self, cache_path=bat_cache_path, **kwargs):
+#         super().__init__(cache_path, table='swiftmastr', **kwargs)

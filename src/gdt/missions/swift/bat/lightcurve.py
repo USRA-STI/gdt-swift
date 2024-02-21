@@ -42,7 +42,7 @@ import numpy as np
 import astropy.io.fits as fits
 
 from gdt.core.phaii import Phaii
-from gdt.core.data_primitives import Ebounds, Gti, TimeEnergyBins
+from gdt.core.data_primitives import Ebounds, Gti, TimeEnergyBins, TimeBins
 from .headers import LightcurveHeaders
 from ..time import Time
 
@@ -62,7 +62,7 @@ class BatLightcurve(Phaii):
             file_path (str): The file path of the FITS file
 
         Returns:
-            (:class:`GbmPhaii`)
+            (:class:`BatLightcurve`)
         """
         obj = super().open(file_path, **kwargs)
         trigtime = None
@@ -78,22 +78,25 @@ class BatLightcurve(Phaii):
         # the channel energy bounds
         ebounds = Ebounds.from_bounds(obj.column(2, 'E_MIN'),
                                       obj.column(2, 'E_MAX'))
-
+        tstart = hdrs[0]['TSTART']
+        tstop = hdrs[0]['TSTOP']
         # the 2D time-channel counts data
         time = obj.column(1, 'TIME')
-        #print(time.min, time.max)
-        endtime = []
-        for i in range(0,len(time)-1):
-            endtime += [time[i+1]]
-        endtime +=[hdrs[1]['TSTART']]
-        exposure = obj._assert_exposure(obj.column(1, 'FRACEXP'))
-        # if trigtime is not None:
-        #     time -= trigtime
-        #     endtime -= trigtime
 
-        data = TimeEnergyBins(obj.column(1, 'TOTCOUNTS'), time, endtime, exposure,
-                              obj.column(2, 'E_MIN'), obj.column(2, 'E_MAX'),
-                              )
+        time_lo = []
+        time_hi = []
+        bin_dur = np.round((time[1]-time[0]), 3)
+        print(bin_dur)
+        for i in range(0,len(time)):
+            time_lo +=[time[i] - bin_dur/2.]
+            time_hi += [time[i] + bin_dur/2.]
+
+
+        rate = obj.column(1, 'RATE')
+        exposure = np.ones(len(time_lo))*bin_dur#obj._assert_exposure(obj.column(1, 'FRACEXP'))
+        print(len(time_lo), len(time_hi), len(exposure), len(rate))
+        print(ebounds)
+        data = TimeEnergyBins(rate, time_lo, time_hi, exposure, obj.column(2, 'E_MIN'), obj.column(2, 'E_MAX'))
 
         # the good time intervals
         gti_start = obj.column(3, 'START')
@@ -171,15 +174,15 @@ class BatLightcurve(Phaii):
         if self.trigtime is not None:
             tstart += self.trigtime
             tstop += self.trigtime
-        print(dir(self.data))
+
         time_col = fits.Column(name='TIME', format='1D', unit='s', array=tstart)
-        print(time_col)
-        counts_col = fits.Column(name='RATE',
+
+        rates_col = fits.Column(name='RATE',
                                  format='4D',
-                                 bzero=32768, bscale=1, unit='count/s',
+                                 unit='count/s',
                                  array=self.data.rates)
         error_col = fits.Column(name='ERROR', format='4D', unit='count/s',
-                                 bzero=32768, bscale=1, array=self.data.ratesuncertainty)
+                                 array=self.data.rate_uncertainty)
         totcounts_col = fits.Column(name='TOTCOUNTS', format='J', unit='counts',
                                array=self.data.counts)
         expos_col = fits.Column(name='FRACEXP', format='D',
@@ -205,10 +208,9 @@ class BatLightcurve(Phaii):
         stop_col = fits.Column(name='STOP', format='1D', unit='s',
                                 bzero=self.trigtime, array=tstop)
         hdu = fits.BinTableHDU.from_columns([start_col, stop_col],
-                                            header=self.headers['GTI'])
+                                            header=self.headers['STDGTI'])
 
-        for key, val in self.headers['GTI'].items():
+        for key, val in self.headers['STDGTI'].items():
             hdu.header[key] = val
-        hdu.header.comments['TZERO1'] = 'Offset, equal to TRIGTIME'
-        hdu.header.comments['TZERO2'] = 'Offset, equal to TRIGTIME'
+
         return hdu

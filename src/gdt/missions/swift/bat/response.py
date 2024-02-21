@@ -43,7 +43,6 @@ import numpy as np
 
 from gdt.core.response import *
 from gdt.core.data_primitives import Ebounds, ResponseMatrix
-# from .detectors import GbmDetectors
 from .headers import RspHeaders
 
 __all__ = ['BatRsp']
@@ -61,7 +60,9 @@ class BatRsp(Rsp):
         Returns:
            (:class:`BatRsp`)
         """
+
         obj = super().open(file_path, **kwargs)
+
         if len(obj.hdulist) > 3:
             raise RuntimeError('{} is not a RSP file; it may be a RSP2 ' \
                                'file'.format(filename))
@@ -76,6 +77,7 @@ class BatRsp(Rsp):
         else:
 
             headers = RspHeaders.from_headers(hdrs)
+        
 
         tstart = headers['SPECRESP MATRIX']['TSTART']
         tstop = headers['SPECRESP MATRIX']['TSTOP']
@@ -93,11 +95,12 @@ class BatRsp(Rsp):
         #matrix = cls._decompress_drm(obj.column(1, 'MATRIX'), num_ebins,
                                       #num_chans, fchan[0], nchan[0])
 
-        drm = ResponseMatrix(obj.column(1, 'MATRIX'),obj.column(1, 'ENERG_LO'),
+        drm = ResponseMatrix(obj.column(1, 'MATRIX'), obj.column(1, 'ENERG_LO'),
                             obj.column(1, 'ENERG_HI'),  obj.column(2, 'E_MIN'),
-                            obj.column(2, 'E_MAX'),)
+                            obj.column(2, 'E_MAX'))
 
         obj.close()
+
         obj = cls.from_data(drm, filename=obj.filename,
                             start_time=tstart, stop_time=tstop,
                             trigger_time=trigtime, headers=headers)
@@ -172,7 +175,7 @@ class BatRsp(Rsp):
                                          header=self.headers['SPECRESP MATRIX'])
         for key, val in self.headers['SPECRESP MATRIX'].items():
             hdu.header[key] = val
-        print(hdu)
+
         return hdu
 
     # mark FIXME: Currently not used

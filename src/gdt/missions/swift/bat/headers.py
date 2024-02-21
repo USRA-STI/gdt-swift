@@ -385,7 +385,7 @@ class LcStdgtiHeader(BatHeader):
              _obs_id_card, _targ_id_card, _seg_num_card, _equinox_card, _radecsys_card,
              ('OBS_MODE', '', 'default'),
              ('ORIGIN', 'NASA/GSFC', 'file creation location'), _creator_card, ('TLM2FITS', '', 'Telemetry converter version number'),
-             _date_card, _procver_card, _seqpnum_card, _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
+             _trigtime_card,_date_card, _procver_card, _seqpnum_card, _object_card, _ra_obj_card, _dec_obj_card, _ra_pnt_card, _dec_pnt_card, _pa_pnt_card,
              _catsrc_card, _attflag_card, _utcfinit_card, _checksum_card, _datasum_card]
 
 
