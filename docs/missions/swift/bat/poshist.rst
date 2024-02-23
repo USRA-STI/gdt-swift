@@ -20,7 +20,7 @@ To read a SAO file, we open it with the |BatSao| class:
 
     >>> from gdt.core import data_path
     >>> from gdt.missions.swift.bat.poshist import BatSao
-    >>> filepath = data_path.joinpath('swift-bat/glg_poshist_all_170101_v01.fit')
+    >>> filepath = data_path.joinpath('swift-bat/sw00974827000sao.fits')
     >>> sao = BatSao.open(filepath)
     >>> sao
     <BatSao(filename="sw00974827000sao.fits") at 0x7fd63d9ebd90>

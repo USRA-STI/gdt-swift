@@ -1,4 +1,4 @@
-swift.. _swift-frame:
+.. _swift-frame:
 .. |SwiftFrame| replace:: :class:`~gdt.missions.swift.frame.SwiftFrame`
 .. |GbmPosHist| replace:: :class:`~gdt.missions.swift.frame.gbm.poshist.GbmPosHist`
 .. |Quaternion| replace:: :class:`~gdt.core.coords.Quaternion`

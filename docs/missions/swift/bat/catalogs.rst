@@ -1,7 +1,7 @@
 .. _bat-catalogs:
 
 ***********************************************************
-swift bat Catalogs (:mod:`gdt.missions.swift.bat.catalogs`)
+Swift BAT Catalogs (:mod:`gdt.missions.swift.bat.catalogs`)
 ***********************************************************
 
 The HEASARC hosts two main BAT catalogs: a GRB Catalog that contains
