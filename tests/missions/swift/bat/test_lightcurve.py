@@ -34,8 +34,8 @@ from gdt.core import data_path
 from gdt.missions.swift.bat.lightcurve import *
 from gdt.core.binning.binned import combine_by_factor
 
-base_path = Path()
-data_path = base_path.joinpath('test_data')
+
+
 ones_file = data_path / 'sw00974827000bev1s.lc.gz'
 ms_file = data_path / 'sw00974827000bevms.lc.gz'
 

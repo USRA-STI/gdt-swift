@@ -40,7 +40,7 @@ download_dir = os.path.dirname(os.path.abspath(__file__))
 class TestBatDataProductsFtp(unittest.TestCase):
 
     def setUp(self):
-        self.finder = BatDataProductsFtp('01116441', '2022-07')
+        self.finder = BatDataProductsFtp('00974827', '2020-05')
 
     def test_set_cd(self):
         #self.finder.cd()
@@ -78,7 +78,7 @@ class TestBatDataProductsFtp(unittest.TestCase):
 class TestBatAuxiliaryFtp(unittest.TestCase):
 
     def setUp(self):
-        self.finder = BatAuxiliaryFtp('01116441', '2022-07')
+        self.finder = BatAuxiliaryFtp('00974827', '2020-05')
 
     def test_set_cd(self):
         #self.finder.cd()

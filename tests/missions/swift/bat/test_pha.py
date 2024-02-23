@@ -30,15 +30,14 @@ import os
 import unittest
 from tempfile import TemporaryDirectory
 from pathlib import Path
-#from gdt.core import data_path
+from gdt.core import data_path
 from gdt.missions.swift.bat.pha import *
 from gdt.core.binning.binned import combine_by_factor
 
-base_path = Path()
-data_path = base_path.joinpath('test_data')
-ps_file = data_path / 'sw00974827000bevps.pha'
-as_file = data_path / 'sw00974827000bevas.pha'
-sl_file = data_path / 'sw00974827000bevsl.pha'
+
+ps_file = data_path / 'sw00974827000bevps.pha.gz'
+as_file = data_path / 'sw00974827000bevas.pha.gz'
+sl_file = data_path / 'sw00974827000bevsl.pha.gz'
 
 
 @unittest.skipIf(not ps_file.exists(), "test files aren't downloaded. run gdt-download-data.")

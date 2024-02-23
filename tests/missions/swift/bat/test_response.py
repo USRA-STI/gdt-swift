@@ -30,15 +30,14 @@
 import os
 import unittest
 from tempfile import TemporaryDirectory
-#from gdt.core import data_path
+from gdt.core import data_path
 from gdt.missions.swift.bat.response import *
 from gdt.core.spectra.functions import PowerLaw
 from pathlib import Path
 
-base_path = Path()
-data_path = base_path.joinpath('test_data')
-as_rsp = data_path / 'sw00974827000bevas.rsp'
-ps_rsp = data_path / 'sw00974827000bevps.rsp'
+
+as_rsp = data_path / 'sw00974827000bevas.rsp.gz'
+ps_rsp = data_path / 'sw00974827000bevps.rsp.gz'
 
 @unittest.skipIf(not as_rsp.exists(), "test files aren't downloaded. run gdt-download-data.")
 class TestBatRsp_As(unittest.TestCase):
