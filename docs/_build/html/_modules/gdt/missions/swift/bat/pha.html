@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gdt.missions.swift.bat.pha &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for gdt.missions.swift.bat.pha</h1><div class="highlight"><pre>
+<span></span><span class="c1"># CONTAINS TECHNICAL DATA/COMPUTER SOFTWARE DELIVERED TO THE U.S. GOVERNMENT</span>
+<span class="c1"># WITH UNLIMITED RIGHTS</span>
+<span class="c1">#</span>
+<span class="c1"># Grant No.: 80NSSC21K0651</span>
+<span class="c1"># Grantee Name: Universities Space Research Association</span>
+<span class="c1"># Grantee Address: 425 3rd Street SW, Suite 950, Washington DC 20024</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright 2024 by Universities Space Research Association (USRA). All rights</span>
+<span class="c1"># reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Developed by: Corinne Fletcher</span>
+<span class="c1">#               Universities Space Research Association</span>
+<span class="c1">#               Science and Technology Institute</span>
+<span class="c1">#               https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1"># This work is a derivative of the Gamma-ray Data Tools (GDT), including the</span>
+<span class="c1"># Core and Fermi packages, originally developed by the following:</span>
+<span class="c1">#</span>
+<span class="c1">#     William Cleveland and Adam Goldstein</span>
+<span class="c1">#     Universities Space Research Association</span>
+<span class="c1">#     Science and Technology Institute</span>
+<span class="c1">#     https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1">#     Daniel Kocevski</span>
+<span class="c1">#     National Aeronautics and Space Administration (NASA)</span>
+<span class="c1">#     Marshall Space Flight Center</span>
+<span class="c1">#     Astrophysics Branch (ST-12)</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not</span>
+<span class="c1"># use this file except in compliance with the License. You may obtain a copy of</span>
+<span class="c1"># the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT</span>
+<span class="c1"># WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the</span>
+<span class="c1"># License for the specific language governing permissions and limitations under</span>
+<span class="c1"># the License.</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.io.fits</span> <span class="k">as</span> <span class="nn">fits</span>
+
+<span class="kn">from</span> <span class="nn">gdt.core.pha</span> <span class="kn">import</span> <span class="n">Pha</span>
+<span class="kn">from</span> <span class="nn">gdt.core.data_primitives</span> <span class="kn">import</span> <span class="n">Ebounds</span><span class="p">,</span> <span class="n">Gti</span><span class="p">,</span> <span class="n">EnergyBins</span>
+<span class="kn">from</span> <span class="nn">gdt.core.file</span> <span class="kn">import</span> <span class="n">FitsFileContextManager</span>
+<span class="kn">from</span> <span class="nn">.headers</span> <span class="kn">import</span> <span class="n">PhaHeaders</span>
+<span class="kn">from</span> <span class="nn">..time</span> <span class="kn">import</span> <span class="n">Time</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BatPha&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="BatPha"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha">[docs]</a><span class="k">class</span> <span class="nc">BatPha</span><span class="p">(</span><span class="n">Pha</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PHA class for BAT spectra.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BatPha.from_data"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha.from_data">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">gti</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trigger_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channel_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header_type</span><span class="o">=</span><span class="n">PhaHeaders</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a PHA object from an</span>
+<span class="sd">        :class:`~.data_primitives.EnergyBins` object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (:class:`~.data_primitives.EnergyBins`):</span>
+<span class="sd">                 The PHA count spectrum data</span>
+<span class="sd">            gti (:class:`~.data_primitives.Gti`), optional):</span>
+<span class="sd">                The good time intervals of the pectrum data.  If omitted, then</span>
+<span class="sd">                assumes the range (0, exposure).</span>
+<span class="sd">            trigger_time (float, optional): The trigger time, if applicable.</span>
+<span class="sd">                                            If provided, the data times will be</span>
+<span class="sd">                                            shifted relative to the trigger time.</span>
+<span class="sd">                                            Default is zero.</span>
+<span class="sd">            headers (:class:`~.headers.FileHeaders`): The file headers</span>
+<span class="sd">            channel_mask (np.array(dtype=bool)):</span>
+<span class="sd">                A boolean array representing the valid channels. If omitted,</span>
+<span class="sd">                assumes all non-zero count channels are valid.</span>
+<span class="sd">            header_type (:class:`~.headers.FileHeaders`):</span>
+<span class="sd">                Default file header class. Only used if ``headers`` is not</span>
+<span class="sd">                defined</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:class:`Pha`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span>
+
+        <span class="c1"># set data and ebounds</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">EnergyBins</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;data must be of type EnergyBins&#39;</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_ebounds</span> <span class="o">=</span> <span class="n">Ebounds</span><span class="o">.</span><span class="n">from_bounds</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">lo_edges</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">hi_edges</span><span class="p">)</span>
+
+        <span class="c1"># set GTI</span>
+        <span class="k">if</span> <span class="n">gti</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gti</span><span class="p">,</span> <span class="n">Gti</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;gti must be of type Gti&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gti</span> <span class="o">=</span> <span class="n">GTI</span><span class="o">.</span><span class="n">from_bounds</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;START&#39;</span><span class="p">),</span><span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;STOP&#39;</span><span class="p">))</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_gti</span> <span class="o">=</span> <span class="n">gti</span>
+
+        <span class="c1"># update times to be relative to ...if trigtime is set</span>
+        <span class="k">if</span> <span class="n">trigger_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">trigger_time</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;trigger_time must be non-negative&#39;</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_trigtime</span> <span class="o">=</span> <span class="n">trigger_time</span>
+
+        <span class="c1"># set headers</span>
+        <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">PhaHeaders</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;headers must be of type FileHeaders&#39;</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="n">header_type</span><span class="p">()</span>
+            <span class="n">tstart</span><span class="p">,</span> <span class="n">tstop</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_gti</span><span class="o">.</span><span class="n">range</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTART&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tstart</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTOP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tstop</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TRIGTIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trigger_time</span>
+
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">][</span><span class="s1">&#39;DETCHANS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">][</span><span class="s1">&#39;EXPOSURE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">exposure</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">][</span><span class="s1">&#39;TELAPSE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tstop</span><span class="o">-</span><span class="n">tstart</span>
+
+            <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span><span class="p">[</span><span class="s1">&#39;EBOUNDS&#39;</span><span class="p">][</span><span class="s1">&#39;DETCHANS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span>
+
+        <span class="c1"># set the channel mask</span>
+        <span class="c1"># if no channel mask is given, assume zero-count channels are bad</span>
+        <span class="k">if</span> <span class="n">channel_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">channel_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">channel_mask</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">iter</span><span class="p">(</span><span class="n">channel_mask</span><span class="p">)</span>
+            <span class="n">channel_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">channel_mask</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;channel_mask must be a Boolean array&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">channel_mask</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;channel_mask must be the same size as the &#39;</span> \
+                             <span class="s1">&#39;number of data bins&#39;</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_channel_mask</span> <span class="o">=</span> <span class="n">channel_mask</span>
+
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+
+<div class="viewcode-block" id="BatPha.open"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha.open">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a BAT Pha FITS file and return the BatPha object</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): The file path of the FITS file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:class:`BatPha`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Pha</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">trigtime</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># get the headers</span>
+        <span class="n">hdrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">hdu</span><span class="o">.</span><span class="n">header</span> <span class="k">for</span> <span class="n">hdu</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdulist</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s1">&#39;TRIGTIME&#39;</span> <span class="ow">in</span> <span class="n">hdrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="n">PhaHeaders</span><span class="o">.</span><span class="n">from_headers</span><span class="p">(</span><span class="n">hdrs</span><span class="p">)</span>
+            <span class="n">trigtime</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TRIGTIME&#39;</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="n">PhaHeaders</span><span class="o">.</span><span class="n">from_headers</span><span class="p">(</span><span class="n">hdrs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;TSTART&#39;</span> <span class="ow">in</span> <span class="n">hdrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">tstart</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTART&#39;</span><span class="p">])</span>
+            <span class="n">tstop</span> <span class="o">=</span>  <span class="nb">float</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTOP&#39;</span><span class="p">])</span>
+
+
+        <span class="c1"># the channel energy bounds</span>
+        <span class="n">ebounds</span> <span class="o">=</span> <span class="n">Ebounds</span><span class="o">.</span><span class="n">from_bounds</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;E_MIN&#39;</span><span class="p">),</span>
+                                      <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;E_MAX&#39;</span><span class="p">))</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">)</span>
+        <span class="n">rate</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;RATE&#39;</span><span class="p">)</span>
+        <span class="n">stat_err</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;STAT_ERR&#39;</span><span class="p">)</span>
+        <span class="n">sys_err</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;SYS_ERR&#39;</span><span class="p">)</span>
+
+        <span class="c1">#the good time intervals</span>
+        <span class="n">stdgti_start</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;START&#39;</span><span class="p">)</span>
+        <span class="n">stdgti_stop</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;STOP&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trigtime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stdgti_start</span> <span class="o">-=</span> <span class="n">trigtime</span>
+            <span class="n">stdgti_stop</span> <span class="o">-=</span> <span class="n">trigtime</span>
+        <span class="n">stdgti</span> <span class="o">=</span> <span class="n">Gti</span><span class="o">.</span><span class="n">from_bounds</span><span class="p">(</span><span class="n">stdgti_start</span><span class="p">,</span> <span class="n">stdgti_stop</span><span class="p">)</span>
+
+        <span class="n">exposure</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">][</span><span class="s1">&#39;EXPOSURE&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">EnergyBins</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;RATE&#39;</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;E_MIN&#39;</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;E_MAX&#39;</span><span class="p">),</span> <span class="n">exposure</span><span class="p">,</span>
+                        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gti</span><span class="o">=</span><span class="n">stdgti</span><span class="p">,</span> <span class="n">trigger_time</span><span class="o">=</span><span class="n">trigtime</span><span class="p">,</span>
+                                <span class="n">filename</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_build_hdulist</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># create FITS and primary header</span>
+        <span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">()</span>
+        <span class="n">primary_hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">primary_hdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">hdulist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">primary_hdu</span><span class="p">)</span>
+
+
+        <span class="c1"># the spectrum extension</span>
+        <span class="n">spectrum_hdu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectrum_table</span><span class="p">()</span>
+        <span class="n">hdulist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spectrum_hdu</span><span class="p">)</span>
+
+        <span class="c1"># the ebounds extension</span>
+        <span class="n">ebounds_hdu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ebounds_table</span><span class="p">()</span>
+        <span class="n">hdulist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ebounds_hdu</span><span class="p">)</span>
+
+        <span class="c1"># the GTI extension</span>
+        <span class="n">stdgti_hdu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gti_table</span><span class="p">()</span>
+        <span class="n">hdulist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stdgti_hdu</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">hdulist</span>
+
+    <span class="k">def</span> <span class="nf">_build_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trigtime</span><span class="p">,</span> <span class="n">tstart</span><span class="p">,</span> <span class="n">tstop</span><span class="p">,</span> <span class="n">num_chans</span><span class="p">):</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">hdu</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
+            <span class="n">hdu</span><span class="p">[</span><span class="s1">&#39;TSTART&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tstart</span>
+            <span class="n">hdu</span><span class="p">[</span><span class="s1">&#39;TSTOP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tstop</span>
+            <span class="k">if</span> <span class="n">trigtime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">hdu</span><span class="p">[</span><span class="s1">&#39;TRIGTIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trigtime</span>
+
+
+        <span class="k">return</span> <span class="n">headers</span>
+
+    <span class="k">def</span> <span class="nf">_ebounds_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">chan_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1I&#39;</span><span class="p">,</span>
+                               <span class="n">array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_chans</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+        <span class="n">emin_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;E_MIN&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1E&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;keV&#39;</span><span class="p">,</span>
+                               <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ebounds</span><span class="o">.</span><span class="n">low_edges</span><span class="p">())</span>
+        <span class="n">emax_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;E_MAX&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1E&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;keV&#39;</span><span class="p">,</span>
+                               <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ebounds</span><span class="o">.</span><span class="n">high_edges</span><span class="p">())</span>
+
+        <span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">BinTableHDU</span><span class="o">.</span><span class="n">from_columns</span><span class="p">([</span><span class="n">chan_col</span><span class="p">,</span> <span class="n">emin_col</span><span class="p">,</span> <span class="n">emax_col</span><span class="p">],</span>
+                                            <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;EBOUNDS&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;EBOUNDS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">hdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="k">return</span> <span class="n">hdu</span>
+
+    <span class="k">def</span> <span class="nf">_spectrum_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">chan_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;CHANNEL&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1I&#39;</span><span class="p">,</span>
+                               <span class="n">array</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_chans</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
+        <span class="n">rates_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;RATE&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;count/s&#39;</span><span class="p">,</span>
+                                <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">rates</span><span class="p">)</span>
+        <span class="n">staterr_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;STAT_ERR&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;count/s&#39;</span><span class="p">,</span>
+                                  <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">rate_uncertainty</span><span class="p">)</span>
+        <span class="n">syserr_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;SYS_ERR&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;count/s&#39;</span><span class="p">,</span>
+                                  <span class="n">array</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">rate_uncertainty</span><span class="p">)</span>
+
+        <span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">BinTableHDU</span><span class="o">.</span><span class="n">from_columns</span><span class="p">([</span><span class="n">chan_col</span><span class="p">,</span> <span class="n">rates_col</span><span class="p">,</span> <span class="n">staterr_col</span><span class="p">,</span> <span class="n">syserr_col</span><span class="p">],</span>
+                                            <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;SPECTRUM&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">hdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">return</span> <span class="n">hdu</span>
+
+    <span class="k">def</span> <span class="nf">_gti_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tstart</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">low_edges</span><span class="p">())</span>
+        <span class="n">tstop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gti</span><span class="o">.</span><span class="n">high_edges</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigtime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tstart</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigtime</span>
+            <span class="n">tstop</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigtime</span>
+
+        <span class="n">start_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                                <span class="n">bzero</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trigtime</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="n">tstart</span><span class="p">)</span>
+        <span class="n">stop_col</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;STOP&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;1D&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                                <span class="n">bzero</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">trigtime</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="n">tstop</span><span class="p">)</span>
+        <span class="n">hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">BinTableHDU</span><span class="o">.</span><span class="n">from_columns</span><span class="p">([</span><span class="n">start_col</span><span class="p">,</span> <span class="n">stop_col</span><span class="p">],</span>
+                                            <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;STDGTI&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;STDGTI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">hdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">hdu</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">comments</span><span class="p">[</span><span class="s1">&#39;TIMEZERO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Zero-point offset for TIME column&#39;</span>
+
+        <span class="k">return</span> <span class="n">hdu</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+<form action="../../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

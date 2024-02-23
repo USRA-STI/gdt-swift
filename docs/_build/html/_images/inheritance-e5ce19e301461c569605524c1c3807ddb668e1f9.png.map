@@ -1,0 +1,5 @@
+<map id="inheritance60e07626a0" name="inheritance60e07626a0">
+<area shape="rect" id="node1" title="A class that interfaces with the HEASARC Browse API. &#160;This can be" alt="" coords="5,31,116,57"/>
+<area shape="rect" id="node2" href="../../../api/gdt.missions.swift.bat.catalogs.GrbCatalog.html#gdt.missions.swift.bat.catalogs.GrbCatalog" target="_top" title="Class that interfaces with the GBM Trigger Catalog via HEASARC Browse." alt="" coords="173,5,261,32"/>
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.catalogs.MasterCatalog.html#gdt.missions.swift.bat.catalogs.MasterCatalog" target="_top" title="Class that interfaces with the GBM Burst Catalog via HEASARC Browse." alt="" coords="164,56,270,83"/>
+</map>

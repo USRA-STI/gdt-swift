@@ -43,7 +43,7 @@ from gdt.core.headers import Header, FileHeaders
 from ..time import Time
 
 
-__all__ = ['SaoHeaders','PhaHeaders', 'RspHeaders', 'LightcurveHeaders']#], 'PhaHeaders']
+__all__ = ['SaoHeaders','PhaHeaders', 'RspHeaders', 'LightcurveHeaders']
 
 # mission definitions
 _telescope = 'SWIFT'
@@ -110,21 +110,9 @@ class BatHeader(Header):
             else:
                 pass
 
-            # if 'INFILE' in key.upper():
-            #     super(Header, self).__setitem__(key, val)
-            #     return
 
         super().__setitem__(key, val)
 
-# class SatPrimaryHeader(BatHeader):
-#     name = 'PRIMARY'
-#     keywords = [Header.creator(), _telescope_card, _date_card, _mjdrefi_card,
-#     _mjdreff_card, _tstart_card, _tstop_card, _date_obs_card, _date_end_card,
-#     _utcfinit_card, _attflag_card, _procver_card, _softver_card, _caldbver_card,
-#     _timesys_card, _clockapp_card, _timeunit_card, _obs_id_card, _seqpnum_card,
-#     _targ_id_card, _seg_num_card, _object_card, _ra_obj_card, _dec_obj_card,
-#     _ra_pnt_card, _dec_pnt_card, _pa_pnt_card, _trigtime_card, _checksum_card,
-#     _datasum_card]
 
 class SaoPrimaryHeader(BatHeader):
     name = 'PRIMARY'
@@ -136,7 +124,6 @@ class SaoPrimaryHeader(BatHeader):
                 _softver_card, _caldbver_card, _clockapp_card, _obs_id_card,_seqpnum_card,
                 _targ_id_card, _seg_num_card, _object_card, _ra_obj_card, _dec_obj_card,
                 _ra_pnt_card, _dec_pnt_card,_pa_pnt_card, _trigtime_card, _utcfinit_card]
-
 
 
 class SaoPreFilterHeader(BatHeader):

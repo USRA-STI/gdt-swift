@@ -50,13 +50,13 @@ __all__ = ['BatLightcurve']
 
 
 class BatLightcurve(Phaii):
-    """PHAII class for GBM time history spectra.
+    """PHAII class for BAT lightcurve.
     """
 
 
     @classmethod
     def open(cls, file_path, **kwargs):
-        """Open a BAT lightcurve FITS file and return the BatLightcurve object
+        """Open a BAT Lightcurve file and return the BatLightcurve object
 
         Args:
             file_path (str): The file path of the FITS file
@@ -85,17 +85,16 @@ class BatLightcurve(Phaii):
 
         time_lo = []
         time_hi = []
-        bin_dur = np.round((time[1]-time[0]), 3)
-        print(bin_dur)
+        bin_dur =  hdrs[1]['TIMEDEL']
+
         for i in range(0,len(time)):
             time_lo +=[time[i] - bin_dur/2.]
             time_hi += [time[i] + bin_dur/2.]
 
 
         rate = obj.column(1, 'RATE')
-        exposure = np.ones(len(time_lo))*bin_dur#obj._assert_exposure(obj.column(1, 'FRACEXP'))
-        print(len(time_lo), len(time_hi), len(exposure), len(rate))
-        print(ebounds)
+        exposure = bin_dur* obj._assert_exposure(obj.column(1, 'FRACEXP'))
+
         data = TimeEnergyBins(rate, time_lo, time_hi, exposure, obj.column(2, 'E_MIN'), obj.column(2, 'E_MAX'))
 
         # the good time intervals

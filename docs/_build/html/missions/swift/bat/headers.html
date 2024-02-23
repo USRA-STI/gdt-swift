@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift BAT FITS Headers (gdt.missions.swift.bat.headers) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="SaoHeaders" href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html" />
+    <link rel="prev" title="SwiftFrame" href="../../../api/gdt.missions.swift.frame.SwiftFrame.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html" title="SaoHeaders">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.frame.SwiftFrame.html" title="SwiftFrame">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift BAT FITS Headers (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.headers</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="swift-bat-fits-headers-gdt-missions-swift-bat-headers">
+<span id="bat-headers"></span><h1>Swift BAT FITS Headers (<a class="reference internal" href="#module-gdt.missions.swift.bat.headers" title="gdt.missions.swift.bat.headers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.headers</span></code></a>)<a class="headerlink" href="#swift-bat-fits-headers-gdt-missions-swift-bat-headers" title="Permalink to this heading">¶</a></h1>
+<p>This module defines all of the FITS headers for the public data files. While
+these classes are not usually directly called by the user, we may load one up
+and see the contents and default values.  For example, here is the set of
+header definitions for PHA files:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.headers</span> <span class="kn">import</span> <span class="n">PhaHeaders</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hdrs</span> <span class="o">=</span> <span class="n">PhaHeaders</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hdrs</span>
+<span class="go">&lt;PhaHeaders: 4 headers&gt;</span>
+</pre></div>
+</div>
+<p>Here is the <code class="docutils literal notranslate"><span class="pre">PRIMARY</span></code> header and default values (retrieved by index):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hdrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">TELESCOP= &#39;SWIFT   &#39;           / Telescope (mission) name</span>
+<span class="go">INSTRUME= &#39;BAT     &#39;           /  Instrument name</span>
+<span class="go">OBS_ID  = &#39;&#39; / Observation ID</span>
+<span class="go">TARG_ID =                    0 / Target ID</span>
+<span class="go">SEG_NUM =                    0 / Segment number</span>
+<span class="go">TIMESYS = &#39;TT      &#39;           / time system</span>
+<span class="go">MJDREFI =                51910 / MJD reference day Jan 2001 00:00:00</span>
+<span class="go">MJDREFF = &#39;7.428703703703703e-4&#39; / MJD reference (fraction of day) 01 Jan 2001 0</span>
+<span class="go">CLOCKAPP= &#39;&#39; / If clock correction are applied (F/T)</span>
+<span class="go">TIMEUNIT= &#39;s       &#39;           / Time unit for timing header keywords</span>
+<span class="go">TSTART  =                  0.0 / As in the TIME column</span>
+<span class="go">TSTOP   =                  0.0 / As in the TIME column</span>
+<span class="go">DATE-OBS= &#39;&#39;</span>
+<span class="go">DATE-END= &#39;&#39;</span>
+<span class="go">ORIGIN  = &#39;NASA/GSFC&#39;          / file creation location</span>
+<span class="go">CREATOR = &#39;&#39; / file creator</span>
+<span class="go">TLM2FITS= &#39;&#39; / Telemetry converter version number</span>
+<span class="go">DATE    = &#39;2024-02-12T20:02:15.863&#39; / file creation date (YYYY-MM-DDThh:mm:ss UT</span>
+<span class="go">NEVENTS =                    0 / Number of events</span>
+<span class="go">DATAMODE= &#39;&#39; / Datamode</span>
+<span class="go">OBJECT  = &#39;&#39; / Object name</span>
+<span class="go">MJD-OBS =                  0.0 / MJD of data start time</span>
+<span class="go">TIMEREF = &#39;LOCAL   &#39;           / reference time</span>
+<span class="go">EQUINOX =               2000.0 / Equinox for pointing RA/Dec</span>
+<span class="go">RADECSYS= &#39;FK5     &#39;           / Coordinates System</span>
+<span class="go">USER    = &#39;&#39; / User name of creator</span>
+<span class="go">FILIN001= &#39;&#39; / Input file name</span>
+<span class="go">TIMEZERO=                  0.0 / Time Zero</span>
+<span class="go">CHECKSUM= &#39;&#39; / HDU checksum updated 2020-06-07T06:49:01</span>
+<span class="go">DATASUM = &#39;&#39; / data unit checksum updated 2020-06-07T06:32:34</span>
+<span class="go">PROCVER = &#39;&#39; / Processing script version</span>
+<span class="go">SOFTVER = &#39;&#39;</span>
+<span class="go">CALDBVER= &#39;&#39; / CALDB index versions used</span>
+<span class="go">SEQPNUM =                    0 / Number of times the dataset processed</span>
+<span class="go">RA_OBJ  =                  0.0 / [deg] R.A. Object</span>
+<span class="go">DEC_OBJ =                  0.0 / [dec] Dec Object</span>
+<span class="go">RA_PNT  =                  0.0 / [deg] RA pointing</span>
+<span class="go">DEC_PNT =                  0.0 / [deg] Dec pointing</span>
+<span class="go">PA_PNT  =                  0.0 / [deg] Position angle (roll)</span>
+<span class="go">TRIGTIME=                  0.0 / MET TRIGger Time for Automatic Target</span>
+<span class="go">CATSRC  = &#39;&#39;</span>
+<span class="go">ATTFLAG =                  100 / Attitude origin: 100=sat/spacecraft</span>
+<span class="go">UTCFINIT=                  0.0 / [s] UTCF at TSTART</span>
+</pre></div>
+</div>
+<p>And here is the <code class="docutils literal notranslate"><span class="pre">SPECTRUM</span></code> header and default values:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EXTNAME</span> <span class="o">=</span> <span class="s1">&#39;SPECTRUM&#39;</span>           <span class="o">/</span> <span class="n">name</span> <span class="n">of</span> <span class="n">this</span> <span class="n">binary</span> <span class="n">table</span> <span class="n">extension</span>
+<span class="go">HDUCLASS= &#39;&#39; / Conforms to OGIP/GSFC standards</span>
+<span class="go">HDUCLAS1= &#39;&#39; / Contains spectrum</span>
+<span class="go">GAINAPP = &#39;&#39; / Gain correction has been applied</span>
+<span class="go">TIMESYS = &#39;TT      &#39;           / time system</span>
+<span class="go">MJDREFI =                51910 / MJD reference day Jan 2001 00:00:00</span>
+<span class="go">MJDREFF = &#39;7.428703703703703e-4&#39; / MJD reference (fraction of day) 01 Jan 2001 0</span>
+<span class="go">TIMEREF = &#39;LOCAL   &#39;           / reference time</span>
+<span class="go">TASSIGN = &#39;SATELLITE&#39;          / Time assigned by clock</span>
+<span class="go">TIMEUNIT= &#39;s       &#39;           / Time unit for timing header keywords</span>
+<span class="go">TIERRELA=                  0.0 / [s/s] relative errors expressed as rate</span>
+<span class="go">TIERABSO=                  0.0 / [s] timing  precision  in seconds</span>
+<span class="go">TRIGTIME=                  0.0 / MET TRIGger Time for Automatic Target</span>
+<span class="go">TSTART  =                  0.0 / As in the TIME column</span>
+<span class="go">TSTOP   =                  0.0 / As in the TIME column</span>
+<span class="go">DATE-OBS= &#39;&#39;</span>
+<span class="go">DATE-END= &#39;&#39;</span>
+<span class="go">CLOCKAPP= &#39;&#39; / If clock correction are applied (F/T)</span>
+<span class="go">TELAPSE =                  0.0 / [s] Total elapsed time from start to stop</span>
+<span class="go">ONTIME  =                  0.0 / [s] Accumulated on-time</span>
+<span class="go">LIVETIME=                  0.0 / [s] ONTIME multiplied by DEADC</span>
+<span class="go">EXPOSURE=                  0.0 / [s] Accumulated exposure</span>
+<span class="go">DEADC   =                  0.0 / Dead time correction factor</span>
+<span class="go">TIMEPIXR=                  0.0 / Time bin alignment</span>
+<span class="go">TIMEDEL =                  0.0 / [s] time resolution of data</span>
+<span class="go">TELESCOP= &#39;SWIFT   &#39;           / Telescope (mission) name</span>
+<span class="go">INSTRUME= &#39;BAT     &#39;           /  Instrument name</span>
+<span class="go">DATAMODE= &#39;&#39; / Datamode</span>
+<span class="go">OBS_ID  = &#39;&#39; / Observation ID</span>
+<span class="go">TARG_ID =                    0 / Target ID</span>
+<span class="go">SEG_NUM =                    0 / Segment number</span>
+<span class="go">EQUINOX =               2000.0 / Equinox for pointing RA/Dec</span>
+<span class="go">RADECSYS= &#39;FK5     &#39;           / Coordinates System</span>
+<span class="go">OBS_MODE= &#39;&#39; / default</span>
+<span class="go">ORIGIN  = &#39;NASA/GSFC&#39;          / file creation location</span>
+<span class="go">CREATOR = &#39;&#39; / file creator</span>
+<span class="go">TLM2FITS= &#39;&#39; / Telemetry converter version number</span>
+<span class="go">DATE    = &#39;2024-02-12T20:02:15.863&#39; / file creation date (YYYY-MM-DDThh:mm:ss UT</span>
+<span class="go">PROCVER = &#39;&#39; / Processing script version</span>
+<span class="go">SOFTVER = &#39;&#39;</span>
+<span class="go">CALDBVER= &#39;&#39; / CALDB index versions used</span>
+<span class="go">SEQPNUM =                    0 / Number of times the dataset processed</span>
+<span class="go">RA_OBJ  =                  0.0 / [deg] R.A. Object</span>
+<span class="go">DEC_OBJ =                  0.0 / [dec] Dec Object</span>
+<span class="go">RA_PNT  =                  0.0 / [deg] RA pointing</span>
+<span class="go">DEC_PNT =                  0.0 / [deg] Dec pointing</span>
+<span class="go">PA_PNT  =                  0.0 / [deg] Position angle (roll)</span>
+<span class="go">CATSRC  = &#39;&#39;</span>
+<span class="go">ATTFLAG =                  100 / Attitude origin: 100=sat/spacecraft</span>
+<span class="go">UTCFINIT=                  0.0 / [s] UTCF at TSTART</span>
+<span class="go">CHECKSUM= &#39;&#39; / HDU checksum updated 2020-06-07T06:49:01</span>
+<span class="go">DATASUM = &#39;&#39; / data unit checksum updated 2020-06-07T06:32:34</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/headers.html#core-headers" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Data File Headers</span></a> for more information about
+creating and using FITS headers.</p>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.bat.headers">
+<span id="gdt-missions-swift-bat-headers-module"></span><h3>gdt.missions.swift.bat.headers Module<a class="headerlink" href="#module-gdt.missions.swift.bat.headers" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html#gdt.missions.swift.bat.headers.SaoHeaders" title="gdt.missions.swift.bat.headers.SaoHeaders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaoHeaders</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.headers.PhaHeaders.html#gdt.missions.swift.bat.headers.PhaHeaders" title="gdt.missions.swift.bat.headers.PhaHeaders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PhaHeaders</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.headers.RspHeaders.html#gdt.missions.swift.bat.headers.RspHeaders" title="gdt.missions.swift.bat.headers.RspHeaders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RspHeaders</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html#gdt.missions.swift.bat.headers.LightcurveHeaders" title="gdt.missions.swift.bat.headers.LightcurveHeaders"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LightcurveHeaders</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-d4c81ecf2002bc64048b734aa8ba6775df7bee77.png" alt="Inheritance diagram of gdt.missions.swift.bat.headers.SaoHeaders, gdt.missions.swift.bat.headers.PhaHeaders, gdt.missions.swift.bat.headers.RspHeaders, gdt.missions.swift.bat.headers.LightcurveHeaders" usemap="#inheritancef57919d51e" class="inheritance graphviz" /></div>
+<map id="inheritancef57919d51e" name="inheritancef57919d51e">
+<area shape="rect" id="node2" href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html#gdt.missions.swift.bat.headers.LightcurveHeaders" target="_top" title="LightcurveHeaders" alt="" coords="145,5,275,32"/>
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.headers.PhaHeaders.html#gdt.missions.swift.bat.headers.PhaHeaders" target="_top" title="PhaHeaders" alt="" coords="163,56,257,83"/>
+<area shape="rect" id="node4" href="../../../api/gdt.missions.swift.bat.headers.RspHeaders.html#gdt.missions.swift.bat.headers.RspHeaders" target="_top" title="RspHeaders" alt="" coords="163,107,257,133"/>
+<area shape="rect" id="node5" href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html#gdt.missions.swift.bat.headers.SaoHeaders" target="_top" title="SaoHeaders" alt="" coords="163,157,257,184"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift BAT FITS Headers (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.headers</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.bat.headers">gdt.missions.swift.bat.headers Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.frame.SwiftFrame.html"
+                          title="previous chapter">SwiftFrame</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html"
+                          title="next chapter">SaoHeaders</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/headers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/headers.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

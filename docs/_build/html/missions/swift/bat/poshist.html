@@ -1,0 +1,378 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift BAT Position/Attitude History Data (gdt.missions.swift.bat.poshist) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BatSao" href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html" />
+    <link rel="prev" title="BatRsp" href="../../../api/gdt.missions.swift.bat.response.BatRsp.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html" title="BatSao">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.response.BatRsp.html" title="BatRsp">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="bat-poshist"></span><section id="swift-bat-position-attitude-history-data-gdt-missions-swift-bat-poshist">
+<h1>Swift BAT Position/Attitude History Data (<a class="reference internal" href="#module-gdt.missions.swift.bat.poshist" title="gdt.missions.swift.bat.poshist"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code></a>)<a class="headerlink" href="#swift-bat-position-attitude-history-data-gdt-missions-swift-bat-poshist" title="Permalink to this heading">¶</a></h1>
+<p>Probably the most critical auxiliary file bat produces is the Spacecraft Attitude/Orbit
+(SAO) history file. The SAO contains the spacecraft
+location in orbit and pointing information, sampled on a 1 second timescale.
+You may want to know if a source is visible at a particular time
+(i.e. not behind the Earth). You may want to know if there are specific contributions to the
+background during a time interval, such as sun visibility or high geomagnetic
+latitude in orbit. You may want to rotate something from the equatorial frame
+to the swift inertial frame, or vice versa. Or you may want to make a pretty
+gif of the detector pointings over time.</p>
+<p>To read a SAO file, we open it with the <a href="#id1"><span class="problematic" id="id2">|BatSao|</span></a> class:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core</span> <span class="kn">import</span> <span class="n">data_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.poshist</span> <span class="kn">import</span> <span class="n">BatSao</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">data_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;swift-bat/glg_poshist_all_170101_v01.fit&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sao</span> <span class="o">=</span> <span class="n">BatSao</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sao</span>
+<span class="go">&lt;BatSao(filename=&quot;sw00974827000sao.fits&quot;) at 0x7fd63d9ebd90&gt;</span>
+</pre></div>
+</div>
+<p>The sao object contains the spacecraft <strong>frame</strong>, which is the spacecraft
+position and orientation as a function of time, and the spacecraft <strong>states</strong>,
+which are the series of state flags as a function of time.</p>
+<p>To see what state flags are available, we can retrieve the spacecraft states
+in the following way:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">states</span> <span class="o">=</span> <span class="n">sao</span><span class="o">.</span><span class="n">get_spacecraft_states</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">states</span>
+<span class="go">TimeSeries length=2162</span>
+<span class="go">time             sun        saa</span>
+<span class="go">Time                   bool bool</span>
+<span class="go">---------------- ---- -----</span>
+<span class="go">612353536.6006      False   False</span>
+<span class="go">612353537.6006      False   False</span>
+<span class="go">612353538.6006      False   False</span>
+<span class="go">612353539.6006      False   False</span>
+<span class="go">612353540.6006      False   False</span>
+<span class="go">612353541.6006      False   False</span>
+<span class="go">612353542.6006      False   False</span>
+<span class="go">... ...     ...</span>
+<span class="go">612355691.6006      True    False</span>
+<span class="go">612355692.6006      True    False</span>
+<span class="go">612355693.6006      True    False</span>
+<span class="go">612355694.6006      True    False</span>
+<span class="go">612355695.6006      True    False</span>
+<span class="go">612355696.6006      True    False</span>
+<span class="go">612355697.6006      True    False</span>
+</pre></div>
+</div>
+<p>The state flags are stored in an Astropy TimeSeries object, and for each
+sampled time, there is a flag denoting if the sun is visible, if the spacecraft
+is in SAA, and if the data are in a good time interval (which in this case is
+just the opposite of the SAA flag).</p>
+<p>We can, for example create a Good Time Intervals <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.Gti.html#gdt.core.data_primitives.Gti" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gti</span></code></a> object from the <code class="docutils literal notranslate"><span class="pre">time</span></code>
+and <code class="docutils literal notranslate"><span class="pre">good</span></code> columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.data_primitives</span> <span class="kn">import</span> <span class="n">Gti</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gti</span> <span class="o">=</span> <span class="n">Gti</span><span class="o">.</span><span class="n">from_boolean_mask</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">states</span><span class="p">[</span><span class="s1">&#39;good&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gti</span>
+<span class="go">&lt;Gti: 10 intervals; range (504921545.740106, 505008064.340076)&gt;</span>
+</pre></div>
+</div>
+<p>Regarding the spacecraft frame, we can retrieve it as a <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftFrame</span></code></a>
+object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frame</span> <span class="o">=</span> <span class="n">sao</span><span class="o">.</span><span class="n">get_spacecraft_frame</span><span class="p">()</span>
+<span class="go">&lt;SpacecraftFrame: 2162 frames;</span>
+<span class="go">obstime=[612353536.6006, ...]</span>
+<span class="go">obsgeoloc=[(-6165602., -2728582.2, 1604040.5) m, ...]</span>
+<span class="go">obsgeovel=[(3400.097, -6478.7993, 2006.0916) m / s, ...]</span>
+<span class="go">quaternion=[(x, y, z, w) [-0.35197902, -0.34436679, -0.75078022,  0.44028553], ...]&gt;</span>
+</pre></div>
+</div>
+<p>You will notice that this frame has a location in Earth Inertial Coordinates
+(<code class="docutils literal notranslate"><span class="pre">obsgeoloc</span></code>), the velocity of the spacecraft with reference to the Earth
+Inertial Coordinate frame (<code class="docutils literal notranslate"><span class="pre">obsgeovel</span></code>), and the spacecraft orientation
+quaternion, each for a given time stamp (<code class="docutils literal notranslate"><span class="pre">obstime</span></code>).</p>
+<p>Let’s say we are interested in data around a specific time, for example
+MET=612355691.6006. We can generate an interpolated frame at the requested time, as
+long as it exists within the boundaries of the file.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.time</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="mf">612355691.6006</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;swift&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span>
+<span class="go">&lt;SpacecraftFrame: 1 frames;</span>
+<span class="go">obstime=[612353568.6006]</span>
+<span class="go">obsgeoloc=[(-6053036.5, -2934188.25, 1667236.) m]</span>
+<span class="go">obsgeovel=[(3634.45629883, -6370.18457031, 1943.17504883) m / s]</span>
+<span class="go">quaternion=[(x, y, z, w) [-0.35197902, -0.34436679, -0.75078022,  0.44028553]]&gt;</span>
+</pre></div>
+</div>
+<p>We can retrieve where swift was in orbit at that time:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span><span class="o">.</span><span class="n">earth_location</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">one_frame</span><span class="o">.</span><span class="n">earth_location</span><span class="o">.</span><span class="n">lon</span>
+<span class="go">(&lt;Latitude 13.90252342 deg&gt;, &lt;Longitude 166.51336479 deg&gt;)</span>
+<span class="go">&gt;&gt;&gt;one_frame.earth_location.height</span>
+<span class="go">&lt;Quantity 553340.05 m&gt;)</span>
+</pre></div>
+</div>
+<p>We might be interested to know where the Earth is (and its apparent radius)
+relative to swift:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span><span class="o">.</span><span class="n">geocenter</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">one_frame</span><span class="o">.</span><span class="n">geocenter</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;Longitude 25.86162543 deg&gt;, &lt;Latitude -13.92040074 deg&gt;)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span><span class="o">.</span><span class="n">earth_angular_radius</span>
+<span class="go">&lt;Quantity 66.95088 deg&gt;</span>
+</pre></div>
+</div>
+<p>We could also be interested in a particular known source, and it would be
+helpful to know if it is even visible to swift at the time of interest:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mf">324.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">20.8</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;icrs&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">one_frame</span><span class="o">.</span><span class="n">location_visible</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Well, that’s good to know.</p>
+<p>Sometimes it’s useful to transform a source location of interest in equatorial
+coordinates to the swift inertial frame. You can do that by the following:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coord_sc_frame</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">one_frame</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord_sc_frame</span><span class="o">.</span><span class="n">az</span><span class="p">,</span> <span class="n">coord_sc_frame</span><span class="o">.</span><span class="n">el</span>
+<span class="go">(&lt;Longitude [112.81508548] deg&gt;, &lt;Latitude [-27.58260743] deg&gt;)</span>
+</pre></div>
+</div>
+<p>Note that the frame transformation is in azimuth and <strong>elevation</strong>.  It’s
+important to note that the Swift inertial frame is defined by azimuth
+(0-360 deg) and elevation (-90-90 deg) or zenith (0-180 deg).</p>
+<p>You can also go from Swift (azimuth, elevation) coordinates to equatorial
+coordinates:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sc_coord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">one_frame</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sc_coord</span><span class="o">.</span><span class="n">icrs</span>
+<span class="go">&lt;SkyCoord (ICRS): (ra, dec) in deg</span>
+<span class="go">  [(74.76263619, 31.00043466)]&gt;</span>
+</pre></div>
+</div>
+<p>Note that any and all of these operations can be performed on an array of
+frames, even on the entire series of frames contained within the SAO file.
+For more details on working with the <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftFrame</span></code></a>,
+see <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/coords.html#core-coords" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Spacecraft Attitude, Position, and Coordinates</span></a>.</p>
+<p>Now all of this great, but we can also make a sky plot at a given time.  We
+can plot in either the Equatorial frame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.plot.sky</span> <span class="kn">import</span> <span class="n">EquatorialPlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqplot</span> <span class="o">=</span> <span class="n">EquatorialPlot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqplot</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">one_frame</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/poshistfig1.png" src="../../../_images/poshistfig1.png" />
+<p>Or the Galactic Frame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.plot.sky</span> <span class="kn">import</span> <span class="n">GalacticPlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">galplot</span> <span class="o">=</span> <span class="n">GalacticPlot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">galplot</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">one_frame</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/poshistfig2.png" src="../../../_images/poshistfig2.png" />
+<p>Or the Spacecraft Frame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.plot.sky</span> <span class="kn">import</span> <span class="n">SpacecraftPlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scplot</span> <span class="o">=</span> <span class="n">SpacecraftPlot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scplot</span><span class="o">.</span><span class="n">add_frame</span><span class="p">(</span><span class="n">one_frame</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/poshistfig3.png" src="../../../_images/poshistfig3.png" />
+<p>See <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/plot/sky.html#plot-sky" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Plotting Sky Maps, Localizations, and Wide-field Effective
+Area</span></a> for more details on these plots.</p>
+<p>Finally, we can plot a segment of the swift orbit and the location of swift at
+our desired time:</p>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.plot</span> <span class="kn">import</span> <span class="n">SwiftEarthPlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.saa</span> <span class="kn">import</span> <span class="n">BatSaa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earthplot</span> <span class="o">=</span> <span class="n">swiftEarthPlot</span><span class="p">(</span><span class="n">saa</span><span class="o">=</span><span class="n">batSaa</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># orbit segment 1000 s prior to our time of interest and 1000 s after</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earthplot</span><span class="o">.</span><span class="n">add_spacecraft_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">tstart</span><span class="o">=</span><span class="n">Time</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">swift</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;swift&#39;</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                               <span class="n">tstop</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">trigtime</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">earthplot</span><span class="o">.</span><span class="n">standard_title</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/poshistfig4.png" src="../../../_images/poshistfig4.png" />
+</div></blockquote>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.bat.poshist">
+<span id="gdt-missions-swift-bat-poshist-module"></span><h3>gdt.missions.swift.bat.poshist Module<a class="headerlink" href="#module-gdt.missions.swift.bat.poshist" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatDetector</span></code>(value)</p></td>
+<td><p>The Bat Detector name and orientation definitions.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatPartialCoding</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao" title="gdt.missions.swift.bat.poshist.BatSao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatSao</span></code></a>()</p></td>
+<td><p>Class for reading a GBM Position history file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsFileContextManager</span></code>()</p></td>
+<td><p>A context manager for FITS files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Quaternion</span></code>(quaternion[, scalar_first])</p></td>
+<td><p>A class for containing a quaternion and performing quaternion operations.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SaoHeaders</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpacecraftFrame</span></code>(*args[, copy, ...])</p></td>
+<td><p>Spacecraft frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpacecraftFrameModelMixin</span></code>()</p></td>
+<td><p>Mixin that prototypes the retrieval and saving of spacecraft frame information.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpacecraftStatesModelMixin</span></code>()</p></td>
+<td><p>Mixin that prototypes the retrieval and saving of spacecraft state information.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Time</span></code>(val[, val2, format, scale, precision, ...])</p></td>
+<td><p>Represent and manipulate times and dates for astronomy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeries</span></code>([data, time, time_start, ...])</p></td>
+<td><p>A class to represent time series data in tabular form.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-66d45c109cb8421d2c04b626486cdfbb0a38420c.png" alt="Inheritance diagram of gdt.missions.swift.bat.poshist.BatSao" usemap="#inheritancef400dd8597" class="inheritance graphviz" /></div>
+<map id="inheritancef400dd8597" name="inheritancef400dd8597">
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao" target="_top" title="Class for reading a GBM Position history file." alt="" coords="597,56,669,83"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.bat.poshist">gdt.missions.swift.bat.poshist Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.response.BatRsp.html"
+                          title="previous chapter">BatRsp</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html"
+                          title="next chapter">BatSao</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/poshist.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/poshist.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

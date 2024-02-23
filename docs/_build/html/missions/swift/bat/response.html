@@ -1,0 +1,258 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift BAT Responses (gdt.missions.swift.bat.response) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BatRsp" href="../../../api/gdt.missions.swift.bat.response.BatRsp.html" />
+    <link rel="prev" title="BatPha" href="../../../api/gdt.missions.swift.bat.pha.BatPha.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.response.BatRsp.html" title="BatRsp">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.pha.BatPha.html" title="BatPha">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift BAT Responses (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="bat-response"></span><section id="swift-bat-responses-gdt-missions-swift-bat-response">
+<h1>Swift BAT Responses (<a class="reference internal" href="#module-gdt.missions.swift.bat.response" title="gdt.missions.swift.bat.response"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code></a>)<a class="headerlink" href="#swift-bat-responses-gdt-missions-swift-bat-response" title="Permalink to this heading">¶</a></h1>
+<p>The BAT response files allow you to compare a theoretical photon
+spectrum to an observed count spectrum. In short, a single detector response
+file is only useful for its corresponding detector, for a given source position
+on the sky, and a given time (or relatively short time span). Essentially, one
+file contains one or more detector response matrices (DRMs) encoding the energy
+dispersion and calibration of incoming photons at different energies to recorded
+energy channels. The matrix also encodes the effective area of the detector as a
+function of energy for a given source position relative to the detector pointing.
+This effective area can change dramatically as there is a strong
+angular-dependence of the response (and the angular-dependence changes with
+energy!). A file that contains a single DRM will be named with a ‘.rsp’
+extension, and a file containing more than one DRM will be named with a ‘.rsp2’
+extension. These can be accessed with <a class="reference internal" href="../../../api/gdt.missions.swift.bat.response.BatRsp.html#gdt.missions.swift.bat.response.BatRsp" title="gdt.missions.swift.bat.response.BatRsp"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatRsp</span></code></a> classes,
+respectively.</p>
+<p>Similar to the science data, we can open/read a response file in the following
+way:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core</span> <span class="kn">import</span> <span class="n">data_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.response</span> <span class="kn">import</span> <span class="n">BatRsp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">data_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;path-to-bat-files/sw00974827000bevas.rsp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span> <span class="o">=</span> <span class="n">BatRsp</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span>
+<span class="go">&lt;BatRsp: sw00974827000bevas.rsp;</span>
+<span class="go">trigger time: 612354468.864;</span>
+<span class="go">time range (69.73658001422882, 113.2039999961853);</span>
+<span class="go">204 energy bins; 80 channels&gt;</span>
+</pre></div>
+</div>
+<p>There are a number of attributes available to us:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># number of energy channels</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span><span class="o">.</span><span class="n">num_chans</span>
+<span class="go">80</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># number of input photon bins</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span><span class="o">.</span><span class="n">num_ebins</span>
+<span class="go">204</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># time centroids for each DRM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span><span class="o">.</span><span class="n">tcent</span>
+<span class="go">91.47029000520706</span>
+</pre></div>
+</div>
+<p>We can access the DRM directly, which is a <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.ResponseMatrix.html#gdt.core.data_primitives.ResponseMatrix" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseMatrix</span></code></a> object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span><span class="o">.</span><span class="n">drm</span>
+<span class="go">&lt;ResponseMatrix: 204 energy bins; 80 channels&gt;</span>
+</pre></div>
+</div>
+<p>We can fold a photon model through the response matrix to get out a count
+spectrum.  For example, we fold a <code class="xref py py-class docutils literal notranslate"><span class="pre">PowerLaw</span></code> photon model:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.spectra.functions</span> <span class="kn">import</span> <span class="n">PowerLaw</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pl</span> <span class="o">=</span> <span class="n">PowerLaw</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># power law with amplitude=0.01, index=-2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsp</span><span class="o">.</span><span class="n">fold_spectrum</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">fit_eval</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">))</span>
+<span class="go">&lt;EnergyBins: 80 bins;</span>
+<span class="go">range (0.0, 6553.60009765625);</span>
+<span class="go">1 contiguous segments&gt;</span>
+</pre></div>
+</div>
+<p>This returns an <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.EnergyBins.html#gdt.core.data_primitives.EnergyBins" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnergyBins</span></code></a> object containing the count spectrum.  See
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/response.html#core-response" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Instrument Responses</span></a> for more information on
+working with single-DRM responses.</p>
+<p>What does a DRM actually look like? We can make a plot of one using the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ResponsePlot</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.plot.drm</span> <span class="kn">import</span> <span class="n">ResponsePlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drmplot</span> <span class="o">=</span> <span class="n">ResponsePlot</span><span class="p">(</span><span class="n">rsp</span><span class="o">.</span><span class="n">drm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drmplot</span><span class="o">.</span><span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drmplot</span><span class="o">.</span><span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/drmfig1.png" src="../../../_images/drmfig1.png" />
+<p>We can also make a plot of the effective area integrated over photon energies
+using <code class="xref py py-class docutils literal notranslate"><span class="pre">PhotonEffectiveArea</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.plot.drm</span> <span class="kn">import</span> <span class="n">PhotonEffectiveArea</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">effarea_plot</span> <span class="o">=</span> <span class="n">PhotonEffectiveArea</span><span class="p">(</span><span class="n">rsp</span><span class="o">.</span><span class="n">drm</span><span class="p">)</span>
+<span class="go">effarea_plot.xlim=(8, 7000)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/drmfig2.png" src="../../../_images/drmfig2.png" />
+<p>Or over energy channels using <code class="xref py py-class docutils literal notranslate"><span class="pre">ChannelEffectiveArea</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.plot.drm</span> <span class="kn">import</span> <span class="n">ChannelEffectiveArea</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">effarea_plot</span> <span class="o">=</span> <span class="n">ChannelEffectiveArea</span><span class="p">(</span><span class="n">rsp_interp</span><span class="o">.</span><span class="n">drm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/drmfig3.png" src="../../../_images/drmfig3.png" />
+<p>For more details about customizing these plots, see
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/plot/drm.html#plot-drm" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Plotting DRMs and Effective Area</span></a>.</p>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.bat.response">
+<span id="gdt-missions-swift-bat-response-module"></span><h3>gdt.missions.swift.bat.response Module<a class="headerlink" href="#module-gdt.missions.swift.bat.response" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.response.BatRsp.html#gdt.missions.swift.bat.response.BatRsp" title="gdt.missions.swift.bat.response.BatRsp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatRsp</span></code></a>()</p></td>
+<td><p>Class for BAT single-DRM response files.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-34409e564df0354171cf8d5c679f441189cc21be.png" alt="Inheritance diagram of gdt.missions.swift.bat.response.BatRsp" usemap="#inheritance43024b305a" class="inheritance graphviz" /></div>
+<map id="inheritance43024b305a" name="inheritance43024b305a">
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.response.BatRsp.html#gdt.missions.swift.bat.response.BatRsp" target="_top" title="Class for BAT single&#45;DRM response files." alt="" coords="668,5,740,32"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift BAT Responses (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.bat.response">gdt.missions.swift.bat.response Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.pha.BatPha.html"
+                          title="previous chapter">BatPha</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.response.BatRsp.html"
+                          title="next chapter">BatRsp</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/response.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/response.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

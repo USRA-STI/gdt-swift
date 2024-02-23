@@ -1,0 +1,8 @@
+<map id="inheritance0dc435f0f1" name="inheritance0dc435f0f1">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,27,68,51"/>
+<area shape="rect" id="node2" title="An abstract base class for context managers." alt="" coords="111,5,257,28"/>
+<area shape="rect" id="node7" title="A base class for the interface to the HEASARC FTP archive." alt="" coords="419,27,487,51"/>
+<area shape="rect" id="node4" href="../../../api/gdt.missions.swift.bat.finders.BatAuxiliaryFtp.html#gdt.missions.swift.bat.finders.BatAuxiliaryFtp" target="_top" title="A class that interfaces with the HEASARC FTP observation auxiliary directories." alt="" coords="653,5,750,28"/>
+<area shape="rect" id="node5" title="Subclassing FtpFinder to enable _file_filter() to take a list" alt="" coords="529,27,597,51"/>
+<area shape="rect" id="node6" href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html#gdt.missions.swift.bat.finders.BatDataProductsFtp" target="_top" title="A class that interfaces with the HEASARC FTP directories." alt="" coords="639,49,763,73"/>
+</map>

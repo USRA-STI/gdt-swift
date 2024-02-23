@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fermi GBM Localizations (gdt.missions.fermi.gbm.localization) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="gbm-localization"></span><section id="fermi-gbm-localizations-gdt-missions-fermi-gbm-localization">
+<h1>Fermi GBM Localizations (<a class="reference internal" href="#module-gdt.missions.fermi.gbm.localization" title="gdt.missions.fermi.gbm.localization"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.fermi.gbm.localization</span></code></a>)<a class="headerlink" href="#fermi-gbm-localizations-gdt-missions-fermi-gbm-localization" title="Permalink to this heading">¶</a></h1>
+<p>As part of mission operations, GBM produces localizations for GRBs and
+disseminates these to the community. GCN notices are sent to interested
+follow-up observers containing brief summary information, and HEALPix FITS
+files containing the localization are created and hosted at the Fermi Science
+Support Center. These localizations contain the best-modeled systematic
+uncertainty in the localization and contain a host of metadata such as the
+individual detector pointings and the geocenter location as observed by Fermi.</p>
+<p>We can read one of these HEALPix files using the <code class="xref py py-class docutils literal notranslate"><span class="pre">GbmHealPix</span></code> class:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core</span> <span class="kn">import</span> <span class="n">data_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.fermi.gbm.localization</span> <span class="kn">import</span> <span class="n">GbmHealPix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">data_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;fermi-gbm/glg_healpix_all_bn190915240_v00.fit&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span> <span class="o">=</span> <span class="n">GbmHealPix</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span>
+<span class="go">&lt;GbmHealPix: glg_healpix_all_bn190915240_v00.fit</span>
+<span class="go"> NSIDE=128; trigtime=590219102.911008;</span>
+<span class="go"> centroid=(48.8671875, 4.181528273111476)&gt;</span>
+</pre></div>
+</div>
+<p>We can easily access some of the HEALPix-specific info (see also
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/healpix.html#core-healpix" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">The HealPix Module</span></a> for more details):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">nside</span>
+<span class="go">128</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">npix</span>
+<span class="go">196608</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">pixel_area</span> <span class="c1"># (in sq. deg.)</span>
+<span class="go">0.20982341130279172</span>
+</pre></div>
+</div>
+<p>As for the localization information, we can retrieve the sky position with the
+highest probability (centroid):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">centroid</span>
+<span class="go">(48.8671875, 4.181528273111476)</span>
+</pre></div>
+</div>
+<p>Or we can determine the probability of the localization at a particular point
+in the sky:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">probability</span><span class="p">(</span><span class="mf">49.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="go">0.009200396515918592</span>
+</pre></div>
+</div>
+<p>And if we want to determine the confidence level a particular point on the sky
+is relative to the localization:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">confidence</span><span class="p">(</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="go">0.865783539232832</span>
+</pre></div>
+</div>
+<p>Often for follow-up observations, it’s useful to know how much sky area the
+localization covers at a some confidence level:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> <span class="c1"># 90% confidence in units of sq. degrees</span>
+<span class="go">281.1633711457409</span>
+</pre></div>
+</div>
+<p>And for plotting or other purposes, we can retrieve the RA and Dec “paths” for
+a given confidence region.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A confidence region may have many disjoint pieces, so this will be a list of
+arrays</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">confidence_region_path</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">[array([[ 4.61281337e+01,  2.59721684e-01],</span>
+<span class="go">        [ 4.53138456e+01,  5.02793296e-01],</span>
+<span class="go">        [ 4.51253482e+01,  6.21222158e-01],</span>
+<span class="go">        ...</span>
+<span class="go">        [ 4.71309192e+01,  7.52679010e-02],</span>
+<span class="go">        [ 4.61281337e+01,  2.59721684e-01]])]</span>
+</pre></div>
+</div>
+</div>
+<p>We can even determine the probability that a point source at a given location
+is association with the skymap (as opposed to the null hypothesis of two
+spatially-unrelated sources):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">source_probability</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="go">0.9873891240856155</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">source_probability</span><span class="p">(</span><span class="mf">150.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="go">4.406012895262377e-15</span>
+</pre></div>
+</div>
+<p>For extend sky regions, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">region_probability()</span></code> method should be used with
+another HEALPix object to return the probability that the two maps are spatially
+associated.</p>
+<p>We can retrieve, as attributes, various other interesting tidbits:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># sun location</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">sun_location</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">sun_location</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;Longitude 172.50119354 deg&gt;, &lt;Latitude 3.23797214 deg&gt;)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># geocenter location</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">geo_location</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">geo_location</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;Longitude 319.83123902 deg&gt;, &lt;Latitude 17.40612935 deg&gt;)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># geocenter radius</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">geo_radius</span>
+<span class="go">&lt;Quantity 67.30651147 deg&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># detector n0 pointing</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">loc</span><span class="o">.</span><span class="n">n0_pointing</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">loc</span><span class="o">.</span><span class="n">n0_pointing</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;Longitude 146.59008064 deg&gt;, &lt;Latitude 36.96803363 deg&gt;)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fraction of localization on Earth</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loc</span><span class="o">.</span><span class="n">geo_probability</span>
+<span class="go">8.476746e-06</span>
+</pre></div>
+</div>
+<p>Of course, since we have a HEALPix file, we can make a pretty sky map!</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.plot.sky</span> <span class="kn">import</span> <span class="n">EquatorialPlot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># initialize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skyplot</span> <span class="o">=</span> <span class="n">EquatorialPlot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># add our HEALPix localization</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skyplot</span><span class="o">.</span><span class="n">add_localization</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/locfig1.png" src="../../../_images/locfig1.png" />
+<p>By default, the plot shows the localization (purple gradient and black contours),
+the Earth occultation region (blue), the detector pointings (grey circles),
+Galactic Plane (gray/black line), and sun (yellow smiley-face).</p>
+<p>This is for default plotting options, but you can do a lot of customization on
+what is plotted (see <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/plot/sky.html#plot-sky" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Plotting Sky Maps, Localizations, and
+Wide-field Effective Area</span></a> for more details).</p>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.fermi.gbm.localization">
+<span id="gdt-missions-fermi-gbm-localization-module"></span><h3>gdt.missions.fermi.gbm.localization Module<a class="headerlink" href="#module-gdt.missions.fermi.gbm.localization" title="Permalink to this heading">¶</a></h3>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ga_model</span></code>()</p></td>
+<td><p>The localization systematic model for the Ground-Automated localization: A mixture of a 3.72 deg Gaussian (80.4% weight) and a 13.7 deg Gaussian.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">gbuts_o3_model</span></code>()</p></td>
+<td><p>The localization systematic model for the targeted search during O3: a 2.7 deg Gaussian.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">hitl_model</span></code>(az)</p></td>
+<td><p>The localization systematic model for the human-in-the loop localization: A mixture of a 4.17 deg Gaussian (91.8% weight) and a 15.3 deg Gaussian for a centroid between azimuth 292.5 - 67.5 or azimuth 112.5 - 247.5, otherwise a mixture of a 2.31 deg Gaussian (88.4% weight) and a 13.2 deg Gaussian.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">robo_ba_model</span></code>(grb_type)</p></td>
+<td><p>The localization systematic model for the RoboBA localization: A mixture of a 1.86 deg Gaussian (57.9% weight) and a 4.14 deg Gaussian for a &quot;long&quot; GRB, and a mixture of a 2.55 deg Gaussian (39.0% weight) and a 4.43 deg Gaussian for a &quot;short&quot; GRB.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">untargeted_search_model</span></code>()</p></td>
+<td><p>The localization systematic model for the Untargeted Search: A 5.53 deg Gaussian</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GbmHealPix</span></code>()</p></td>
+<td><p>Class for GBM HEALPix localization files.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Chi2Grid</span></code>()</p></td>
+<td><p>Class for the GBM legacy internal Chi2Grid localization files/objects.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-2fdb6295ba583f8d57ecadece8e54209a16ee667.png" alt="Inheritance diagram of gdt.missions.fermi.gbm.localization.GbmHealPix, gdt.missions.fermi.gbm.localization.Chi2Grid" class="inheritance graphviz" /></div>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Fermi GBM Localizations (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.fermi.gbm.localization</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.fermi.gbm.localization">gdt.missions.fermi.gbm.localization Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/localization.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/localization.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

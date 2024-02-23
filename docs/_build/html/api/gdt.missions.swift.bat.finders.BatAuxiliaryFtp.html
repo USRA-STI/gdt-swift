@@ -1,0 +1,425 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>BatAuxiliaryFtp &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="swift bat Catalogs (gdt.missions.swift.bat.catalogs)" href="../missions/swift/bat/catalogs.html" />
+    <link rel="prev" title="BatDataProductsFtp" href="gdt.missions.swift.bat.finders.BatDataProductsFtp.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../missions/swift/bat/catalogs.html" title="swift bat Catalogs (gdt.missions.swift.bat.catalogs)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="gdt.missions.swift.bat.finders.BatDataProductsFtp.html" title="BatDataProductsFtp">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../missions/swift/bat/finders.html" accesskey="U">Swift BAT Data Finders (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code>)</a> &#187;</li>
+      
+      <li>BatAuxiliaryFtp</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="batauxiliaryftp">
+<h1>BatAuxiliaryFtp<a class="headerlink" href="#batauxiliaryftp" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gdt.missions.swift.bat.finders.</span></span><span class="sig-name descname"><span class="pre">BatAuxiliaryFtp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'heasarc.gsfc.nasa.gov'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Progress</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BatFinder</span></code></p>
+<p>A class that interfaces with the HEASARC FTP observation auxiliary directories.
+An instance of this class will represent the available files associated
+with an the observation.</p>
+<p>An instance can be created with an observation ID and a date (YYYY-MM) to query and download files.
+An instance can also be changed from one trigger number to another without
+having to create a new instance.  If multiple instances are created and
+exist simultaneously, they will all use a single FTP connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obsid</strong> (<em>str</em><em>, </em><em>optional</em>) – A valid observation ID number</p></li>
+<li><p><strong>date</strong> (<em>str</em><em>, </em><em>optional</em>) – a date (YYYY-MM) for the observation</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.num_files">
+<span class="sig-name descname"><span class="pre">num_files</span></span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.num_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of files in the current directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.files">
+<span class="sig-name descname"><span class="pre">files</span></span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.files" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of files in the current directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">files</span></code></a></p></td>
+<td><p>The list of files in the current directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id1" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.num_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_files</span></code></a></p></td>
+<td><p>Number of files in the current directory</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.cd" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.cd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cd</span></code></a>(*args)</p></td>
+<td><p>Change directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.connect" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.connect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connect</span></code></a>(*args[, host])</p></td>
+<td><p>Attempt a connection</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.disconnect" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.disconnect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disconnect</span></code></a>()</p></td>
+<td><p>Politely disconnect from the FTP server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.filter" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a>(filetype, extension)</p></td>
+<td><p>Filters the directory for the requested filetype and extension</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(download_dir, files[, verbose])</p></td>
+<td><p>Downloads a list of files from the current FTP directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_all" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all</span></code></a>(download_dir, **kwargs)</p></td>
+<td><p>Download all files within a data products observation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sao" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_sao</span></code></a>(download_dir, *args, **kwargs)</p></td>
+<td><p>Download the SAO file for the observation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sat" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_sat</span></code></a>(download_dir, *args, **kwargs)</p></td>
+<td><p>Download SAT File for the observation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls</span></code></a>(*args)</p></td>
+<td><p>List the directory contents of an FTP directory associated with a data set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_all" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_all</span></code></a>()</p></td>
+<td><p>List all files for the observation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sao" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_sao</span></code></a>()</p></td>
+<td><p>List SAO file for the observation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sat" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ls_sat</span></code></a>()</p></td>
+<td><p>List the SAT file for the observation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.pwd_r" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.pwd_r"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pwd_r</span></code></a>()</p></td>
+<td><p>Retrieve the current directory.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">files</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of files in the current directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(list of str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">num_files</span></span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of files in the current directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.cd">
+<span class="sig-name descname"><span class="pre">cd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.cd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – The set of parameters needed to define the data path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt a connection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.disconnect">
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Politely disconnect from the FTP server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters the directory for the requested filetype and extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filetype</strong> (<em>str</em>) – The type of file, e.g. ‘cspec’</p></li>
+<li><p><strong>extension</strong> (<em>str</em>) – The file extension, e.g. ‘.pha’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">download_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads a list of files from the current FTP directory.
+This function also returns a list of the downloaded file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>download_dir</strong> (<em>str</em><em>, </em><em>Path</em>) – The download directory location</p></li>
+<li><p><strong>files</strong> (<em>list of str</em>) – The list of files to download</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will output the download status.
+Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_all">
+<span class="sig-name descname"><span class="pre">get_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.get_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download all files within a data products observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>download_dir</strong> (<em>str</em>) – The download directory</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will output the download status.
+Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sao">
+<span class="sig-name descname"><span class="pre">get_sao</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.get_sao"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sao" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download the SAO file for the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>download_dir</strong> (<em>str</em>) – The download directory</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will output the download status.
+Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sat">
+<span class="sig-name descname"><span class="pre">get_sat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.get_sat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.get_sat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download SAT File for the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>download_dir</strong> (<em>str</em>) – The download directory</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, will output the download status.
+Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls">
+<span class="sig-name descname"><span class="pre">ls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the directory contents of an FTP directory associated with
+a data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>args</strong> – The set of parameters needed to define the data path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(list of str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_all">
+<span class="sig-name descname"><span class="pre">ls_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.ls_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all files for the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(list of str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sao">
+<span class="sig-name descname"><span class="pre">ls_sao</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.ls_sao"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sao" title="Permalink to this definition">¶</a></dt>
+<dd><p>List SAO file for the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(list of str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sat">
+<span class="sig-name descname"><span class="pre">ls_sat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/finders.html#BatAuxiliaryFtp.ls_sat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.ls_sat" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the SAT file for the observation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(list of str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.finders.BatAuxiliaryFtp.pwd_r">
+<span class="sig-name descname"><span class="pre">pwd_r</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.finders.BatAuxiliaryFtp.pwd_r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the current directory.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BatAuxiliaryFtp</a></li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="gdt.missions.swift.bat.finders.BatDataProductsFtp.html"
+                          title="previous chapter">BatDataProductsFtp</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/catalogs.html"
+                          title="next chapter">swift bat Catalogs (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.catalogs</span></code>)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gdt.missions.swift.bat.finders.BatAuxiliaryFtp.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/gdt.missions.swift.bat.finders.BatAuxiliaryFtp.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

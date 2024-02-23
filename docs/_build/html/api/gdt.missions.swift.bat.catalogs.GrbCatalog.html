@@ -1,0 +1,329 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>GrbCatalog &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Apache License" href="../license.html" />
+    <link rel="prev" title="swift bat Catalogs (gdt.missions.swift.bat.catalogs)" href="../missions/swift/bat/catalogs.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../license.html" title="Apache License">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../missions/swift/bat/catalogs.html" title="swift bat Catalogs (gdt.missions.swift.bat.catalogs)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../missions/swift/bat/catalogs.html" accesskey="U">swift bat Catalogs (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.catalogs</span></code>)</a> &#187;</li>
+      
+      <li>GrbCatalog</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="grbcatalog">
+<h1>GrbCatalog<a class="headerlink" href="#grbcatalog" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gdt.missions.swift.bat.catalogs.</span></span><span class="sig-name descname"><span class="pre">GrbCatalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/Users/cfletch3/.gammaray_data_tools/2.0.2/cache/swiftbat'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/catalogs.html#GrbCatalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.heasarc.BrowseCatalog.html#gdt.core.heasarc.BrowseCatalog" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrowseCatalog</span></code></a></p>
+<p>Class that interfaces with the Swift BAT GRB Catalog via HEASARC Browse.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because this calls HEASARC’s w3query.pl script on initialization,
+it may take several seconds for the object to load.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache_path</strong> (<em>str</em>) – The path where the cached catalog will live.</p></li>
+<li><p><strong>cached</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to True to read from the cached file
+instead of querying HEASARC. Default is False.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Default is True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.columns">
+<span class="sig-name descname"><span class="pre">columns</span></span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>The names of the columns available in the table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.num_cols">
+<span class="sig-name descname"><span class="pre">num_cols</span></span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.num_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of columns (fields) in the data table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.num_rows">
+<span class="sig-name descname"><span class="pre">num_rows</span></span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.num_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int): The total number of rows in the data table</p>
+</dd></dl>
+
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id0" title="gdt.missions.swift.bat.catalogs.GrbCatalog.columns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">columns</span></code></a></p></td>
+<td><p>The names of the columns available in the table</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#id1" title="gdt.missions.swift.bat.catalogs.GrbCatalog.num_cols"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_cols</span></code></a></p></td>
+<td><p>The total number of columns (fields) in the data table</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#id2" title="gdt.missions.swift.bat.catalogs.GrbCatalog.num_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_rows</span></code></a></p></td>
+<td><p>The total number of rows in the data table</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.column_range" title="gdt.missions.swift.bat.catalogs.GrbCatalog.column_range"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column_range</span></code></a>(column)</p></td>
+<td><p>Return the data range for a given column, in the form of (low, high).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.get_table" title="gdt.missions.swift.bat.catalogs.GrbCatalog.get_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_table</span></code></a>([columns])</p></td>
+<td><p>Return the table data as a numpy record array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.slice" title="gdt.missions.swift.bat.catalogs.GrbCatalog.slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice</span></code></a>(column[, lo, hi])</p></td>
+<td><p>Perform row slices of the data table based on a conditional of a single column.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.slices" title="gdt.missions.swift.bat.catalogs.GrbCatalog.slices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slices</span></code></a>(columns)</p></td>
+<td><p>Perform row slices of the data table based on a conditional of multiple columns.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">columns</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The names of the columns available in the table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">num_cols</span></span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of columns (fields) in the data table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">num_rows</span></span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of rows in the data table</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.column_range">
+<span class="sig-name descname"><span class="pre">column_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.column_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data range for a given column, in the form of (low, high).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>column</strong> (<em>str</em>) – The column name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.get_table">
+<span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.get_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the table data as a numpy record array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>columns</strong> (<em>list of str</em><em>, </em><em>optional</em>) – The columns to return. If omitted,
+returns all columns.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.recarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.slice">
+<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform row slices of the data table based on a conditional of a
+single column. Returns a new BrowseCatalog object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>str</em>) – The column name</p></li>
+<li><p><strong>lo</strong> (<em>optional</em>) – The minimum (inclusive) value of the slice. If not
+set, uses the lowest range of the data in the column.</p></li>
+<li><p><strong>hi</strong> (<em>optional</em>) – The maximum (inclusive) value of the slice. If not
+set, uses the highest range of the data in the column.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">BrowseCatalog</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.catalogs.GrbCatalog.slices">
+<span class="sig-name descname"><span class="pre">slices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform row slices of the data table based on a conditional of
+multiple columns. Returns a new BrowseCatalog object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>columns</strong> (<em>list of tuples</em>) – A list of tuples, where each tuple is (column, lo, hi).  The
+‘column’ is the column name, ‘lo’ is the lowest bounding value,
+and ‘hi’ is the highest bouding value.  If no low or high
+bounding is desired, set to None. See <a class="reference internal" href="#gdt.missions.swift.bat.catalogs.GrbCatalog.slice" title="gdt.missions.swift.bat.catalogs.GrbCatalog.slice"><code class="xref py py-meth docutils literal notranslate"><span class="pre">slice()</span></code></a> for more
+info.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">BrowseCatalog</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">GrbCatalog</a></li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/catalogs.html"
+                          title="previous chapter">swift bat Catalogs (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.catalogs</span></code>)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../license.html"
+                          title="next chapter">Apache License</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gdt.missions.swift.bat.catalogs.GrbCatalog.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/gdt.missions.swift.bat.catalogs.GrbCatalog.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

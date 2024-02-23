@@ -46,18 +46,14 @@ from ..time import *
 __all__ = ['BatDataProductsFtp', 'BatAuxiliaryFtp']
 
 class BatFinder(FtpFinder):
-    """Subclassing FtpFinder to enable _file_filter() to take a list of
-    BATSE detectors.
+    """Subclassing FtpFinder to enable _file_filter() to take a list
     """
     def _file_filter(self, file_list, filetype, extension):
-        """Filters the directory for the requested filetype, extension, and
-        detectors
+        """Filters the directory for the requested filetype, and extension
 
         Args:
             filetype (str): The type of file, e.g. 'cont'
             extension (str): The file extension, e.g. '.fit'
-            dets (list, optional): The detectors. If omitted, then files for
-                                   all detectors are returned
 
         Returns:
             (list): The filtered file list
@@ -68,18 +64,18 @@ class BatFinder(FtpFinder):
 
 
 class BatDataProductsFtp(BatFinder):
-    """A class that interfaces with the HEASARC FTP trigger directories.
+    """A class that interfaces with the HEASARC FTP directories.
     An instance of this class will represent the available files associated
-    with a single trigger.
+    with a single event.
 
-    An instance can be created without a trigger number, however a trigger
-    number will need to be set by :meth:`cd(tnum) <cd>` to query and download files.
+    An instance can be created with an observation ID and a date (YYYY-MM) to query and download files.
     An instance can also be changed from one trigger number to another without
     having to create a new instance.  If multiple instances are created and
     exist simultaneously, they will all use a single FTP connection.
 
     Parameters:
-        tnum (str, optional): A valid trigger number
+        obsid (str, optional): A valid observation ID number
+        date (str, optional): a date (YYYY-MM) for the observation
 
     Attributes:
         num_files (int): Number of files in the current directory
@@ -91,10 +87,11 @@ class BatDataProductsFtp(BatFinder):
         return super()._validate(obsid, date)
 
     def cd(self):
-        """Change directory to new trigger.
+        """Change directory to obsid number.
 
         Args:
-            tnum (str): The trigger number
+            obsid (str): A valid observation ID number
+            date (str): a date (YYYY-MM) for the observation
         """
 
         super().cd(self)
@@ -110,7 +107,7 @@ class BatDataProductsFtp(BatFinder):
         return self.get(download_dir, self._file_list, **kwargs)
 
     def ls_all(self):
-        """List all files for the trigger
+        """List all files for the observations data products
 
         Returns:
             (list of str)
@@ -119,7 +116,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, '', '')
 
     def ls_lightcurve(self):
-        """List all lightcurve data for the trigger
+        """List all lightcurve data for the observation
 
         Returns:
             (list of str)
@@ -130,7 +127,7 @@ class BatDataProductsFtp(BatFinder):
         return files
 
     def get_lightcurve(self, download_dir,*args, **kwargs):
-        """Download the lightcurve data for the trigger
+        """Download the lightcurve data for the observation
 
         Args:
             download_dir (str): The download directory
@@ -141,7 +138,7 @@ class BatDataProductsFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_gti(self):
-        """List all good timing interval data for the trigger
+        """List all good timing interval data for the observation
 
         Returns:
             (list of str)
@@ -149,7 +146,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, '', 'gti.gz')
 
     def get_gti(self, download_dir,*args, **kwargs):
-        """Download the good timing interval data for the trigger
+        """Download the good timing interval data for the observation
 
         Args:
             download_dir (str): The download directory
@@ -160,7 +157,7 @@ class BatDataProductsFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_response(self):
-        """List all response files for the trigger
+        """List all response files for the observation
 
         Returns:
             (list of str)
@@ -168,7 +165,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, '', 'rsp.gz')
 
     def get_response(self, download_dir,*args, **kwargs):
-        """Download the response files for the trigger
+        """Download the response files for the observation
 
         Args:
             download_dir (str): The download directory
@@ -180,7 +177,7 @@ class BatDataProductsFtp(BatFinder):
 
 
     def ls_pha(self):
-        """List all pha files for the trigger
+        """List all pha files for the observation
 
         Returns:
             (list of str)
@@ -188,7 +185,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, '', 'pha.gz')
 
     def get_pha(self, download_dir,*args, **kwargs):
-        """Download the pha files for the trigger
+        """Download the pha files for the observation
 
         Args:
             download_dir (str): The download directory
@@ -199,7 +196,7 @@ class BatDataProductsFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_preslew(self):
-        """List all pre-slew files for the trigger
+        """List all pre-slew files for the observation
 
         Returns:
             (list of str)
@@ -207,7 +204,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, 'bevps', '')
 
     def get_preslew(self, download_dir,*args, **kwargs):
-        """Download the pre-slew files for the trigger
+        """Download the pre-slew files for the observation
 
         Args:
             download_dir (str): The download directory
@@ -218,7 +215,7 @@ class BatDataProductsFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_slew(self):
-        """List all files during slew for the trigger
+        """List all files during slew for the observation
 
         Returns:
             (list of str)
@@ -226,7 +223,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, 'bevsl', '')
 
     def get_slew(self, download_dir,*args, **kwargs):
-        """Download the files during slew for the trigger
+        """Download the files during slew for the observation
 
         Args:
             download_dir (str): The download directory
@@ -237,7 +234,7 @@ class BatDataProductsFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_afterslew(self):
-        """List all after-slew files for the trigger
+        """List all after-slew files for the observation
 
         Returns:
             (list of str)
@@ -245,7 +242,7 @@ class BatDataProductsFtp(BatFinder):
         return self._file_filter(self.files, 'bevas', '')
 
     def get_afterslew(self, download_dir,*args, **kwargs):
-        """Download the after-slew for the trigger
+        """Download the after-slew for the observation
 
         Args:
             download_dir (str): The download directory
@@ -255,25 +252,15 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, 'bevas', '')
         self.get(download_dir, files, **kwargs)
 
-    def ls_lightcurve(self):
-        """List all lightcurve data for the trigger
-
-        Returns:
-            (list of str)
-        """
-        files = self._file_filter(self.files, 'lc', 'gz')
-
-        return files
-
     def _construct_path(self, obsid, date):
-        """Constructs the FTP path for a trigger
+        """Constructs the FTP path for a observation
 
         Args:
-            str_sequence_num (str): The sequence number
+            obsid (str): The observation ID
             date (str): given in YYYY-MM
 
         Returns:
-            str: The path of the FTP directory for the trigger
+            str: The path of the FTP directory for the observation
         """
 
         year = date[:4]
@@ -288,19 +275,18 @@ class BatDataProductsFtp(BatFinder):
         return path
 
 class BatAuxiliaryFtp(BatFinder):
-    """A class that interfaces with the HEASARC FTP trigger directories.
+    """A class that interfaces with the HEASARC FTP observation auxiliary directories.
     An instance of this class will represent the available files associated
-    with a single trigger.
+    with an the observation.
 
-    An instance can be created without a sequence number, however a sequence
-    number will need to be set by set_trigger(tnum) to query and download files.
-    An instance can also be changed from one trigger/sequence number to another without
+    An instance can be created with an observation ID and a date (YYYY-MM) to query and download files.
+    An instance can also be changed from one trigger number to another without
     having to create a new instance.  If multiple instances are created and
     exist simultaneously, they will all use a single FTP connection.
 
     Parameters:
-        snum (str, optional): A valid sequence number
-        date (str, optional): teh date for the sequence number
+        obsid (str, optional): A valid observation ID number
+        date (str, optional): a date (YYYY-MM) for the observation
 
     Attributes:
         num_files (int): Number of files in the current directory
@@ -309,7 +295,7 @@ class BatAuxiliaryFtp(BatFinder):
     _root = '/swift/data/obs/'
 
     def ls_all(self):
-        """List all files for the trigger
+        """List all files for the observation
 
         Returns:
             (list of str)
@@ -318,7 +304,7 @@ class BatAuxiliaryFtp(BatFinder):
         return self._file_filter(self.files, '', '')
 
     def get_all(self, download_dir, **kwargs):
-        """Download all files within a data products directory.
+        """Download all files within a data products observation.
 
         Args:
             download_dir (str): The download directory
@@ -328,7 +314,7 @@ class BatAuxiliaryFtp(BatFinder):
         self.get(download_dir, self._file_list, **kwargs)
 
     def ls_sao(self):
-        """List SAO file for the trigger
+        """List SAO file for the observation
 
         Returns:
             (list of str)
@@ -336,7 +322,7 @@ class BatAuxiliaryFtp(BatFinder):
         return self._file_filter(self.files, 'sao', '.')
 
     def get_sao(self, download_dir,*args, **kwargs):
-        """Download the SAO file for the trigger
+        """Download the SAO file for the observation
 
         Args:
             download_dir (str): The download directory
@@ -347,7 +333,7 @@ class BatAuxiliaryFtp(BatFinder):
         self.get(download_dir, files, **kwargs)
 
     def ls_sat(self):
-        """List the SAT file for the trigger
+        """List the SAT file for the observation
 
         Returns:
             (list of str)
@@ -355,7 +341,7 @@ class BatAuxiliaryFtp(BatFinder):
         return self._file_filter(self.files, 'sat', '.')
 
     def get_sat(self, download_dir,*args, **kwargs):
-        """Download SAT File for the trigger
+        """Download SAT File for the observation
 
         Args:
             download_dir (str): The download directory
@@ -367,10 +353,10 @@ class BatAuxiliaryFtp(BatFinder):
 
 
     def _construct_path(self, obsid, date):
-        """Constructs the FTP path for a trigger
+        """Constructs the FTP path for a observation
 
         Args:
-            str_sequence_num (str): The sequence number
+            obsid (str): The observation ID
             date (str): given in YYYY-MM
 
         Returns:

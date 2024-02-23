@@ -1,0 +1,349 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>SwiftSecTime &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Swift Spacecraft Frame (gdt.missions.swift.frame)" href="../missions/swift/frame.html" />
+    <link rel="prev" title="Swift Mission Epoch (gdt.missions.swift.time)" href="../missions/swift/time.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../missions/swift/frame.html" title="Swift Spacecraft Frame (gdt.missions.swift.frame)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../missions/swift/time.html" title="Swift Mission Epoch (gdt.missions.swift.time)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../missions/swift/time.html" accesskey="U">Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</a> &#187;</li>
+      
+      <li>SwiftSecTime</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="swiftsectime">
+<h1>SwiftSecTime<a class="headerlink" href="#swiftsectime" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gdt.missions.swift.time.</span></span><span class="sig-name descname"><span class="pre">SwiftSecTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_subfmt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_subfmt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_jd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/time.html#SwiftSecTime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TimeFromEpoch</span></code></p>
+<p>Represents the number of seconds elapsed since Jan 1, 2001, 00:00:00 UTC,
+including leap seconds</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch" title="gdt.missions.swift.time.SwiftSecTime.epoch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch</span></code></a></p></td>
+<td><p>Reference epoch time from which the time interval is measured.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_format" title="gdt.missions.swift.time.SwiftSecTime.epoch_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch_format</span></code></a></p></td>
+<td><p>Format of <a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="gdt.missions.swift.time.SwiftSecTime.epoch_val"><code class="xref py py-attr docutils literal notranslate"><span class="pre">epoch_val</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_scale" title="gdt.missions.swift.time.SwiftSecTime.epoch_scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch_scale</span></code></a></p></td>
+<td><p>The scale of <a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="gdt.missions.swift.time.SwiftSecTime.epoch_val"><code class="xref py py-attr docutils literal notranslate"><span class="pre">epoch_val</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="gdt.missions.swift.time.SwiftSecTime.epoch_val"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch_val</span></code></a></p></td>
+<td><p>The epoch in Terrestrial Time</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val2" title="gdt.missions.swift.time.SwiftSecTime.epoch_val2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">epoch_val2</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.in_subfmt" title="gdt.missions.swift.time.SwiftSecTime.in_subfmt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_subfmt</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.jd1" title="gdt.missions.swift.time.SwiftSecTime.jd1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jd1</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.jd2" title="gdt.missions.swift.time.SwiftSecTime.jd2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jd2</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.name" title="gdt.missions.swift.time.SwiftSecTime.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Name of the mission</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.out_subfmt" title="gdt.missions.swift.time.SwiftSecTime.out_subfmt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">out_subfmt</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.precision" title="gdt.missions.swift.time.SwiftSecTime.precision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">precision</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.scale" title="gdt.missions.swift.time.SwiftSecTime.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a></p></td>
+<td><p>Time scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.subfmts" title="gdt.missions.swift.time.SwiftSecTime.subfmts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subfmts</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.unit" title="gdt.missions.swift.time.SwiftSecTime.unit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unit</span></code></a></p></td>
+<td><p>unit in days</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.value" title="gdt.missions.swift.time.SwiftSecTime.value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code></a></p></td>
+<td><p>Return time representation from internal jd1 and jd2.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.fill_value" title="gdt.missions.swift.time.SwiftSecTime.fill_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fill_value</span></code></a>(subfmt)</p></td>
+<td><p>Return a value corresponding to J2000 (2000-01-01 12:00:00) in this format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.set_jds" title="gdt.missions.swift.time.SwiftSecTime.set_jds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_jds</span></code></a>(val1, val2)</p></td>
+<td><p>Initialize the internal jd1 and jd2 attributes given val1 and val2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.to_value" title="gdt.missions.swift.time.SwiftSecTime.to_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_value</span></code></a>([parent])</p></td>
+<td><p>Return time representation from internal jd1 and jd2.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.epoch">
+<span class="sig-name descname"><span class="pre">epoch</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.epoch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reference epoch time from which the time interval is measured.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.epoch_format">
+<span class="sig-name descname"><span class="pre">epoch_format</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'iso'</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.epoch_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format of <a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="gdt.missions.swift.time.SwiftSecTime.epoch_val"><code class="xref py py-attr docutils literal notranslate"><span class="pre">epoch_val</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.epoch_scale">
+<span class="sig-name descname"><span class="pre">epoch_scale</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'tt'</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.epoch_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>The scale of <a class="reference internal" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="gdt.missions.swift.time.SwiftSecTime.epoch_val"><code class="xref py py-attr docutils literal notranslate"><span class="pre">epoch_val</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.epoch_val">
+<span class="sig-name descname"><span class="pre">epoch_val</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'2001-01-01</span> <span class="pre">00:01:04.184'</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>The epoch in Terrestrial Time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.epoch_val2">
+<span class="sig-name descname"><span class="pre">epoch_val2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.epoch_val2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.in_subfmt">
+<span class="sig-name descname"><span class="pre">in_subfmt</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.in_subfmt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.jd1">
+<span class="sig-name descname"><span class="pre">jd1</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.jd1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.jd2">
+<span class="sig-name descname"><span class="pre">jd2</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.jd2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'swift'</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the mission</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.out_subfmt">
+<span class="sig-name descname"><span class="pre">out_subfmt</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.out_subfmt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.precision">
+<span class="sig-name descname"><span class="pre">precision</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.precision" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.scale">
+<span class="sig-name descname"><span class="pre">scale</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time scale.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.subfmts">
+<span class="sig-name descname"><span class="pre">subfmts</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('float',</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.float64'&gt;,</span> <span class="pre">None,</span> <span class="pre">&lt;ufunc</span> <span class="pre">'add'&gt;),</span> <span class="pre">('long',</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.longdouble'&gt;,</span> <span class="pre">&lt;function</span> <span class="pre">longdouble_to_twoval&gt;,</span> <span class="pre">&lt;function</span> <span class="pre">twoval_to_longdouble&gt;),</span> <span class="pre">('decimal',</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.object_'&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;),</span> <span class="pre">('str',</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.str_'&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;),</span> <span class="pre">('bytes',</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.bytes_'&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;,</span> <span class="pre">&lt;numpy.vectorize</span> <span class="pre">object&gt;))</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.subfmts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.1574074074074073e-05</span></em><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>unit in days</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.fill_value">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fill_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subfmt</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.fill_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a value corresponding to J2000 (2000-01-01 12:00:00) in this format.</p>
+<p>This is used as a fill value for masked arrays to ensure that any ERFA
+operations on the masked array will not fail due to the masked value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.set_jds">
+<span class="sig-name descname"><span class="pre">set_jds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.set_jds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the internal jd1 and jd2 attributes given val1 and val2.
+For an TimeFromEpoch subclass like TimeUnix these will be floats giving
+the effective seconds since an epoch time (e.g. 1970-01-01 00:00:00).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.time.SwiftSecTime.to_value">
+<span class="sig-name descname"><span class="pre">to_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.time.SwiftSecTime.to_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return time representation from internal jd1 and jd2.
+Subclasses that require <code class="docutils literal notranslate"><span class="pre">parent</span></code> or to adjust the jds should
+override this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">SwiftSecTime</a></li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../missions/swift/time.html"
+                          title="previous chapter">Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../missions/swift/frame.html"
+                          title="next chapter">Swift Spacecraft Frame (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.frame</span></code>)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gdt.missions.swift.time.SwiftSecTime.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/gdt.missions.swift.time.SwiftSecTime.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

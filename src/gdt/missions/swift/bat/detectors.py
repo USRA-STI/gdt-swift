@@ -37,7 +37,7 @@ from scipy.spatial.transform import Rotation
 from copy import deepcopy
 from matplotlib.pyplot import contour as Contour
 
-__all__ = ['BatPartialCoding', 'BatDetector']#, 'BatFovPlot']
+__all__ = ['BatPartialCoding', 'BatDetector']
 
 # unfortunately Sphinx has a major bug that prevents the autodoc of Enums,
 # so we have to define all of this in the docstring...
@@ -80,10 +80,10 @@ class BatPartialCoding():
         # create the grid and integrated probability array
         grid_pix, phi, theta = self._mesh_grid(numpts_ra, numpts_dec)
         frac_arr = self._hpx[grid_pix]
-        print(frac)
+
         ra = self._phi_to_ra(phi)
         dec = self._theta_to_dec(theta)
-
+        print(ra,dec)
         # use matplotlib contour to produce a path object
         contour = Contour(ra, dec, frac_arr, [frac])
 
@@ -178,7 +178,7 @@ class BatDetector(Detectors):
     .. automethod:: pointing
     .. automethod:: skycoord
     """
-    bat = ('BAT', 0, -180.0 * u.deg, 0.0 * u.deg)
+    bat = ('BAT', 0, 0.0 * u.deg, 0.0 * u.deg)
 
 
     @classmethod
@@ -186,7 +186,7 @@ class BatDetector(Detectors):
         """Get all detectors that are BAT
 
         Returns:
-            (list of :class:`BATßDetectors`)
+            (list of :class:`BAT Detectors`)
         """
         return [x for x in cls if x.is_bat()]
 

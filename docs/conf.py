@@ -13,14 +13,14 @@
 import os
 import sys
 sys.path.append(os.path.abspath('../src'))
-from gdt.missions.fermi import __version__
+from gdt.missions.swift import __version__
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'The Gamma-ray Data Tools'
 license = 'Apache 2.0'
-author = 'Cleveland, Goldstein, and Kocevski'
+author = 'Fletcher, Cleveland, Goldstein, and Kocevski'
 
 # The full version, including alpha/beta/rc tags
 version = __version__
@@ -40,7 +40,7 @@ extensions = ['sphinx.ext.viewcode', 'sphinx.ext.inheritance_diagram',
 # for external cross-references that are on the local machine, the relative
 # path must be converted to an absolute path otherwise the intersphinx generates
 # a broken link.
-intersphinx_mapping = {'gdt-core': 
+intersphinx_mapping = {'gdt-core':
                        ('https://astro-gdt.readthedocs.io/en/latest/', None)}
 
 napoleon_google_docstring = True
@@ -71,11 +71,11 @@ source_suffix = '.rst'
 html_theme = 'bootstrap-astropy'
 html_theme_options = {
     'logotext1': 'gdt',  # white,  semi-bold
-    'logotext2': '-fermi',  # orange, light
+    'logotext2': '-swift',  # orange, light
     'logotext3': ':docs',   # white,  light
     'astropy_project_menubar': False
     }
-    
+
 html_favicon = '_static/gdt_favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -88,4 +88,3 @@ html_static_path = ['_static']
 
 # -- PDF options -------------------------------------------------------------
 latex_documents = [('index', 'gammaray-data-tools.tex', project, author, 'manual')]
-

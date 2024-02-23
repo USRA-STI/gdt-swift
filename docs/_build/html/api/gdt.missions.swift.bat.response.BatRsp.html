@@ -1,0 +1,579 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>BatRsp &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Swift BAT Position/Attitude History Data (gdt.missions.swift.bat.poshist)" href="../missions/swift/bat/poshist.html" />
+    <link rel="prev" title="Swift BAT Responses (gdt.missions.swift.bat.response)" href="../missions/swift/bat/response.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../missions/swift/bat/poshist.html" title="Swift BAT Position/Attitude History Data (gdt.missions.swift.bat.poshist)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../missions/swift/bat/response.html" title="Swift BAT Responses (gdt.missions.swift.bat.response)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../missions/swift/bat/response.html" accesskey="U">Swift BAT Responses (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code>)</a> &#187;</li>
+      
+      <li>BatRsp</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="batrsp">
+<h1>BatRsp<a class="headerlink" href="#batrsp" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gdt.missions.swift.bat.response.</span></span><span class="sig-name descname"><span class="pre">BatRsp</span></span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/response.html#BatRsp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.response.Rsp.html#gdt.core.response.Rsp" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rsp</span></code></a></p>
+<p>Class for BAT single-DRM response files.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.detector" title="gdt.missions.swift.bat.response.BatRsp.detector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detector</span></code></a></p></td>
+<td><p>The name of the detector this response is associated with</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.drm" title="gdt.missions.swift.bat.response.BatRsp.drm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">drm</span></code></a></p></td>
+<td><p>The response matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.ebounds" title="gdt.missions.swift.bat.response.BatRsp.ebounds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ebounds</span></code></a></p></td>
+<td><p>The energy channel bounds</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.filename" title="gdt.missions.swift.bat.response.BatRsp.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></p></td>
+<td><p>The filename</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.hdulist" title="gdt.missions.swift.bat.response.BatRsp.hdulist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hdulist</span></code></a></p></td>
+<td><p>The list of Header Data Units</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.headers" title="gdt.missions.swift.bat.response.BatRsp.headers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">headers</span></code></a></p></td>
+<td><p>The headers</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.num_chans" title="gdt.missions.swift.bat.response.BatRsp.num_chans"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_chans</span></code></a></p></td>
+<td><p>Number of energy channels</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.num_ebins" title="gdt.missions.swift.bat.response.BatRsp.num_ebins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_ebins</span></code></a></p></td>
+<td><p>Number of photon energy bins</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.num_hdus" title="gdt.missions.swift.bat.response.BatRsp.num_hdus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_hdus</span></code></a></p></td>
+<td><p>The number of HDUs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.tcent" title="gdt.missions.swift.bat.response.BatRsp.tcent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tcent</span></code></a></p></td>
+<td><p>The center time of the interval over which the DRMs is valid</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.trigtime" title="gdt.missions.swift.bat.response.BatRsp.trigtime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trigtime</span></code></a></p></td>
+<td><p>The trigger time, if applicable</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.tstart" title="gdt.missions.swift.bat.response.BatRsp.tstart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tstart</span></code></a></p></td>
+<td><p>The start time of the interval over which the DRM is valid</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.tstop" title="gdt.missions.swift.bat.response.BatRsp.tstop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tstop</span></code></a></p></td>
+<td><p>The end time of the interval over which the DRM is valid</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.close" title="gdt.missions.swift.bat.response.BatRsp.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.column" title="gdt.missions.swift.bat.response.BatRsp.column"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column</span></code></a>(hdu_num, col_name)</p></td>
+<td><p>Return a column from an HDU as an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.columns_as_array" title="gdt.missions.swift.bat.response.BatRsp.columns_as_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">columns_as_array</span></code></a>(hdu_num, col_names[, dtype])</p></td>
+<td><p>Return a list of columns from an HDU as an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.fold_spectrum" title="gdt.missions.swift.bat.response.BatRsp.fold_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fold_spectrum</span></code></a>(function, params[, ...])</p></td>
+<td><p>Fold a photon spectrum through a DRM to get a count spectrum.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.from_data" title="gdt.missions.swift.bat.response.BatRsp.from_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_data</span></code></a>(drm[, filename, start_time, ...])</p></td>
+<td><p>Create a Rsp object from a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseMatrix</span></code> object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.get_column_names" title="gdt.missions.swift.bat.response.BatRsp.get_column_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_column_names</span></code></a>(hdu_num)</p></td>
+<td><p>Get the column names in a HDU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.open" title="gdt.missions.swift.bat.response.BatRsp.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>(file_path, **kwargs)</p></td>
+<td><p>Read a single-DRM response file from disk.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.rebin" title="gdt.missions.swift.bat.response.BatRsp.rebin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rebin</span></code></a>([factor, edge_indices])</p></td>
+<td><p>Rebins the channel energy axis of a DRM and returns a new response object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.resample" title="gdt.missions.swift.bat.response.BatRsp.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code></a>([num_photon_bins, ...])</p></td>
+<td><p>Resamples the incident photon axis of a DRM and returns a new ResponseMatrix object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp.write" title="gdt.missions.swift.bat.response.BatRsp.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(directory[, filename])</p></td>
+<td><p>Write the file to disk.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.detector">
+<span class="sig-name descname"><span class="pre">detector</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.detector" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the detector this response is associated with</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.drm">
+<span class="sig-name descname"><span class="pre">drm</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.drm" title="Permalink to this definition">¶</a></dt>
+<dd><p>The response matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseMatrix</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.ebounds">
+<span class="sig-name descname"><span class="pre">ebounds</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.ebounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>The energy channel bounds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">Ebounds</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>The filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.hdulist">
+<span class="sig-name descname"><span class="pre">hdulist</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.hdulist" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of Header Data Units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(astropy.io.fits.hdu.HDUList)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.headers">
+<span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>The headers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.headers.FileHeaders.html#gdt.core.headers.FileHeaders" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHeaders</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.num_chans">
+<span class="sig-name descname"><span class="pre">num_chans</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.num_chans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of energy channels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.num_ebins">
+<span class="sig-name descname"><span class="pre">num_ebins</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.num_ebins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of photon energy bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.num_hdus">
+<span class="sig-name descname"><span class="pre">num_hdus</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.num_hdus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of HDUs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.tcent">
+<span class="sig-name descname"><span class="pre">tcent</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.tcent" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center time of the interval over which the DRMs is
+valid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.trigtime">
+<span class="sig-name descname"><span class="pre">trigtime</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.trigtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>The trigger time, if applicable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.tstart">
+<span class="sig-name descname"><span class="pre">tstart</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.tstart" title="Permalink to this definition">¶</a></dt>
+<dd><p>The start time of the interval over which the DRM is valid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.tstop">
+<span class="sig-name descname"><span class="pre">tstop</span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.tstop" title="Permalink to this definition">¶</a></dt>
+<dd><p>The end time of the interval over which the DRM is valid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.column">
+<span class="sig-name descname"><span class="pre">column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a column from an HDU as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p></li>
+<li><p><strong>col_name</strong> (<em>str</em>) – The name of the column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.columns_as_array">
+<span class="sig-name descname"><span class="pre">columns_as_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.columns_as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of columns from an HDU as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p></li>
+<li><p><strong>col_names</strong> (<em>list of str</em>) – The names of the columns</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The custom dtype of the output array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.fold_spectrum">
+<span class="sig-name descname"><span class="pre">fold_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.fold_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fold a photon spectrum through a DRM to get a count spectrum.
+This function differs from
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">fold_spectrum()</span></code> by
+taking in an optional exposure and returning an
+<code class="xref py py-class docutils literal notranslate"><span class="pre">EnergyBins</span></code> containing the count spectrum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<em>&lt;function&gt;</em>) – A photon spectrum function.  The function must accept a list of
+function parameters as its first argument and an array of photon
+energies as its second argument.  The function must return the
+evaluation of the photon model in units of ph/s-cm^2-keV.</p></li>
+<li><p><strong>params</strong> (<em>list of float</em>) – A list of parameter values to be passed to
+the photon spectrum function</p></li>
+<li><p><strong>channel_mask</strong> (<em>np.array</em><em>, </em><em>optional</em>) – A Boolean mask where True indicates the channel is to be used
+for folding and False indicates the channel is to not be used
+for folding.  If omitted, all channels are used.</p></li>
+<li><p><strong>exposure</strong> (<em>float</em><em>, </em><em>optional</em>) – The exposure in seconds. Default is 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">EnergyBins</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.from_data">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">drm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trigger_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.from_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Rsp object from a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseMatrix</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>drm</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ResponseMatrix</span></code>) – The DRM</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The filename of the object</p></li>
+<li><p><strong>start_time</strong> (<em>float</em><em>, </em><em>optional</em>) – The start time for the response</p></li>
+<li><p><strong>stop_time</strong> (<em>float</em><em>, </em><em>optional</em>) – The stop time for the response</p></li>
+<li><p><strong>trigger_time</strong> (<em>float</em><em>, </em><em>optional</em>) – The trigger time, if applicable.</p></li>
+<li><p><strong>headers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">FileHeaders</span></code>) – The file headers</p></li>
+<li><p><strong>detector</strong> (<em>str</em><em>, </em><em>optional</em>) – The detector name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">Rsp</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.get_column_names">
+<span class="sig-name descname"><span class="pre">get_column_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.get_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the column names in a HDU.  Returns empty if there is no data
+extension in the HDU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.open">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/response.html#BatRsp.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a single-DRM response file from disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The file path</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<a class="reference internal" href="#gdt.missions.swift.bat.response.BatRsp" title="gdt.missions.swift.bat.response.BatRsp"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatRsp</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.rebin">
+<span class="sig-name descname"><span class="pre">rebin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.rebin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rebins the channel energy axis of a DRM and returns a new response
+object.  Rebinning can only be used to downgrade the channel resolution
+and is constrained to the channel edges of the current DRM.</p>
+<p>Rebinning can be performed by either defining an integral factor of the
+number of current energy channels to combine (e.g. factor=4 for 128
+energy channels would result in 32 energy channels), or by defining an
+index array into the current channel edges that will define the new set
+of edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factor</strong> (<em>int</em><em>, </em><em>optional</em>) – The rebinning factor. Must set either this
+or <code class="docutils literal notranslate"><span class="pre">edge_indices</span></code>.</p></li>
+<li><p><strong>edge_indices</strong> (<em>np.array</em><em>, </em><em>optional</em>) – The index array that represents
+which energy edges should remain
+in the rebinned DRM.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">Rsp</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.resample">
+<span class="sig-name descname"><span class="pre">resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_photon_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">photon_bin_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_interp_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.resample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resamples the incident photon axis of a DRM and returns a new
+ResponseMatrix object.  Resampling can be used to downgrade the photon
+energy resolution, upgrade the resolution, and/or redefine the edges of
+the incident photon bins.  By definition, the resampling can only be
+performed within the photon energy range of the current object.</p>
+<p>The process for resampling is to create a high-resolution grid for each
+new photon bin, interpolate the differential effective area onto that
+grid (interpolation is performed on log10(effective area)), and then
+integrate the differential effective area over the grid points in each
+bin.  The final effective area is then scaled by the ratio of the
+initial number of photon bins to the requested number of photon bins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_photon_bins</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of photon bins in the
+new DRM. The bin edges will be
+generated logarithmically. Only set
+this or <code class="docutils literal notranslate"><span class="pre">photon_bin_edges</span></code>.</p></li>
+<li><p><strong>photon_bin_edges</strong> (<em>np.array</em><em>, </em><em>optional</em>) – The array of photon bin edges.
+Only set this or
+<code class="docutils literal notranslate"><span class="pre">num_photon_bins</span></code>.</p></li>
+<li><p><strong>num_interp_points</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of interpolation points
+used to integrate over for each
+new photon bin. Default is 20.</p></li>
+<li><p><strong>interp_kind</strong> (<em>str</em><em>, </em><em>optional</em>) – The kind of interpolation to be
+passed to scipy.interp1d.  Default is
+‘linear’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">Rsp</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.response.BatRsp.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.response.BatRsp.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the file to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em>) – The directory to write the file.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The filename.  If omitted, attempts to use
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">filename</span></code>
+if set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BatRsp</a></li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/response.html"
+                          title="previous chapter">Swift BAT Responses (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code>)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/poshist.html"
+                          title="next chapter">Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gdt.missions.swift.bat.response.BatRsp.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/gdt.missions.swift.bat.response.BatRsp.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

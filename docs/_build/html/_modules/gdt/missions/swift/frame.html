@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gdt.missions.swift.frame &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for gdt.missions.swift.frame</h1><div class="highlight"><pre>
+<span></span><span class="c1"># CONTAINS TECHNICAL DATA/COMPUTER SOFTWARE DELIVERED TO THE U.S. GOVERNMENT</span>
+<span class="c1"># WITH UNLIMITED RIGHTS</span>
+<span class="c1">#</span>
+<span class="c1"># Grant No.: 80NSSC21K0651</span>
+<span class="c1"># Grantee Name: Universities Space Research Association</span>
+<span class="c1"># Grantee Address: 425 3rd Street SW, Suite 950, Washington DC 20024</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright 2024 by Universities Space Research Association (USRA). All rights</span>
+<span class="c1"># reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Developed by: Corinne Fletcher</span>
+<span class="c1">#               Universities Space Research Association</span>
+<span class="c1">#               Science and Technology Institute</span>
+<span class="c1">#               https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1"># This work is a derivative of the Gamma-ray Data Tools (GDT), including the</span>
+<span class="c1"># Core and Fermi packages, originally developed by the following:</span>
+<span class="c1">#</span>
+<span class="c1">#     William Cleveland and Adam Goldstein</span>
+<span class="c1">#     Universities Space Research Association</span>
+<span class="c1">#     Science and Technology Institute</span>
+<span class="c1">#     https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1">#     Daniel Kocevski</span>
+<span class="c1">#     National Aeronautics and Space Administration (NASA)</span>
+<span class="c1">#     Marshall Space Flight Center</span>
+<span class="c1">#     Astrophysics Branch (ST-12)</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not</span>
+<span class="c1"># use this file except in compliance with the License. You may obtain a copy of</span>
+<span class="c1"># the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT</span>
+<span class="c1"># WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the</span>
+<span class="c1"># License for the specific language governing permissions and limitations under</span>
+<span class="c1"># the License.</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">FunctionTransform</span><span class="p">,</span> <span class="n">ICRS</span><span class="p">,</span> <span class="n">frame_transform_graph</span>
+<span class="kn">from</span> <span class="nn">gdt.core.coords</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">gdt.core.coords.spacecraft.frame</span> <span class="kn">import</span> <span class="n">spacecraft_to_icrs</span><span class="p">,</span> <span class="n">icrs_to_spacecraft</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SwiftFrame&#39;</span><span class="p">,</span> <span class="s1">&#39;swift_to_icrs&#39;</span><span class="p">,</span> <span class="s1">&#39;icrs_to_swift&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="SwiftFrame"><a class="viewcode-back" href="../../../../api/gdt.missions.swift.frame.SwiftFrame.html#gdt.missions.swift.frame.SwiftFrame">[docs]</a><span class="k">class</span> <span class="nc">SwiftFrame</span><span class="p">(</span><span class="n">SpacecraftFrame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Swift spacecraft frame in azimuth and elevation.  The frame is defined</span>
+<span class="sd">    as a quaternion that represents a rotation from the Swift frame to the ICRS</span>
+<span class="sd">    frame. This class is a wholesale inheritance of SpacecraftFrame</span>
+
+<span class="sd">    Example use:</span>
+
+<span class="sd">        &gt;&gt;&gt; from gdt.core.coords import Quaternion</span>
+<span class="sd">        &gt;&gt;&gt; quat = Quaternion([-0.218,  0.009,  0.652, -0.726], scalar_first=False)</span>
+<span class="sd">        &gt;&gt;&gt; swift_frame = SwiftFrame(quaternion=quat)</span>
+<span class="sd">        &gt;&gt;&gt; coord = SkyCoord(100.0, -30.0, unit=&#39;deg&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; az_el = SkyCoord.transform_to(swift_frame)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="swift_to_icrs"><a class="viewcode-back" href="../../../../api/gdt.missions.swift.frame.swift_to_icrs.html#gdt.missions.swift.frame.swift_to_icrs">[docs]</a><span class="nd">@frame_transform_graph</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">FunctionTransform</span><span class="p">,</span> <span class="n">SwiftFrame</span><span class="p">,</span> <span class="n">ICRS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">swift_to_icrs</span><span class="p">(</span><span class="n">swift_frame</span><span class="p">,</span> <span class="n">icrs_frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert from the Swift frame to the ICRS frame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        swift_frame (:class:`SwiftFrame`): The Swift frame</span>
+<span class="sd">        icrs_frame (:class:`astropy.coordinates.ICRS`)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (:class:`astropy.coordinates.ICRS`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">spacecraft_to_icrs</span><span class="p">(</span><span class="n">swift_frame</span><span class="p">,</span> <span class="n">icrs_frame</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="icrs_to_swift"><a class="viewcode-back" href="../../../../api/gdt.missions.swift.frame.icrs_to_swift.html#gdt.missions.swift.frame.icrs_to_swift">[docs]</a><span class="nd">@frame_transform_graph</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">FunctionTransform</span><span class="p">,</span> <span class="n">ICRS</span><span class="p">,</span> <span class="n">SwiftFrame</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">icrs_to_swift</span><span class="p">(</span><span class="n">icrs_frame</span><span class="p">,</span> <span class="n">swift_frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert from the ICRS frame to the Swift frame.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        icrs_frame (:class:`astropy.coordinates.ICRS`)</span>
+<span class="sd">        swift_frame (:class:`SwiftFrame`): The Swift frame</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (:class:`SwiftFrame`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">icrs_to_spacecraft</span><span class="p">(</span><span class="n">icrs_frame</span><span class="p">,</span> <span class="n">swift_frame</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

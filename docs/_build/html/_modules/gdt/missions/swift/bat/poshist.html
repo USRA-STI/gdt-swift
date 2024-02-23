@@ -1,0 +1,242 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gdt.missions.swift.bat.poshist &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for gdt.missions.swift.bat.poshist</h1><div class="highlight"><pre>
+<span></span><span class="c1"># CONTAINS TECHNICAL DATA/COMPUTER SOFTWARE DELIVERED TO THE U.S. GOVERNMENT</span>
+<span class="c1"># WITH UNLIMITED RIGHTS</span>
+<span class="c1">#</span>
+<span class="c1"># Grant No.: 80NSSC21K0651</span>
+<span class="c1"># Grantee Name: Universities Space Research Association</span>
+<span class="c1"># Grantee Address: 425 3rd Street SW, Suite 950, Washington DC 20024</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright 2024 by Universities Space Research Association (USRA). All rights</span>
+<span class="c1"># reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Developed by: Corinne Fletcher</span>
+<span class="c1">#               Universities Space Research Association</span>
+<span class="c1">#               Science and Technology Institute</span>
+<span class="c1">#               https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1"># This work is a derivative of the Gamma-ray Data Tools (GDT), including the</span>
+<span class="c1"># Core and Fermi packages, originally developed by the following:</span>
+<span class="c1">#</span>
+<span class="c1">#     William Cleveland and Adam Goldstein</span>
+<span class="c1">#     Universities Space Research Association</span>
+<span class="c1">#     Science and Technology Institute</span>
+<span class="c1">#     https://sti.usra.edu</span>
+<span class="c1">#</span>
+<span class="c1">#     Daniel Kocevski</span>
+<span class="c1">#     National Aeronautics and Space Administration (NASA)</span>
+<span class="c1">#     Marshall Space Flight Center</span>
+<span class="c1">#     Astrophysics Branch (ST-12)</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not</span>
+<span class="c1"># use this file except in compliance with the License. You may obtain a copy of</span>
+<span class="c1"># the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT</span>
+<span class="c1"># WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the</span>
+<span class="c1"># License for the specific language governing permissions and limitations under</span>
+<span class="c1"># the License.</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span> <span class="nn">u</span>
+<span class="kn">from</span> <span class="nn">astropy.timeseries</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
+<span class="kn">import</span> <span class="nn">astropy.coordinates.representation</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="kn">from</span> <span class="nn">gdt.core.coords</span> <span class="kn">import</span> <span class="n">Quaternion</span>
+<span class="kn">from</span> <span class="nn">gdt.core.file</span> <span class="kn">import</span> <span class="n">FitsFileContextManager</span>
+<span class="kn">from</span> <span class="nn">gdt.core.coords.spacecraft</span> <span class="kn">import</span> <span class="n">SpacecraftFrameModelMixin</span><span class="p">,</span> <span class="n">SpacecraftStatesModelMixin</span>
+<span class="kn">from</span> <span class="nn">gdt.core.coords.spacecraft</span> <span class="kn">import</span> <span class="n">SpacecraftFrame</span>
+<span class="kn">from</span> <span class="nn">gdt.missions.swift.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.headers</span> <span class="kn">import</span> <span class="n">SaoHeaders</span>
+<span class="kn">from</span> <span class="nn">.detectors</span> <span class="kn">import</span> <span class="n">BatDetector</span><span class="p">,</span> <span class="n">BatPartialCoding</span>
+
+
+<span class="n">_all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BatSao&#39;</span><span class="p">]</span>
+
+<span class="n">SWIFT_TO_UNIX_OFFSET</span> <span class="o">=</span> <span class="mf">978307200.0</span>
+
+<div class="viewcode-block" id="BatSao"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao">[docs]</a><span class="k">class</span> <span class="nc">BatSao</span><span class="p">(</span><span class="n">SpacecraftFrameModelMixin</span><span class="p">,</span> <span class="n">SpacecraftStatesModelMixin</span><span class="p">,</span> <span class="n">FitsFileContextManager</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for reading a GBM Position history file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BatSao.get_spacecraft_frame"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_spacecraft_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpacecraftFrame</span><span class="p">:</span>
+
+        <span class="n">sc_frame</span> <span class="o">=</span> <span class="n">SpacecraftFrame</span><span class="p">(</span>
+            <span class="n">obsgeoloc</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">CartesianRepresentation</span><span class="p">(</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(),</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(),</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;POSITION&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(),</span>
+                <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">km</span>
+            <span class="p">),</span>
+            <span class="n">obsgeovel</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">CartesianRepresentation</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;VELOCITY&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">()</span> <span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;VELOCITY&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(),</span>
+                <span class="n">z</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ndim_column_as_array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;VELOCITY&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(),</span>
+                <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">km</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+            <span class="p">),</span>
+            <span class="n">quaternion</span><span class="o">=</span><span class="n">Quaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;QUATERNION&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">()),</span>
+            <span class="n">obstime</span><span class="o">=</span><span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;TIME&#39;</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;swift&#39;</span><span class="p">),</span>
+            <span class="n">detectors</span> <span class="o">=</span> <span class="n">BatDetector</span>
+        <span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="n">sc_frame</span></div>
+
+<div class="viewcode-block" id="BatSao.get_spacecraft_states"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_states">[docs]</a>    <span class="k">def</span> <span class="nf">get_spacecraft_states</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeSeries</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;TIME&#39;</span><span class="p">),</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;swift&#39;</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;sun&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;SUNSHINE&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;saa&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;SAA&#39;</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">series</span></div>
+
+    <span class="k">def</span> <span class="nf">get_bat_pointing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">bat_ra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;RA_PNT&#39;</span><span class="p">]</span>
+        <span class="n">bat_dec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;DEC_PNT&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bat_ra</span><span class="p">,</span> <span class="n">bat_dec</span>
+
+    <span class="k">def</span> <span class="nf">get_src_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">obj_ra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;RA_OBJ&#39;</span><span class="p">]</span>
+        <span class="n">obj_dec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;DEC_OBJ&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">obj_ra</span><span class="p">,</span> <span class="n">obj_dec</span>
+
+    <span class="k">def</span> <span class="nf">get_tstart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTART&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_tstop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">][</span><span class="s1">&#39;TSTOP&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">time_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_tstart</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tstop</span><span class="p">())</span>
+
+<div class="viewcode-block" id="BatSao.ndim_column_as_array"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao.ndim_column_as_array">[docs]</a>    <span class="k">def</span> <span class="nf">ndim_column_as_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdu_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arr_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of columns from an HDU as an array.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hdu_num (int): The HDU number</span>
+<span class="sd">            col_names (list of str): The names of the columns</span>
+<span class="sd">            dtype (np.dtype, optional): The custom dtype of the output array</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (np.array)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="n">hdu_num</span><span class="p">,</span> <span class="n">col_name</span><span class="p">)</span>
+        <span class="n">new_array</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">new_array</span> <span class="o">+=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="n">arr_num</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BatSao.open"><a class="viewcode-back" href="../../../../../api/gdt.missions.swift.bat.poshist.BatSao.html#gdt.missions.swift.bat.poshist.BatSao.open">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a Swift BAT SAO FITS file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            file_path (str): The file path of the FITS file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (:class:`BatSAO`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">hdrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">hdu</span><span class="o">.</span><span class="n">header</span> <span class="k">for</span> <span class="n">hdu</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdulist</span><span class="p">]</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="n">SaoHeaders</span><span class="o">.</span><span class="n">from_headers</span><span class="p">(</span><span class="n">hdrs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obj</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+<form action="../../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

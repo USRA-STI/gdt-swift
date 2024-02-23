@@ -1,0 +1,9 @@
+<map id="inheritanceee56328059" name="inheritanceee56328059">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="6,56,78,83"/>
+<area shape="rect" id="node2" title="An abstract base class for context managers." alt="" coords="126,56,292,83"/>
+<area shape="rect" id="node4" title="A context manager for FITS files. &#160;Includes some convenience functions." alt="" coords="340,56,500,83"/>
+<area shape="rect" id="node3" title="Class for the GBM legacy internal Chi2Grid localization files/objects." alt="" coords="5,5,78,32"/>
+<area shape="rect" id="node5" title="Class for GBM HEALPix localization files." alt="" coords="548,81,644,108"/>
+<area shape="rect" id="node6" title="Class for localization HEALPix files" alt="" coords="352,107,488,133"/>
+<area shape="rect" id="node7" title="Base class for HEALPix files" alt="" coords="173,107,245,133"/>
+</map>

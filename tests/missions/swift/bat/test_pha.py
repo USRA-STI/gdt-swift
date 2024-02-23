@@ -86,7 +86,7 @@ class TestBatPha_Ps(unittest.TestCase):
     def test_write(self):
         self.pha.write('temp/', overwrite=True)
         pha = BatPha.open(os.path.join('temp/', self.pha.filename))
-        self.assertListEqual(pha.data.counts.tolist(), self.pha.data.counts.tolist())
+        self.assertListEqual(pha.data.count.tolist(), self.pha.data.counts.tolist())
         self.assertListEqual(pha.data.exposure.tolist(), self.pha.data.exposure.tolist())
         self.assertListEqual(pha.ebounds.low_edges(), self.pha.ebounds.low_edges())
         self.assertListEqual(pha.ebounds.high_edges(), self.pha.ebounds.high_edges())

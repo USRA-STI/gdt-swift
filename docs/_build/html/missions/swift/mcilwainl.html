@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>McIlwain L Parameter for Fermi (gdt.missions.swift.mcilwainl) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="calc_mcilwain_l" href="../../api/gdt.missions.swift.mcilwainl.calc_mcilwain_l.html" />
+    <link rel="prev" title="SwiftFrame" href="../../api/gdt.missions.swift.frame.SwiftFrame.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../api/gdt.missions.swift.mcilwainl.calc_mcilwain_l.html" title="calc_mcilwain_l">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../api/gdt.missions.swift.frame.SwiftFrame.html" title="SwiftFrame">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>McIlwain L Parameter for Fermi (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.mcilwainl</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="swift-mcilwainl"></span><section id="mcilwain-l-parameter-for-fermi-gdt-missions-swift-mcilwainl">
+<h1>McIlwain L Parameter for Fermi (<a class="reference internal" href="#module-gdt.missions.swift.mcilwainl" title="gdt.missions.swift.mcilwainl"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.mcilwainl</span></code></a>)<a class="headerlink" href="#mcilwain-l-parameter-for-fermi-gdt-missions-swift-mcilwainl" title="Permalink to this heading">¶</a></h1>
+<p>The function <a class="reference internal" href="../../api/gdt.missions.swift.mcilwainl.calc_mcilwain_l.html#gdt.missions.swift.mcilwainl.calc_mcilwain_l" title="gdt.missions.swift.mcilwainl.calc_mcilwain_l"><code class="xref py py-func docutils literal notranslate"><span class="pre">calc_mcilwain_l()</span></code></a> is used to estimate the McIlwain L parameter,
+which describes a subset of the geomagnetic field lines and is correlated with
+trapped charged particle density.</p>
+<p>This is a specialized function for Fermi, assuming Fermi’s approximate altitude,
+and which implements a cubic polynomial approximation to the full calculation
+of the McIlwain L parameter as a function of latitude/longitude.  It is only
+valid within the East latitude range of <span class="math notranslate nohighlight">\((-30^\circ, +30^\circ)\)</span>, which
+covers the extent of Fermi’s orbit.</p>
+<p>As an example, we can calculate the McIlwain L parameter if Fermi were at
+<span class="math notranslate nohighlight">\(20^\circ N, 100^\circ W\)</span> (over Central America, just outside of Mexico
+City):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.mcilwainl</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># note that we must specify East Longitude</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">calc_mcilwain_l</span><span class="p">(</span><span class="o">-</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">)</span>
+<span class="go">1.44546112</span>
+</pre></div>
+</div>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.mcilwainl">
+<span id="gdt-missions-swift-mcilwainl-module"></span><h3>gdt.missions.swift.mcilwainl Module<a class="headerlink" href="#module-gdt.missions.swift.mcilwainl" title="Permalink to this heading">¶</a></h3>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../api/gdt.missions.swift.mcilwainl.calc_mcilwain_l.html#gdt.missions.swift.mcilwainl.calc_mcilwain_l" title="gdt.missions.swift.mcilwainl.calc_mcilwain_l"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_mcilwain_l</span></code></a>(latitude, longitude)</p></td>
+<td><p>Estimate the McIlwain L value given the latitude (-30, +30) and East Longitude.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">McIlwain L Parameter for Fermi (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.mcilwainl</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.mcilwainl">gdt.missions.swift.mcilwainl Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../api/gdt.missions.swift.frame.SwiftFrame.html"
+                          title="previous chapter">SwiftFrame</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../api/gdt.missions.swift.mcilwainl.calc_mcilwain_l.html"
+                          title="next chapter">calc_mcilwain_l</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/missions/swift/mcilwainl.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../_sources/missions/swift/mcilwainl.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

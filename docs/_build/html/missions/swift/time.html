@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift Mission Epoch (gdt.missions.swift.time) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SwiftSecTime" href="../../api/gdt.missions.swift.time.SwiftSecTime.html" />
+    <link rel="prev" title="Installation" href="../../install.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../api/gdt.missions.swift.time.SwiftSecTime.html" title="SwiftSecTime">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../install.html" title="Installation">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="swift-mission-epoch-gdt-missions-swift-time">
+<span id="swift-time"></span><h1>Swift Mission Epoch  (<a class="reference internal" href="#module-gdt.missions.swift.time" title="gdt.missions.swift.time"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code></a>)<a class="headerlink" href="#swift-mission-epoch-gdt-missions-swift-time" title="Permalink to this heading">¶</a></h1>
+<p>The Swift Mission epoch, also called the Swift Mission Elapsed Time (MET) is
+the number of seconds elapsed since January 1, 2001, 00:00:00 UTC, including
+leap seconds.  We have defined a specialized epoch to work with Astropy <code class="docutils literal notranslate"><span class="pre">Time</span></code>
+objects so that Swift MET can be easily converted to/from other formats and time
+scales.</p>
+<p>To use this, we simply import and create an astropy Time object with a <cite>‘swift’</cite>
+format:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">swift_met</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="mi">697422649</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;swift&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">swift_met</span>
+<span class="go">&lt;Time object: scale=&#39;tt&#39; format=&#39;swift&#39; value=697422649.0&gt;</span>
+</pre></div>
+</div>
+<p>Now, say we want to retrieve the GPS timestamp:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_met</span><span class="o">.</span><span class="n">gps</span>
+<span class="go">1359765062.0</span>
+</pre></div>
+</div>
+<p>The Astropy <code class="docutils literal notranslate"><span class="pre">Time</span></code> object readily converts it for us. We can also do the
+reverse conversion:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gps_time</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">swift_met</span><span class="o">.</span><span class="n">gps</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;gps&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gps_time</span>
+<span class="go">&lt;Time object: scale=&#39;tai&#39; format=&#39;gps&#39; value=1359765062.0&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gps_time</span><span class="o">.</span><span class="n">swift</span>
+<span class="go">697422649.0</span>
+</pre></div>
+</div>
+<p>And we should, of course, get back the Swift MET we started with.  This enables
+you do do any time conversions already provided by Astropy, as well as time
+conversions between other missions within the GDT.</p>
+<p>In addition to time conversions, all time formatting available in Astropy is
+also available here.  For example, we can format the Swift MET in ISO format:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_met</span><span class="o">.</span><span class="n">iso</span>
+<span class="go">&#39;2023-02-07 00:31:53.184&#39;</span>
+</pre></div>
+</div>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.time">
+<span id="gdt-missions-swift-time-module"></span><h3>gdt.missions.swift.time Module<a class="headerlink" href="#module-gdt.missions.swift.time" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../api/gdt.missions.swift.time.SwiftSecTime.html#gdt.missions.swift.time.SwiftSecTime" title="gdt.missions.swift.time.SwiftSecTime"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SwiftSecTime</span></code></a>(val1, val2, scale, precision, ...)</p></td>
+<td><p>Represents the number of seconds elapsed since Jan 1, 2001, 00:00:00 UTC, including leap seconds</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Time</span></code>(val[, val2, format, scale, precision, ...])</p></td>
+<td><p>Represent and manipulate times and dates for astronomy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../_images/inheritance-b3cf1e7c4ccfaa13a7a1af8a612e400306a712a6.png" alt="Inheritance diagram of gdt.missions.swift.time.SwiftSecTime" usemap="#inheritanceeb2b66d80b" class="inheritance graphviz" /></div>
+<map id="inheritanceeb2b66d80b" name="inheritanceeb2b66d80b">
+<area shape="rect" id="node1" href="../../api/gdt.missions.swift.time.SwiftSecTime.html#gdt.missions.swift.time.SwiftSecTime" target="_top" title="Represents the number of seconds elapsed since Jan 1, 2001, 00:00:00 UTC," alt="" coords="457,5,561,32"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.time">gdt.missions.swift.time Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../install.html"
+                          title="previous chapter">Installation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../api/gdt.missions.swift.time.SwiftSecTime.html"
+                          title="next chapter">SwiftSecTime</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/missions/swift/time.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../_sources/missions/swift/time.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

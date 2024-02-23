@@ -63,9 +63,6 @@ class BatRsp(Rsp):
 
         obj = super().open(file_path, **kwargs)
 
-        if len(obj.hdulist) > 3:
-            raise RuntimeError('{} is not a RSP file; it may be a RSP2 ' \
-                               'file'.format(filename))
         trigtime = None
         # get the headers
         hdrs = [hdu.header for hdu in obj.hdulist]
@@ -77,7 +74,7 @@ class BatRsp(Rsp):
         else:
 
             headers = RspHeaders.from_headers(hdrs)
-        
+
 
         tstart = headers['SPECRESP MATRIX']['TSTART']
         tstop = headers['SPECRESP MATRIX']['TSTOP']
@@ -92,8 +89,6 @@ class BatRsp(Rsp):
         nchan = np.copy(obj.column(1, 'N_CHAN'))
         ngrp = np.copy(obj.column(1, 'N_GRP'))
 
-        #matrix = cls._decompress_drm(obj.column(1, 'MATRIX'), num_ebins,
-                                      #num_chans, fchan[0], nchan[0])
 
         drm = ResponseMatrix(obj.column(1, 'MATRIX'), obj.column(1, 'ENERG_LO'),
                             obj.column(1, 'ENERG_HI'),  obj.column(2, 'E_MIN'),
@@ -165,7 +160,7 @@ class BatRsp(Rsp):
                                 array=self._fchan)
         nchan_col = fits.Column(name='N_CHAN', format='I',
                                 array=self._nchan)
-        print(self.drm.matrix)
+    
         matrix_col = fits.Column(name='MATRIX', array=self.drm.matrix,
                                  format='{}E'.format(self.num_chans),
                                  )
@@ -177,97 +172,3 @@ class BatRsp(Rsp):
             hdu.header[key] = val
 
         return hdu
-
-    # mark FIXME: Currently not used
-    def _compress_drm(self, spec_index):
-        """Compress a DRM by removing all the zeros.  This can result in a
-        file that is ~50% the size of an uncompressed DRM because the DRM is
-        largely a triangle matrix.
-
-        Also modifies the helper FITS columns that are used to decompress the
-        matrix
-
-        Args:
-            spec_index (int): The index of the DRM in the event of multiple DRMs
-
-        Returns:
-            np.array: An array of variable length arrays containing the compressed matrix
-        """
-
-        # function to split channels into contiguous groups
-        def group_consecutive_indices(indices):
-            # change points where consecutive indices > 1
-            diff = indices[1:] - indices[0:-1]
-            diff_idx = np.where(diff > 1)[0] + 1
-            # add first, last indices
-            diff_idx = np.concatenate(([0], diff_idx, [idx.size]))
-            # group into consecutive indices
-            groups = [idx[diff_idx[i]:diff_idx[i + 1]] \
-                      for i in range(diff_idx.size - 1)]
-            return groups
-
-        drm = self._drm_list[spec_index]
-
-        matrix = np.zeros((self.numebins,), dtype=np.object_)
-        first_chans = []
-        num_chans = []
-        num_groups = []
-        for ibin in range(self.numebins):
-            idx = np.where(drm[ibin, :] > 0.0)[0]
-            # if all zeros
-            if idx.size == 0:
-                num_groups.append(1)
-                first_chans.append(np.array([self.numchans]))
-                num_chans.append(np.array([1]))
-                matrix[ibin] = np.array([0.0])
-            else:
-                groups = group_consecutive_indices(idx)
-                num_groups.append(len(groups))
-                first_chans.append(
-                    np.array([group[0] + 1 for group in groups]))
-                num_chans.append(np.array([len(group) for group in groups]))
-                matrix[ibin] = np.concatenate(
-                    [drm[ibin, group] for group in groups])
-
-        self._ngrp_list[spec_index] = np.array(num_groups)
-        self._fchan_list[spec_index] = first_chans
-        self._nchan_list[spec_index] = num_chans
-
-        return matrix
-
-    # # mark FIXME: This assumes NGRP=1, which for GBM is ok, not for general use
-    # @staticmethod
-    # def _decompress_drm(matrix, num_photon_bins, num_channels, _fchan, _nchan):
-    #     """Decompresses a DRM using the standard F_CHAN, N_CHAN, and N_GRP
-    #     keywords.
-    #
-    #     Args:
-    #         drm_data (np.recarray): The DRM data
-    #
-    #     Returns:
-    #         (np.array)
-    #     """
-    #     # The format of the compress matrix is a series of groups, for each
-    #     # energy bin, of channels with non-zero values.
-    #     # fchan stands for the first channel of each of these groups
-    #     # and nchan for the number of channels in the group group.
-    #     # Each row in the matrix is a 1D list consisting on the contatenated
-    #     # values of all groups for a given energy bin
-    #     # Note that in FITS the first index is 1
-    #     drm = np.zeros((num_photon_bins, num_channels))
-    #     for fchans, nchans, effective_area, drm_row \
-    #         in zip(_fchan, _nchan, matrix, drm):
-    #
-    #         channel_offset = 0
-    #
-    #         for fchan, nchan in zip(fchans, nchans):
-    #
-    #             start_idx = fchan - 1
-    #             end_idx = start_idx + nchan
-    #
-    #             drm_row[start_idx:end_idx] = \
-    #                 effective_area[channel_offset:channel_offset + nchan]
-    #
-    #             channel_offset += nchan
-    #
-    #     return drm

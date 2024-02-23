@@ -33,12 +33,11 @@ from matplotlib.path import Path
 
 from gdt.core.plot.plot import EarthPoints, PlotElement, GdtCmap
 from gdt.core.plot.earthplot import EarthPlot
-from gdt.core.plot.sky import EquatorialPlot, SkyPolygon, SkyLine
-from .mcilwainl import calc_mcilwain_l
+from gdt.core.plot.sky import SkyPlot, SkyPolygon, SkyLine
 from gdt.missions.swift.bat.poshist import BatSao
 from gdt.missions.swift.bat.detectors import BatPartialCoding
 
-__all__ = ['SwiftEarthPlot', 'SwiftIcon', 'McIlwainL', 'mcilwain_map',  'BatFovPlot']
+__all__ = ['SwiftEarthPlot', 'SwiftIcon',  'BatFovPlot']
 
 class SwftIcon(EarthPoints):
     """Plot a Bat icon on the Earth.
@@ -157,204 +156,39 @@ class SwftIcon(EarthPoints):
         return pts
 
 
-class McIlwainL(PlotElement):
-    """Plot class for the McIlwain L heatmap.
-
-    Parameters:
-        lat_range (float, float): The latitude range
-        lon_range (float, float): The longitude range
-        proj (Cartopy Projection): The Cartopy projection
-        ax (:class:`matplotlib.axes`): The axis on which to plot
-        colorbar (bool, optional): If True, create a colorbar for the heatmap.
-                                   Default is True
-        color (:class:`~gdt.plot.plot.GdtCmap`): The colormap of the heatmap.
-                                  Default is 'viridis'
-        alpha (float, optional): The alpha opacity of the heatmap
-        norm (:class:`matplotlib.colors.Normalize` or similar, optional):
-            The normalization used to scale the colormapping to the heatmap
-            values. This can be initialized by the defined matplotlib
-            normalizations or a custom normalization.
-        levels (list, optional): The number of plot levels.  If not set,
-                                 the default is to plot from 0.9 to 1.7 in
-                                 increments of 0.1.
-        **kwargs: Other plotting options
-    """
-    def __init__(self, lat_range, lon_range, proj, colorbar=True,
-                 color=GdtCmap('viridis'), alpha=None, norm=None,
-                 levels=None, **kwargs):
-
-        self._colorbar = colorbar
-        self._norm = norm
-        self._levels = levels
-        if self._levels is None:
-            self._levels = [0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7]
-
-        super().__init__(color=color, alpha=alpha)
-        self._kwargs = kwargs
-        artists = self._create(lat_range, lon_range, proj)
-        self._artists = self._sanitize_artists(artists)
-
-        # set the colormap
-        self.color = color
-        self.color.set_callback(self._artists[0].changed)
-
-    @property
-    def alpha(self):
-        """(float): The alpha opacity value"""
-        return self._alpha
-    @alpha.setter
-    def alpha(self, alpha):
-        [artist.set_alpha(alpha) for artist in self._artists[0].collections]
-        if len(self._artists) == 2:
-            self._artists[1].set_alpha(alpha)
-            self._artists[1].draw_all()
-        self._alpha = alpha
-
-    @property
-    def color(self):
-        """(:class:`~gdt.plot.plot.GdtCmap`): The colormap"""
-        return self._color
-    @color.setter
-    def color(self, color):
-        if not isinstance(color, GdtCmap):
-            raise TypeError('color must be of type GdtCmap')
-        self._color = color
-        self._artists[0].set_cmap(color.cmap)
-
-    @property
-    def colorbar(self):
-        """(matplotlib.colorbar.Colorbar): The colorbar object"""
-        if self._colorbar:
-            return self._artists[-1]
-
-    @property
-    def levels(self):
-        """(list): The contour levels"""
-        # mark TODO: Add a setter, which will have to do a replot
-        return self._levels
-
-    @property
-    def norm(self):
-        """(matplotlib.colors.Normalize or similar): The colormap normalization"""
-        return self._norm
-    @norm.setter
-    def norm(self, norm):
-        self._artists[0].set_norm(norm)
-        self._norm = norm
-
-    def _create(self, lat_range, lon_range, proj):
-        artists = mcilwain_map(lat_range, lon_range, proj,
-                               cmap=self._color.cmap, alpha=self._alpha,
-                               norm=self._norm, levels=self._levels,
-                               **self._kwargs)
-        artists = [artists]
-        if self._colorbar:
-            artists.append(self._make_colorbar(proj, artists[0]))
-
-        return artists
-
-    def _make_colorbar(self, ax, artist):
-        cb = plt.colorbar(artist, label='McIlwain L', ax=ax, shrink=0.6,
-                          pad=0.2, orientation='horizontal')
-        cb.draw_all()
-        return cb
-
-    def __repr__(self):
-        spaces = ' ' * 12
-        s = "<McIlwainL: color='{0}';\n{1}".format(self.color.name, spaces)
-        s += 'alpha={0};\n{1}'.format(self.alpha, spaces)
-        s += 'num_contours={0};\n{1}'.format(len(self.levels), spaces)
-        s += 'colorbar={0}>'.format(self._colorbar)
-        return s
-
-
-def mcilwain_map(lat_range, lon_range, proj, saa_mask=None, cmap=None,
-                 alpha=0.5, num_lat_points=108, num_lon_points=720,
-                 levels=None, **kwargs):
-    """Plot a McIlwain L heatmap on the Earth.
-
-    Args:
-        lat_range (float, float): The latitude range
-        lon_range (float, float): The longitude range
-        proj (Cartopy Projection): The Cartopy projection
-        ax (matplotlib.axes): The plot axes references
-        saa_mask (:class:`~gdt.core.geomagnetic.SouthAtlanticAnomaly`, optional)
-            Mask out the SAA from the heatmap
-        color (str, optional): The color of the heatmap
-        alpha (float, optional): The alpha opacity of the heatmap
-        kwargs (optional): Other plotting keywords
-
-    Returns:
-        (matplotlib.contour.QuadContourSet)
-    """
-    # do create an array on the earth
-    lat_array = np.linspace(*lat_range, num_lat_points)
-    lon_array = np.linspace(*lon_range, num_lon_points)
-    LAT, LON = np.meshgrid(lat_array, lon_array)
-
-    # mcilwain l over the grid
-    mcl = calc_mcilwain_l(LAT, LON)
-
-    # if we want to mask out the SAA
-    if saa_mask is not None:
-        xy = list(zip(saa_mask.longitude, saa_mask.latitude))
-        saa_path = patches.Polygon(xy).get_path()
-        mask = saa_path.contains_points(np.array((LON.ravel(), LAT.ravel())).T)
-        mcl[mask.reshape(mcl.shape)] = 0.0
-
-    # do the plot
-    image = proj.contourf(LON, LAT, mcl, levels=levels, alpha=alpha, cmap=cmap,
-                          **kwargs)
-    return image
-
-
 class SwiftEarthPlot(EarthPlot):
-    """Class for plotting Fermi's orbit, including the McIlwain L heatmap.
+    """Class for plotting Swifts orbit
 
     Note:
         This class requires installation of Cartopy.
 
     Parameters:
         saa (:class:`~gdt.core.geomagnetic.SouthAtlanticAnomaly`, optional):
-            If set, displays the SAA polygon.
-        mcilwain (optional, bool): Set to True if plotting the McIlwain L
-                                   heatmap, otherwise False.
+            If set, displays the region.
+
         **kwargs: Options to pass to :class:`~gdt.plot.plot.GdtPlot`
     """
-    def __init__(self, saa=None, mcilwain=True, **kwargs):
+    def __init__(self, saa=None, **kwargs):
         lat_range = (-30.00, 30.00)
         lon_range = (-180.0, 180.0)
         super().__init__(lat_range=lat_range, lon_range=lon_range, saa=saa,
                          **kwargs)
-        self._trig_mcilwain = None
-        self._mcilwain = None
-
-        if mcilwain:
-            self._mcilwain = McIlwainL(lat_range, lon_range, self._m,
-                                       alpha=0.5, saa_mask=saa)
-
-    @property
-    def mcilwainl(self):
-        """(:class:`McIlwainL`): The McIlwain L heatmap"""
-        return self._mcilwain
 
     def add_spacecraft_frame(self, *args, **kwargs):
-        super().add_spacecraft_frame(*args, icon=FermiIcon, **kwargs)
+        super().add_spacecraft_frame(*args, icon=SwiftIcon, **kwargs)
 
     def standard_title(self):
-        """Add a standard plot title containing orbital position and McIlwain L
+        """Add a standard plot title containing orbital position
         """
         if self.spacecraft is not None:
             coord = self.spacecraft.coordinates
             title = 'Latitude, East Longitude: ({0}, {1})\n'.format(*coord)
             lat = float(coord[0][:-1]) * (-1 if "S" in coord[0] else 1)
             lon = float(coord[1][:-1]) * (-1 if "W" in coord[1] else 1)
-            mcl = calc_mcilwain_l(lat, lon)
-            title += 'McIlwain L: {:.2f}'.format(mcl)
             self._m.set_title(title)
 
 
-class BatFovPlot(EquatorialPlot):
+class BatFovPlot(SkyPlot):
 
     def add_bat_fov(self, frame):
         bat = BatPartialCoding()
@@ -369,7 +203,7 @@ class BatFovPlot(EquatorialPlot):
                 poly = SkyPolygon(path[:,0], path[:,1], self.ax, color = None, face_color='gray', edge_color='gray', flipped=True)
                 poly.face_alpha=0.3
                 self.polys.append(poly)
-        print(self.polys)
+
 
 
     def add_localization(self, frame):

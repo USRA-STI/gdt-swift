@@ -1,0 +1,7 @@
+<map id="inheritancef57919d51e" name="inheritancef57919d51e">
+<area shape="rect" id="node1" title="A collection of FITS headers. This class should be further sub&#45;classed" alt="" coords="5,81,97,108"/>
+<area shape="rect" id="node2" href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html#gdt.missions.swift.bat.headers.LightcurveHeaders" target="_top" title="LightcurveHeaders" alt="" coords="145,5,275,32"/>
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.headers.PhaHeaders.html#gdt.missions.swift.bat.headers.PhaHeaders" target="_top" title="PhaHeaders" alt="" coords="163,56,257,83"/>
+<area shape="rect" id="node4" href="../../../api/gdt.missions.swift.bat.headers.RspHeaders.html#gdt.missions.swift.bat.headers.RspHeaders" target="_top" title="RspHeaders" alt="" coords="163,107,257,133"/>
+<area shape="rect" id="node5" href="../../../api/gdt.missions.swift.bat.headers.SaoHeaders.html#gdt.missions.swift.bat.headers.SaoHeaders" target="_top" title="SaoHeaders" alt="" coords="163,157,257,184"/>
+</map>

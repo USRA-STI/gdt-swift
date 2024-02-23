@@ -82,12 +82,11 @@ class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileCont
         return sc_frame
 
     def get_spacecraft_states(self) -> TimeSeries:
-        saa = self._in_saa(self.column(1, 'SAA'))
         series = TimeSeries(
             time=Time(self.column(1, 'TIME'), format='swift'),
             data={
-                'sun': self._in_sun(self.column(1, 'SUNSHINE')),
-                'saa': saa,
+                'sun': self.column(1, 'SUNSHINE'),
+                'saa': self.column(1, 'SAA'),
             }
         )
         return series
@@ -143,11 +142,3 @@ class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileCont
         obj._headers = SaoHeaders.from_headers(hdrs)
 
         return obj
-
-    @staticmethod
-    def _in_sun(flags: np.array) -> np.array:
-        return (flags & 0x01) != 0
-
-    @staticmethod
-    def _in_saa(flags: np.array) -> np.array:
-        return (flags & 0x02) != 0

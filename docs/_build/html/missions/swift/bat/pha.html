@@ -1,0 +1,361 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift Bat PHA Data (gdt.missions.swift.bat.pha) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BatPha" href="../../../api/gdt.missions.swift.bat.pha.BatPha.html" />
+    <link rel="prev" title="LightcurveHeaders" href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.pha.BatPha.html" title="BatPha">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html" title="LightcurveHeaders">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift Bat PHA Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.pha</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="bat-pha"></span><section id="swift-bat-pha-data-gdt-missions-swift-bat-pha">
+<h1>Swift Bat PHA Data (<a class="reference internal" href="#module-gdt.missions.swift.bat.pha" title="gdt.missions.swift.bat.pha"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.pha</span></code></a>)<a class="headerlink" href="#swift-bat-pha-data-gdt-missions-swift-bat-pha" title="Permalink to this heading">¶</a></h1>
+<p>The primary science data produced by bat can be summarized as a time history of
+spectra, which is provided temporally pre-binned (CTIME and CSPEC) or
+temporally unbinned (TTE). These data types are produced as “snippets” for
+every single trigger and are also provided continuously. CTIME and CSPEC are
+provided in daily chunks, and TTE are provided in hourly chunks (since late
+2012). One of the most common things that a user of bat data wants to do is
+look at this data (what we call a lightcurve) for one or more detectors over
+some energy range.</p>
+<p>The CTIME and CSPEC data are temporally pre-binned data, which have 8 and 128
+energy channels respectively. These data files can be read by the <a class="reference internal" href="../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha" title="gdt.missions.swift.bat.pha.BatPha"><code class="xref py py-class docutils literal notranslate"><span class="pre">BatPha</span></code></a>
+class (or the aliased <a href="#id1"><span class="problematic" id="id2">|Ctime|</span></a> and <a href="#id3"><span class="problematic" id="id4">|Cspec|</span></a> classes).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core</span> <span class="kn">import</span> <span class="n">data_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.pha</span> <span class="kn">import</span> <span class="n">BatPha</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># read a pha file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">data_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;swift-bat/sw00974827000bevas.pha&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span> <span class="o">=</span> <span class="n">batpha</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span>
+<span class="go">&lt;BatPha: sw00974827000bevas.pha;</span>
+<span class="go">trigger time: 612354468.864;</span>
+<span class="go">time range (69.73658001422882, 113.2039999961853);</span>
+<span class="go">energy range (0.0, 6553.6)&gt;</span>
+</pre></div>
+</div>
+<p>Since bat uses the FITS format, the data files have multiple data extensions,
+each with metadata information in a header. There is also a primary header that
+contains metadata relevant to the overall file. You can access this metadata
+information:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;PRIMARY&#39;, &#39;SPECTRUM&#39;, &#39;EBOUNDS&#39;, &#39;STDGTI&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;PRIMARY&#39;</span><span class="p">]</span>
+<span class="go">TELESCOP= &#39;SWIFT   &#39;           / Telescope (mission) name</span>
+<span class="go">INSTRUME= &#39;BAT     &#39;           /  Instrument name</span>
+<span class="go">OBS_ID  = &#39;00974827000&#39;        / Observation ID</span>
+<span class="go">TARG_ID =               974827 / Target ID</span>
+<span class="go">SEG_NUM =                    0 / Segment number</span>
+<span class="go">TIMESYS = &#39;TT      &#39;           / time system</span>
+<span class="go">MJDREFI =                51910 / MJD reference day Jan 2001 00:00:00</span>
+<span class="go">MJDREFF = &#39;0.00074287037&#39;      / MJD reference (fraction of day) 01 Jan 2001 00:</span>
+<span class="go">CLOCKAPP= &#39;False   &#39;           / If clock correction are applied (F/T)</span>
+<span class="go">TIMEUNIT= &#39;s       &#39;           / Time unit for timing header keywords</span>
+<span class="go">TSTART  =      612354538.60058 / As in the TIME column</span>
+<span class="go">TSTOP   =        612354582.068 / As in the TIME column</span>
+<span class="go">DATE-OBS= &#39;2020-05-28T10:28:53&#39;</span>
+<span class="go">DATE-END= &#39;2020-05-28T10:29:37&#39;</span>
+<span class="go">ORIGIN  = &#39;NASA/GSFC&#39;          / file creation location</span>
+<span class="go">CREATOR = &#39;extractor v5.24&#39;    / file creator</span>
+<span class="go">TLM2FITS= &#39;V7.21   &#39;           / Telemetry converter version number</span>
+<span class="go">DATE    = &#39;2020-06-07T06:39:30&#39; / file creation date (YYYY-MM-DDThh:mm:ss UT)</span>
+<span class="go">NEVENTS =              1754792 / Number of events</span>
+<span class="go">DATAMODE= &#39;Event   &#39;           / Datamode</span>
+<span class="go">OBJECT  = &#39;GRB200528a&#39;         / Object name</span>
+<span class="go">MJD-OBS =    58997.43753222893 / MJD of data start time</span>
+<span class="go">TIMEREF = &#39;LOCAL   &#39;           / reference time</span>
+<span class="go">EQUINOX =               2000.0 / Equinox for pointing RA/Dec</span>
+<span class="go">RADECSYS= &#39;FK5     &#39;           / Coordinates System</span>
+<span class="go">USER    = &#39;apsop   &#39;           / User name of creator</span>
+<span class="go">FILIN001= &#39;sw00974827000bevshsp_uf.evt&#39; / Input file name</span>
+<span class="go">TIMEZERO=                  0.0 / Time Zero</span>
+<span class="go">CHECKSUM= &#39;5F5HAE5F6E5FAE5F&#39;   / HDU checksum updated 2020-06-07T06:49:01</span>
+<span class="go">DATASUM = &#39;         0&#39;         / data unit checksum updated 2020-06-07T06:32:34</span>
+<span class="go">PROCVER = &#39;3.18.11 &#39;           / Processing script version</span>
+<span class="go">SOFTVER = &#39;Hea_27Jul2015_V6.17_Swift_Rel4.5(Bld34)_27Jul2015_SDCpatch_16&#39;</span>
+<span class="go">CALDBVER= &#39;b20171016_u20170922_x20190910_m20200504&#39; / CALDB index versions used</span>
+<span class="go">SEQPNUM =                    6 / Number of times the dataset processed</span>
+<span class="go">RA_OBJ  =             176.6439 / [deg] R.A. Object</span>
+<span class="go">DEC_OBJ =             58.19214 / [dec] Dec Object</span>
+<span class="go">RA_PNT  =     176.681859056405 / [deg] RA pointing</span>
+<span class="go">DEC_PNT =     58.1445301944316 / [deg] Dec pointing</span>
+<span class="go">PA_PNT  =     298.735423901845 / [deg] Position angle (roll)</span>
+<span class="go">TRIGTIME=        612354468.864 / MET TRIGger Time for Automatic Target</span>
+<span class="go">CATSRC  = &#39;False   &#39;</span>
+<span class="go">ATTFLAG =                  110 / Attitude origin: 100=sat/spacecraft</span>
+<span class="go">UTCFINIT=            -25.01712 / [s] UTCF at TSTART</span>
+</pre></div>
+</div>
+<p>There is easy access for certain important properties of the data:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the good time intervals for the data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">gti</span>
+<span class="go">&lt;Gti: 1 intervals; range (69.73658001422882, 113.2039999961853)&gt;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the trigger time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">trigtime</span>
+<span class="go">612354468.864</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the time range</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">time_range</span>
+<span class="go">(69.73658001422882, 113.2039999961853)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># the energy range</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">energy_range</span>
+<span class="go">(0.0, 6553.6)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># number of energy channels</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">num_chans</span>
+<span class="go">80</span>
+</pre></div>
+</div>
+<p>We can retrieve the time history spectra data contained within the file, which
+is a <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.TimeEnergyBins.html#gdt.core.data_primitives.TimeEnergyBins" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeEnergyBins</span></code></a> class (see
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/primitives.html#core-data-primitives-2d" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">2D Binned Data</span></a> for more details).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">data</span>
+<span class="go">&lt;EnergyBins: 80 bins;</span>
+<span class="go">range (0.0, 6553.6);</span>
+<span class="go">1 contiguous segments&gt;</span>
+</pre></div>
+</div>
+<p>Through the <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.pha.Pha.html#gdt.core.pha.Pha" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pha</span></code></a> base class, there are a lot of high level functions
+available to us, such as slicing the data in time or energy:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">energy_sliced</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">slice_energy</span><span class="p">((</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">energy_sliced</span>
+<span class="go">&lt;BatPha:</span>
+<span class="go">trigger time: 612354468.864;</span>
+<span class="go">time range (69.73658001422882, 113.2039999961853);</span>
+<span class="go">energy range (48.9, 6553.6)&gt;</span>
+</pre></div>
+</div>
+<p>As mentioned, this data is 2-dimensional, so what do we do if we want a
+lightcurve covering a particular energy range? We integrate (sum) over energy,
+and we can easily do this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lightcurve</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">to_lightcurve</span><span class="p">(</span><span class="n">energy_range</span><span class="o">=</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lightcurve</span>
+<span class="go">&lt;TimeBins: 14433 bins;</span>
+<span class="go"> range (-899.3424419760704, 1000.8578699827194);</span>
+<span class="go"> 1 contiguous segments&gt;</span>
+</pre></div>
+</div>
+<p>Similarly, we can integrate over time to produce a count spectrum:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">to_spectrum</span><span class="p">(</span><span class="n">time_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">spectrum</span>
+<span class="go">&lt;EnergyBins: 8 bins;</span>
+<span class="go"> range (4.323754, 2000.0);</span>
+<span class="go"> 1 contiguous segments&gt;</span>
+</pre></div>
+</div>
+<p>The resulting objects are <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.TimeBins.html#gdt.core.data_primitives.TimeBins" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeBins</span></code></a> and <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.data_primitives.EnergyBins.html#gdt.core.data_primitives.EnergyBins" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">EnergyBins</span></code></a>, respectively, and see
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/primitives.html#core-data-primitives-1d" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">1D Binned Data</span></a> for more details on how
+to use them.</p>
+<p>Of course, once we have produced a lightcurve or spectrum data object, often
+we want to plot it.  For that, we use the <code class="xref py py-class docutils literal notranslate"><span class="pre">Lightcurve</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Spectrum</span></code> plotting
+classes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.plot.lightcurve</span> <span class="kn">import</span> <span class="n">Lightcurve</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lcplot</span> <span class="o">=</span> <span class="n">Lightcurve</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">lightcurve</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="missions/swift/bat/pha_figs/phafig1.png" src="missions/swift/bat/pha_figs/phafig1.png" />
+<p>This plot may look odd without context. Since we are reading a trigger CTIME
+file, the file contains multiple time resolutions. Normally the CTIME data is
+accumulated in 256 ms duration bins, but starting at trigger time, the data
+switches to 64 ms duration bins for several hundred seconds, and then it goes
+back to 256 ms bins.</p>
+<p>So maybe the native CTIME resolution is overkill because it’s hard to see the
+signal. We can make it easier to see the signal if we bin it up (see
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/binning/binning.html#binning" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">The Binning Package</span></a> for details):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bat.binning.binned</span> <span class="kn">import</span> <span class="n">rebin_by_time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># rebin the data to 2.048 s resolution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rebinned_ctime</span> <span class="o">=</span> <span class="n">ctime</span><span class="o">.</span><span class="n">rebin_time</span><span class="p">(</span><span class="n">rebin_by_time</span><span class="p">,</span> <span class="mf">2.048</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lcplot</span> <span class="o">=</span> <span class="n">Lightcurve</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">rebinned_ctime</span><span class="o">.</span><span class="n">to_lightcurve</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># zoom in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lcplot</span><span class="o">.</span><span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">250.0</span><span class="p">,</span> <span class="mf">250.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lcplot</span><span class="o">.</span><span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After rebinning the data and zooming in a little, we can now easily see the
+GRB signal in the lightcurve.</p>
+<img alt="missions/swift/bat/pha_figs/phafig2.png" src="missions/swift/bat/pha_figs/phafig2.png" />
+<p>Similarly, we can plot the count spectrum:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.plot.spectrum</span> <span class="kn">import</span> <span class="n">Spectrum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">specplot</span> <span class="o">=</span> <span class="n">Spectrum</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spectrum</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="missions/swift/bat/pha_figs/phafig3.png" src="missions/swift/bat/pha_figs/phafig3.png" />
+<p>See <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/plot/lightcurve.html#plot-lightcurve" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Plotting Lightcurves</span></a> and
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/plot/spectrum.html#plot-spectrum" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">Plotting Count Spectra</span></a> for more on
+how to modify these plots.</p>
+<p>Finally, we can write out a new fully-qualified pha FITS file after some
+reduction tasks.  For example, we can write out our time-sliced data object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">time_sliced_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;my_first_custom_ctime.pha&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For more details about working with pha data, see
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/pha.html#core-pha" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">pha Files</span></a>.</p>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.bat.pha">
+<span id="gdt-missions-swift-bat-pha-module"></span><h3>gdt.missions.swift.bat.pha Module<a class="headerlink" href="#module-gdt.missions.swift.bat.pha" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha" title="gdt.missions.swift.bat.pha.BatPha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatPha</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-b9d4b3480fbe568355e4523f42a782adfa65112c.png" alt="Inheritance diagram of gdt.missions.swift.bat.pha.BatPha" usemap="#inheritanceab7a5d1914" class="inheritance graphviz" /></div>
+<map id="inheritanceab7a5d1914" name="inheritanceab7a5d1914">
+<area shape="rect" id="node3" href="../../../api/gdt.missions.swift.bat.pha.BatPha.html#gdt.missions.swift.bat.pha.BatPha" target="_top" title="BatPha" alt="" coords="668,5,740,32"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift Bat PHA Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.pha</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.bat.pha">gdt.missions.swift.bat.pha Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.headers.LightcurveHeaders.html"
+                          title="previous chapter">LightcurveHeaders</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.pha.BatPha.html"
+                          title="next chapter">BatPha</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/pha.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/pha.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

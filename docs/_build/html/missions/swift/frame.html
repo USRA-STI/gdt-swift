@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift Spacecraft Frame (gdt.missions.swift.frame) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="swift_to_icrs" href="../../api/gdt.missions.swift.frame.swift_to_icrs.html" />
+    <link rel="prev" title="SwiftSecTime" href="../../api/gdt.missions.swift.time.SwiftSecTime.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../api/gdt.missions.swift.frame.swift_to_icrs.html" title="swift_to_icrs">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../api/gdt.missions.swift.time.SwiftSecTime.html" title="SwiftSecTime">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift Spacecraft Frame (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.frame</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>swift.. _swift-frame:
+.. <a href="#id1"><span class="problematic" id="id2">|SwiftFrame|</span></a> replace:: <a class="reference internal" href="../../api/gdt.missions.swift.frame.SwiftFrame.html#gdt.missions.swift.frame.SwiftFrame" title="gdt.missions.swift.frame.SwiftFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">SwiftFrame</span></code></a>
+.. <a href="#id3"><span class="problematic" id="id4">|GbmPosHist|</span></a> replace:: <code class="xref py py-class docutils literal notranslate"><span class="pre">GbmPosHist</span></code>
+.. <a href="#id5"><span class="problematic" id="id6">|Quaternion|</span></a> replace:: <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.Quaternion.html#gdt.core.coords.Quaternion" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
+<section id="swift-spacecraft-frame-gdt-missions-swift-frame">
+<h1>Swift Spacecraft Frame (<a class="reference internal" href="#module-gdt.missions.swift.frame" title="gdt.missions.swift.frame"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.frame</span></code></a>)<a class="headerlink" href="#swift-spacecraft-frame-gdt-missions-swift-frame" title="Permalink to this heading">¶</a></h1>
+<p>The Swift spacecraft frame, <a href="#id7"><span class="problematic" id="id8">|SwiftFrame|</span></a>, is the frame that is aligned
+with the Swift spacecraft coordinate frame, and is represented by a
+quaternion that defines the rotation from spacecraft coordinates to the ICRS
+coordinate frame.  This frame takes advantage of the Astropy coordinate frame
+design, so we can use the SwiftFrame to convert Astropy SkyCoord objects
+between the SwiftFrame and any celestial frame.</p>
+<p>While the SwiftFrame is typically initialized when reading from a mission
+position history file (e.g. <a href="#id9"><span class="problematic" id="id10">|GbmPosHist|</span></a>) instead of manually by a user, we
+can manually define the frame with a <a href="#id11"><span class="problematic" id="id12">|Quaternion|</span></a>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core.coords</span> <span class="kn">import</span> <span class="n">Quaternion</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.frame</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">quat</span> <span class="o">=</span> <span class="n">Quaternion</span><span class="p">([</span><span class="o">-</span><span class="mf">0.218</span><span class="p">,</span>  <span class="mf">0.009</span><span class="p">,</span>  <span class="mf">0.652</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.726</span><span class="p">],</span> <span class="n">scalar_first</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">swift_frame</span> <span class="o">=</span> <span class="n">SwiftFrame</span><span class="p">(</span><span class="n">quaternion</span><span class="o">=</span><span class="n">quat</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">swift_frame</span>
+<span class="go">&lt;SwiftFrame: 1 frames;</span>
+<span class="go"> obstime=[J2000.000]</span>
+<span class="go"> obsgeoloc=[(0., 0., 0.) m]</span>
+<span class="go"> obsgeovel=[(0., 0., 0.) m / s]</span>
+<span class="go"> quaternion=[(x, y, z, w) [-0.218,  0.009,  0.652, -0.726]]&gt;</span>
+</pre></div>
+</div>
+<p>Notice that we can also define the frame with an <code class="docutils literal notranslate"><span class="pre">obstime</span></code>, which is useful
+for transforming between the SwiftFrame and a non-inertial time-dependent frame;
+an <code class="docutils literal notranslate"><span class="pre">obsgeoloc</span></code>, which can define the spacecraft location in orbit; and
+<code class="docutils literal notranslate"><span class="pre">obsgeovel</span></code>, which defines the spacecraft orbital velocity.</p>
+<p>Now let us define a SkyCoord in RA and Dec:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.coordinates</span> <span class="kn">import</span> <span class="n">SkyCoord</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mf">100.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And we can simply rotate this into the Swift frame with the following:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_coord</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">swift_frame</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">swift_coord</span><span class="o">.</span><span class="n">az</span><span class="p">,</span> <span class="n">swift_coord</span><span class="o">.</span><span class="n">el</span><span class="p">)</span>
+<span class="go">(&lt;Longitude [200.39733555] deg&gt;, &lt;Latitude [-41.88750942] deg&gt;)</span>
+</pre></div>
+</div>
+<p>We can also transform from the Swift frame to other frames.  For example, we
+define a coordinate in the Swift frame this way:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_coord</span> <span class="o">=</span> <span class="n">SkyCoord</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">swift_frame</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can tranform to ICRS coordinates:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_coord</span><span class="o">.</span><span class="n">icrs</span>
+<span class="go">&lt;SkyCoord (ICRS): (ra, dec) in deg</span>
+<span class="go">    [(313.69000519, 26.89158349)]&gt;</span>
+</pre></div>
+</div>
+<p>or Galactic coordinates:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">swift_coord</span><span class="o">.</span><span class="n">galactic</span>
+<span class="go">&lt;SkyCoord (Galactic): (l, b) in deg</span>
+<span class="go">    [(71.5141302, -11.56931006)]&gt;</span>
+</pre></div>
+</div>
+<p>or any other coordinate frames provided by Astropy.</p>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.frame">
+<span id="gdt-missions-swift-frame-module"></span><h3>gdt.missions.swift.frame Module<a class="headerlink" href="#module-gdt.missions.swift.frame" title="Permalink to this heading">¶</a></h3>
+<section id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../api/gdt.missions.swift.frame.swift_to_icrs.html#gdt.missions.swift.frame.swift_to_icrs" title="gdt.missions.swift.frame.swift_to_icrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">swift_to_icrs</span></code></a>(swift_frame, icrs_frame)</p></td>
+<td><p>Convert from the Swift frame to the ICRS frame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../api/gdt.missions.swift.frame.icrs_to_swift.html#gdt.missions.swift.frame.icrs_to_swift" title="gdt.missions.swift.frame.icrs_to_swift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">icrs_to_swift</span></code></a>(icrs_frame, swift_frame)</p></td>
+<td><p>Convert from the ICRS frame to the Swift frame.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../api/gdt.missions.swift.frame.SwiftFrame.html#gdt.missions.swift.frame.SwiftFrame" title="gdt.missions.swift.frame.SwiftFrame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SwiftFrame</span></code></a>(*args[, copy, ...])</p></td>
+<td><p>The Swift spacecraft frame in azimuth and elevation.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../_images/inheritance-b7470b27e1323a96f728b3a146d353ebe044ca41.png" alt="Inheritance diagram of gdt.missions.swift.frame.SwiftFrame" usemap="#inheritance01690b2b76" class="inheritance graphviz" /></div>
+<map id="inheritance01690b2b76" name="inheritance01690b2b76">
+<area shape="rect" id="node5" href="../../api/gdt.missions.swift.frame.SwiftFrame.html#gdt.missions.swift.frame.SwiftFrame" target="_top" title="The Swift spacecraft frame in azimuth and elevation. &#160;The frame is defined" alt="" coords="685,5,763,28"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift Spacecraft Frame (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.frame</span></code>)</a><ul>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.frame">gdt.missions.swift.frame Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../api/gdt.missions.swift.time.SwiftSecTime.html"
+                          title="previous chapter">SwiftSecTime</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../api/gdt.missions.swift.frame.swift_to_icrs.html"
+                          title="next chapter">swift_to_icrs</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/missions/swift/frame.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../_sources/missions/swift/frame.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

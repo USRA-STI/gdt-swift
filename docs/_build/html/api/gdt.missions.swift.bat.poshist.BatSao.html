@@ -1,0 +1,401 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>BatSao &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Swift BAT Data Finders (gdt.missions.swift.bat.finders)" href="../missions/swift/bat/finders.html" />
+    <link rel="prev" title="Swift BAT Position/Attitude History Data (gdt.missions.swift.bat.poshist)" href="../missions/swift/bat/poshist.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../missions/swift/bat/finders.html" title="Swift BAT Data Finders (gdt.missions.swift.bat.finders)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../missions/swift/bat/poshist.html" title="Swift BAT Position/Attitude History Data (gdt.missions.swift.bat.poshist)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      <li><a href="../missions/swift/bat/poshist.html" accesskey="U">Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</a> &#187;</li>
+      
+      <li>BatSao</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="batsao">
+<h1>BatSao<a class="headerlink" href="#batsao" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gdt.missions.swift.bat.poshist.</span></span><span class="sig-name descname"><span class="pre">BatSao</span></span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/poshist.html#BatSao"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftFrameModelMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftStatesModelMixin</span></code>, <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.file.FitsFileContextManager.html#gdt.core.file.FitsFileContextManager" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FitsFileContextManager</span></code></a></p>
+<p>Class for reading a GBM Position history file.</p>
+<p class="rubric">Attributes Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.filename" title="gdt.missions.swift.bat.poshist.BatSao.filename"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filename</span></code></a></p></td>
+<td><p>The filename</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.hdulist" title="gdt.missions.swift.bat.poshist.BatSao.hdulist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hdulist</span></code></a></p></td>
+<td><p>The list of Header Data Units</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.headers" title="gdt.missions.swift.bat.poshist.BatSao.headers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">headers</span></code></a></p></td>
+<td><p>The headers</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.num_hdus" title="gdt.missions.swift.bat.poshist.BatSao.num_hdus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_hdus</span></code></a></p></td>
+<td><p>The number of HDUs</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.close" title="gdt.missions.swift.bat.poshist.BatSao.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.column" title="gdt.missions.swift.bat.poshist.BatSao.column"><code class="xref py py-obj docutils literal notranslate"><span class="pre">column</span></code></a>(hdu_num, col_name)</p></td>
+<td><p>Return a column from an HDU as an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.columns_as_array" title="gdt.missions.swift.bat.poshist.BatSao.columns_as_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">columns_as_array</span></code></a>(hdu_num, col_names[, dtype])</p></td>
+<td><p>Return a list of columns from an HDU as an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.get_column_names" title="gdt.missions.swift.bat.poshist.BatSao.get_column_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_column_names</span></code></a>(hdu_num)</p></td>
+<td><p>Get the column names in a HDU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_frame" title="gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spacecraft_frame</span></code></a>()</p></td>
+<td><p>Retrieves the spacecraft frame from the model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_states" title="gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_states"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_spacecraft_states</span></code></a>()</p></td>
+<td><p>Retrieves the spacecraft state information from the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.ndim_column_as_array" title="gdt.missions.swift.bat.poshist.BatSao.ndim_column_as_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ndim_column_as_array</span></code></a>(hdu_num, col_name, arr_num)</p></td>
+<td><p>Return a list of columns from an HDU as an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.open" title="gdt.missions.swift.bat.poshist.BatSao.open"><code class="xref py py-obj docutils literal notranslate"><span class="pre">open</span></code></a>(file_path, **kwargs)</p></td>
+<td><p>Open a Swift BAT SAO FITS file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_frame" title="gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_spacecraft_frame</span></code></a>(frame)</p></td>
+<td><p>Saves the spacecraft frame to the model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_states" title="gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_states"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_spacecraft_states</span></code></a>(series)</p></td>
+<td><p>Saves the spacecraft state to the model.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#gdt.missions.swift.bat.poshist.BatSao.write" title="gdt.missions.swift.bat.poshist.BatSao.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>(directory[, filename])</p></td>
+<td><p>Write the file to disk.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>The filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.hdulist">
+<span class="sig-name descname"><span class="pre">hdulist</span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.hdulist" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of Header Data Units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(astropy.io.fits.hdu.HDUList)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.headers">
+<span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>The headers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.headers.FileHeaders.html#gdt.core.headers.FileHeaders" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHeaders</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.num_hdus">
+<span class="sig-name descname"><span class="pre">num_hdus</span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.num_hdus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of HDUs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>(int)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.column">
+<span class="sig-name descname"><span class="pre">column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a column from an HDU as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p></li>
+<li><p><strong>col_name</strong> (<em>str</em>) – The name of the column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.columns_as_array">
+<span class="sig-name descname"><span class="pre">columns_as_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dtype</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.columns_as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of columns from an HDU as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p></li>
+<li><p><strong>col_names</strong> (<em>list of str</em>) – The names of the columns</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The custom dtype of the output array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.get_column_names">
+<span class="sig-name descname"><span class="pre">get_column_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.get_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the column names in a HDU.  Returns empty if there is no data
+extension in the HDU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(tuple)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_frame">
+<span class="sig-name descname"><span class="pre">get_spacecraft_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="pre">SpacecraftFrame</span></a></span></span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/poshist.html#BatSao.get_spacecraft_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the spacecraft frame from the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftFrame</span></code></a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_states">
+<span class="sig-name descname"><span class="pre">get_spacecraft_states</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TimeSeries</span></span></span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/poshist.html#BatSao.get_spacecraft_states"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.get_spacecraft_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the spacecraft state information from the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>(astropy.timeseries.TimeSeries)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.ndim_column_as_array">
+<span class="sig-name descname"><span class="pre">ndim_column_as_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdu_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/poshist.html#BatSao.ndim_column_as_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.ndim_column_as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of columns from an HDU as an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hdu_num</strong> (<em>int</em>) – The HDU number</p></li>
+<li><p><strong>col_names</strong> (<em>list of str</em>) – The names of the columns</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em><em>, </em><em>optional</em>) – The custom dtype of the output array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(np.array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.open">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/gdt/missions/swift/bat/poshist.html#BatSao.open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a Swift BAT SAO FITS file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – The file path of the FITS file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">BatSAO</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_frame">
+<span class="sig-name descname"><span class="pre">set_spacecraft_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="pre">SpacecraftFrame</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the spacecraft frame to the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>frame</strong> (<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/api/gdt.core.coords.SpacecraftFrame.html#gdt.core.coords.SpacecraftFrame" title="(in The Gamma-ray Data Tools v2.0.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacecraftFrame</span></code></a>) – The object to be saved to the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_states">
+<span class="sig-name descname"><span class="pre">set_spacecraft_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TimeSeries</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.set_spacecraft_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the spacecraft state to the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>series</strong> (<em>astropy.timeseries.TimeSeries</em>) – Object containing spacecraft
+states to be saved to model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gdt.missions.swift.bat.poshist.BatSao.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gdt.missions.swift.bat.poshist.BatSao.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the file to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>str</em>) – The directory to write the file.</p></li>
+<li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The filename.  If omitted, attempts to use
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">filename</span></code>
+if set.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BatSao</a></li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/poshist.html"
+                          title="previous chapter">Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../missions/swift/bat/finders.html"
+                          title="next chapter">Swift BAT Data Finders (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code>)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/gdt.missions.swift.bat.poshist.BatSao.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/api/gdt.missions.swift.bat.poshist.BatSao.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

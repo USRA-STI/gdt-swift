@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to Swift Gamma-ray Data Tools Documentation! &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" href="_static/override.css" type="text/css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="install.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="#"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="install.html" title="Installation">
+	  next &raquo;
+	</a>
+      </li>
+      <li>
+	<a href="#">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="welcome-to-swift-gamma-ray-data-tools-documentation">
+<span id="gdt-swift"></span><h1>Welcome to Swift Gamma-ray Data Tools Documentation!<a class="headerlink" href="#welcome-to-swift-gamma-ray-data-tools-documentation" title="Permalink to this heading">¶</a></h1>
+<figure class="align-default">
+<img alt="_images/swift_spacecraft.png" src="_images/swift_spacecraft.png" />
+</figure>
+<p>The Swift Gamma-ray Data Tools (GDT) is a toolkit for Swift-BAT data built on the
+<a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/index.html#gdt-core" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">GDT Core Package</span></a> and is the next iteration of the
+<a class="reference external" href="https://swift.gsfc.nasa.gov/ssc/data/analysis/bat/bat_data_tools/gdt-docs">Swift BAT Data Tools</a>.</p>
+<p>The Neil Gehrels Swift Observatory was launched on November 20, 2004 and contains
+three intruments: the Burst Area Telescope (BAT), the X-ray Telescope (XRT) observing and the Ultraviolet/Optical Telescope (UVOT).
+Currently the toolkit services all Swift BAT public data with a focus on the pipeline data products for Gamma-ray Bursts.</p>
+<p class="rubric">Citing</p>
+<p>If you use the Swift Gamma-ray Data Tools in your research and publications,
+we would definitely appreciate an appropriate acknowledgment and citation! We
+suggest the following BibTex:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@misc</span><span class="p">{</span><span class="n">GDT</span><span class="o">-</span><span class="n">Swift</span><span class="p">,</span>
+      <span class="n">author</span> <span class="o">=</span> <span class="p">{</span><span class="n">Corinne</span> <span class="n">Fletcher</span> <span class="ow">and</span> <span class="n">Adam</span> <span class="n">Goldstein</span> <span class="ow">and</span> <span class="n">William</span> <span class="n">H</span><span class="o">.</span> <span class="n">Cleveland</span> <span class="ow">and</span> <span class="n">Daniel</span> <span class="n">Kocevski</span><span class="p">},</span>
+      <span class="n">title</span> <span class="o">=</span> <span class="p">{</span><span class="n">Swift</span> <span class="n">Gamma</span><span class="o">-</span><span class="n">ray</span> <span class="n">Data</span> <span class="n">Tools</span><span class="p">:</span> <span class="n">v1</span><span class="mf">.0.0</span><span class="p">},</span>
+      <span class="n">year</span> <span class="o">=</span> <span class="mi">2023</span><span class="p">,</span>
+      <span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">USRA</span><span class="o">-</span><span class="n">STI</span><span class="o">/</span><span class="n">gdt</span><span class="o">-</span><span class="n">Swift</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="rubric">Additional Resources</p>
+<p>The Swift Science Support Center is a fantastic resource for all things Swift found <a class="reference external" href="https://swift.gsfc.nasa.gov/about_swift/ssc_services/">here</a>.  For
+questions, bug reports, and comments, please visit the
+<a class="reference external" href="https://swift.gsfc.nasa.gov/help/">Swift Help Desk</a>.</p>
+<p class="rubric">Acknowledgments</p>
+<p>The creation of the Swift Gamma-ray Data Tools were funded by the NASA’s Astrophysics Data Analysis Program (ADAP) via grant number 80NSSC21K0651.</p>
+</section>
+<section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+</ul>
+</div>
+</section>
+<section id="user-documentation">
+<h1>User Documentation<a class="headerlink" href="#user-documentation" title="Permalink to this heading">¶</a></h1>
+<section id="swift-definitions">
+<h2>Swift Definitions<a class="headerlink" href="#swift-definitions" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/time.html">Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/frame.html">Swift Spacecraft Frame (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.frame</span></code>)</a></li>
+</ul>
+</div>
+</section>
+<section id="swift-bat">
+<h2>Swift BAT<a class="headerlink" href="#swift-bat" title="Permalink to this heading">¶</a></h2>
+<section id="instrument-definitions">
+<h3>Instrument Definitions<a class="headerlink" href="#instrument-definitions" title="Permalink to this heading">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/headers.html">Swift BAT FITS Headers (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.headers</span></code>)</a></li>
+</ul>
+</div>
+</section>
+<section id="data-types">
+<h3>Data Types<a class="headerlink" href="#data-types" title="Permalink to this heading">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/pha.html">Swift Bat PHA Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.pha</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/response.html">Swift BAT Responses (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.response</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/poshist.html">Swift BAT Position/Attitude History Data (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.poshist</span></code>)</a></li>
+</ul>
+</div>
+</section>
+<section id="data-finders-and-catalogs">
+<h3>Data Finders and Catalogs<a class="headerlink" href="#data-finders-and-catalogs" title="Permalink to this heading">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/finders.html">Swift BAT Data Finders (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="missions/swift/bat/catalogs.html">swift bat Catalogs (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.catalogs</span></code>)</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Apache License</a></li>
+</ul>
+</div>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Welcome to Swift Gamma-ray Data Tools Documentation!</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#user-documentation">User Documentation</a><ul>
+<li><a class="reference internal" href="#swift-definitions">Swift Definitions</a></li>
+<li><a class="reference internal" href="#swift-bat">Swift BAT</a><ul>
+<li><a class="reference internal" href="#instrument-definitions">Instrument Definitions</a></li>
+<li><a class="reference internal" href="#data-types">Data Types</a></li>
+<li><a class="reference internal" href="#data-finders-and-catalogs">Data Finders and Catalogs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="install.html"
+                          title="next chapter">Installation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="_sources/index.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

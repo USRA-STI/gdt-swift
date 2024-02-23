@@ -44,8 +44,7 @@ import astropy.io.fits as fits
 from gdt.core.pha import Pha
 from gdt.core.data_primitives import Ebounds, Gti, EnergyBins
 from gdt.core.file import FitsFileContextManager
-#from .detectors import Detectors
-from .headers import PhaHeaders #, PhaTriggerHeaders
+from .headers import PhaHeaders
 from ..time import Time
 
 __all__ = ['BatPha']
@@ -54,7 +53,7 @@ __all__ = ['BatPha']
 class BatPha(Pha):
     def __init__(self):
         super().__init__()
-    """PHA class for GBM time history spectra.
+    """PHA class for BAT spectra.
     """
 
     @classmethod
@@ -99,7 +98,7 @@ class BatPha(Pha):
             if not isinstance(gti, Gti):
                 raise TypeError('gti must be of type Gti')
         else:
-            gti = Gti.from_list([(0.0, data.exposure[0])])
+            gti = GTI.from_bounds(obj.column(3, 'START'),obj.column(3, 'STOP'))
         obj._gti = gti
 
         # update times to be relative to ...if trigtime is set
@@ -121,7 +120,7 @@ class BatPha(Pha):
             obj._headers['PRIMARY']['TRIGTIME'] = trigger_time
 
             obj._headers['SPECTRUM']['DETCHANS'] = data.size
-            obj._headers['SPECTRUM']['EXPOSURE'] = obj._data.exposure[0]
+            obj._headers['SPECTRUM']['EXPOSURE'] = obj._data.exposure
             obj._headers['SPECTRUM']['TELAPSE'] = tstop-tstart
 
             obj._headers['EBOUNDS']['DETCHANS'] = data.size
@@ -168,9 +167,9 @@ class BatPha(Pha):
         else:
             headers = PhaHeaders.from_headers(hdrs)
 
-        if 'TSTART' in hdrs[0].keys():
-            tstart = float(headers['PRIMARY']['TSTART'])
-            tstop =  float(headers['PRIMARY']['TSTOP'])
+        #if 'TSTART' in hdrs[0].keys():
+        tstart = float(headers['PRIMARY']['TSTART'])
+        tstop =  float(headers['PRIMARY']['TSTOP'])
 
 
         # the channel energy bounds
@@ -190,7 +189,7 @@ class BatPha(Pha):
             stdgti_stop -= trigtime
         stdgti = Gti.from_bounds(stdgti_start, stdgti_stop)
 
-        exposure =  np.ones_like(rate)
+        exposure = headers['SPECTRUM']['EXPOSURE']
         data = EnergyBins(obj.column(1, 'RATE'), obj.column(2, 'E_MIN'), obj.column(2, 'E_MAX'), exposure,
                         )
         return cls.from_data(data, gti=stdgti, trigger_time=trigtime,

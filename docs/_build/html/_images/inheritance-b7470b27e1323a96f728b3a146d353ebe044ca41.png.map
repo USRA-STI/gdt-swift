@@ -1,0 +1,7 @@
+<map id="inheritance01690b2b76" name="inheritance01690b2b76">
+<area shape="rect" id="node1" title="The base class for coordinate frames." alt="" coords="357,5,491,28"/>
+<area shape="rect" id="node4" title="Spacecraft frame. The frame is defined by spacecraft&#39;s quaternion that" alt="" coords="534,5,642,28"/>
+<area shape="rect" id="node2" title="Mixin class to provide shape&#45;changing methods." alt="" coords="189,5,314,28"/>
+<area shape="rect" id="node3" title="Mixin class to provide shape&#45;changing methods." alt="" coords="5,5,146,28"/>
+<area shape="rect" id="node5" href="../../api/gdt.missions.swift.frame.SwiftFrame.html#gdt.missions.swift.frame.SwiftFrame" target="_top" title="The Swift spacecraft frame in azimuth and elevation. &#160;The frame is defined" alt="" coords="685,5,763,28"/>
+</map>

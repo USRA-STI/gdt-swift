@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Installation &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" href="_static/override.css" type="text/css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Swift Mission Epoch (gdt.missions.swift.time)" href="missions/swift/time.html" />
+    <link rel="prev" title="Welcome to Swift Gamma-ray Data Tools Documentation!" href="index.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="missions/swift/time.html" title="Swift Mission Epoch (gdt.missions.swift.time)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="index.html" title="Welcome to Swift Gamma-ray Data Tools Documentation!">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Installation</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="installation">
+<span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires: Python &gt;=3.8</p>
+<p>Tested on:</p>
+<ul class="simple">
+<li><p>macOS Monterey (12.6.4) - Ventura (13.2.1)</p></li>
+</ul>
+</div>
+<section id="how-to-install">
+<h2>How to Install<a class="headerlink" href="#how-to-install" title="Permalink to this heading">¶</a></h2>
+<p>The GDT-Swift package can be installed from PyPI using:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>astro-gdt-swift
+gdt-data<span class="w"> </span>init
+</pre></div>
+</div>
+</section>
+<section id="downloading-test-tutorial-data">
+<span id="download-test-data"></span><h2>Downloading Test/Tutorial Data<a class="headerlink" href="#downloading-test-tutorial-data" title="Permalink to this heading">¶</a></h2>
+<p>To download the data files used in the documentation and for testing, you need
+to run the <code class="docutils literal notranslate"><span class="pre">gdt-data</span></code> script after installation. The downloader
+script is designed so that you can download data from specific missions, or
+download all of the test/tutorial data.  To see the list of available missions</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>If you want to download the Swift Bat test/tutorial data only, for example:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>download<span class="w"> </span>swift-bat
+</pre></div>
+</div>
+<p>Or to download all of the data:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>download<span class="w"> </span>--all
+</pre></div>
+</div>
+<p>The data are downloaded to a default directory. To access the data from the GDT,
+there is a variable at the main level that stores the path dictionary for each
+mission.  To access the Swift BAT test data directory:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.core</span> <span class="kn">import</span> <span class="n">data_path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bat_path</span> <span class="o">=</span> <span class="n">data_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;swift-bat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once you are done using the data, you can delete the data files with the following command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>clean<span class="w"> </span>swift-bat
+</pre></div>
+</div>
+<p>or delete all of the data with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>clean<span class="w"> </span>--all
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h2>
+<p>To load the GDT-swift package within your python environment, simply:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gdt.missions.swift</span> <span class="k">as</span> <span class="nn">swift</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-uninstall">
+<h2>How to Uninstall<a class="headerlink" href="#how-to-uninstall" title="Permalink to this heading">¶</a></h2>
+<p>To uninstall:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gdt-data<span class="w"> </span>clean<span class="w"> </span>gdt-swift
+pip<span class="w"> </span>uninstall<span class="w"> </span>astro-gdt-swift
+</pre></div>
+</div>
+<p>There are also a number of files for the tools that are copied into your
+<code class="docutils literal notranslate"><span class="pre">$HOME/.gammaray_data_tools</span></code> directory.  You can delete these files if you
+wish.</p>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p><strong>There appears to be some differences arising between installations on Mac ARM
+processors (M1 and M2 chips) and other Mac or Linux processors.</strong> As of now,
+this only shows up when using some of the minimizers provided through
+scipy.optimize.minimize for spectral fitting. Users can test for the presence
+of these differences by running the unit tests.  The known failures on Mac ARM
+processors are:</p>
+<ul class="simple">
+<li><p>test_fitting.py::TestSpectralFitterOne::test_hessian</p></li>
+<li><p>test_fitting.py::TestSpectralFitterOne::test_jacobian</p></li>
+<li><p>test_fitting.py::TestSpectralFitterOne::test_residuals</p></li>
+</ul>
+<p>The current understanding is that differences arise in spectral fit values
+above machine precision, but represent &lt; 1% relative errors on the fit values
+themselves. The exact origin of these differences is unclear, but may be
+related to the underlying C or FORTRAN libraries and compilers that are used
+to compile scipy. Further investigation is ongoing.</p>
+</li>
+<li><p><strong>The virtual environment is using your system ipython (or other package)
+install.</strong>  This can sometimes happen if you didn’t install ipython (or other
+package) in the virtual environment.  Try installing ipython (or other package)
+and restart your virtual environment.</p></li>
+<li><p><strong>You observe the following error</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ImportError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;_tkinter&#39;</span>
+</pre></div>
+</div>
+<p>This is a situation where Matplotlib is using the <code class="docutils literal notranslate"><span class="pre">tkinter</span></code> backend for
+plotting.  You would see this error if you don’t have <code class="docutils literal notranslate"><span class="pre">tkinter</span></code> installed.
+You don’t need to install <code class="docutils literal notranslate"><span class="pre">tkinter</span></code> if you don’t want to; instead, you can
+create a file named <cite>matplotlibrc</cite> in your working directory that contains the
+following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="p">:</span> <span class="n">Agg</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#how-to-install">How to Install</a></li>
+<li><a class="reference internal" href="#downloading-test-tutorial-data">Downloading Test/Tutorial Data</a></li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#how-to-uninstall">How to Uninstall</a></li>
+<li><a class="reference internal" href="#known-issues">Known Issues</a></li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Welcome to Swift Gamma-ray Data Tools Documentation!</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="missions/swift/time.html"
+                          title="next chapter">Swift Mission Epoch  (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.time</span></code>)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/install.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="_sources/install.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,50 +1,44 @@
-.. _gdt-fermi:
+.. _gdt-swift:
 
 ****************************************************
-Welcome to Fermi Gamma-ray Data Tools Documentation!
+Welcome to Swift Gamma-ray Data Tools Documentation!
 ****************************************************
 
-.. figure:: images/gdt-fermi_logo.png
+.. figure:: images/swift_spacecraft.png
 
-The Fermi Gamma-ray Data Tools (GDT) is a toolkit for Fermi data built on the 
-:external:ref:`GDT Core Package<gdt-core>` and is the next iteration of the 
-`Fermi GBM Data Tools <https://fermi.gsfc.nasa.gov/ssc/data/analysis/gbm/gbm_data_tools/gdt-docs>`_. 
+The Swift Gamma-ray Data Tools (GDT) is a toolkit for Swift-BAT data built on the
+:external:ref:`GDT Core Package<gdt-core>` and is the next iteration of the
+`Swift BAT Data Tools <https://swift.gsfc.nasa.gov/ssc/data/analysis/bat/bat_data_tools/gdt-docs>`_.
 
-The Fermi Gamma-ray Space Telescope was launched on June 11, 2008 and contains
-two intruments: the Large Area Telescope (LAT) surveying the sky in the 
-~20 MeV--300 GeV energy range, and the Gamma-ray Burst Monitor (GBM) observing 
-the full unocculted sky with 14 individual detectors from ~8 keV--40 MeV. 
-Currently the toolkit services all Fermi GBM public data, and a future version
-will incorporate support for some Fermi LAT data.
+The Neil Gehrels Swift Observatory was launched on November 20, 2004 and contains
+three intruments: the Burst Area Telescope (BAT), the X-ray Telescope (XRT) observing and the Ultraviolet/Optical Telescope (UVOT).
+Currently the toolkit services all Swift BAT public data with a focus on the pipeline data products for Gamma-ray Bursts.
 
 .. rubric:: Citing
 
-If you use the Fermi Gamma-ray Data Tools in your research and publications, 
-we would definitely appreciate an appropriate acknowledgment and citation! We 
+If you use the Swift Gamma-ray Data Tools in your research and publications,
+we would definitely appreciate an appropriate acknowledgment and citation! We
 suggest the following BibTex:
 
 ::
 
- @misc{GDT-Fermi,
-       author = {Adam Goldstein and William H. Cleveland and Daniel Kocevski},
-       title = {Fermi Gamma-ray Data Tools: v2.0.0},
+ @misc{GDT-Swift,
+       author = {Corinne Fletcher and Adam Goldstein and William H. Cleveland and Daniel Kocevski},
+       title = {Swift Gamma-ray Data Tools: v1.0.0},
        year = 2023,
-       url = {https://github.com/USRA-STI/gdt-fermi}
+       url = {https://github.com/USRA-STI/gdt-Swift}
  }
- 
+
 
 .. rubric:: Additional Resources
- 
-The Fermi Science Support Center is a fantastic resource for all things Fermi.
-Specifically, for GBM, a lot of useful information about the data products can 
-be found `here <https://fermi.gsfc.nasa.gov/ssc/data/access/gbm/>`_.  For 
-questions, bug reports, and comments, please visit the 
-`Fermi Help Desk <https://fermi.gsfc.nasa.gov/ssc/help/>`_.
+
+The Swift Science Support Center is a fantastic resource for all things Swift found `here <https://swift.gsfc.nasa.gov/about_swift/ssc_services/>`_.  For
+questions, bug reports, and comments, please visit the
+`Swift Help Desk <https://swift.gsfc.nasa.gov/help/>`_.
 
 .. rubric:: Acknowledgments
 
-The Fermi Gamma-ray Data Tools were partially funded by the Fermi Guest Investigator 
-program (NNH18ZDA001N) and by Cooperative Agreement 80MSFC17M0022.
+The creation of the Swift Gamma-ray Data Tools were funded by the NASA's Astrophysics Data Analysis Program (ADAP) via grant number 80NSSC21K0651.
 
 ***************
 Getting Started
@@ -58,17 +52,17 @@ Getting Started
 User Documentation
 ******************
 
-Fermi Definitions
+Swift Definitions
 =================
 .. toctree::
    :maxdepth: 1
 
-   missions/fermi/time
-   missions/fermi/frame
-   missions/fermi/mcilwainl
-   missions/fermi/plot
+   missions/swift/time
+   missions/swift/frame
 
-Fermi GBM
+
+
+Swift BAT
 =========
 
 Instrument Definitions
@@ -77,10 +71,8 @@ Instrument Definitions
 .. toctree::
    :maxdepth: 1
 
-   missions/fermi/gbm/detectors
-   missions/fermi/gbm/collection
-   missions/fermi/gbm/saa
-   missions/fermi/gbm/headers
+
+   missions/swift/bat/headers
 
 Data Types
 ----------
@@ -88,14 +80,11 @@ Data Types
 .. toctree::
    :maxdepth: 1
 
-   missions/fermi/gbm/phaii
-   missions/fermi/gbm/tte
-   missions/fermi/gbm/response
-   missions/fermi/gbm/localization
-   missions/fermi/gbm/trigdat
-   missions/fermi/gbm/poshist
-   missions/fermi/gbm/scat
-   missions/fermi/gbm/tcat
+   missions/swift/bat/pha
+   missions/swift/bat/lightcurve
+   missions/swift/bat/response
+   missions/swift/bat/poshist
+
 
 Data Finders and Catalogs
 -------------------------
@@ -103,8 +92,8 @@ Data Finders and Catalogs
 .. toctree::
    :maxdepth: 1
 
-   missions/fermi/gbm/finders
-   missions/fermi/gbm/catalogs
+   missions/swift/bat/finders
+   missions/swift/bat/catalogs
 
 ----
 
@@ -113,7 +102,7 @@ License
 *******
 .. toctree::
    :maxdepth: 1
-   
+
    license
 
 

@@ -1,0 +1,291 @@
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Swift BAT Data Finders (gdt.missions.swift.bat.finders) &#8212; The Gamma-ray Data Tools 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-astropy.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="../../../_static/override.css" type="text/css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <script type="text/javascript" src="../../../_static/copybutton.js"></script>
+    <link rel="shortcut icon" href="../../../_static/gdt_favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="BatDataProductsFtp" href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html" />
+    <link rel="prev" title="BatSao" href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+
+  </head><body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">gdt</span><span id="logotext2">-swift</span><span id="logotext3">:docs</span></a>
+  <ul>
+    
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html" title="BatDataProductsFtp">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html" title="BatSao">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">The Gamma-ray Data Tools 1.0.0 documentation</a>
+	 &#187;
+      </li>
+      
+      <li>Swift BAT Data Finders (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="bat-finders"></span><section id="swift-bat-data-finders-gdt-missions-swift-bat-finders">
+<h1>Swift BAT Data Finders (<a class="reference internal" href="#module-gdt.missions.swift.bat.finders" title="gdt.missions.swift.bat.finders"><code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code></a>)<a class="headerlink" href="#swift-bat-data-finders-gdt-missions-swift-bat-finders" title="Permalink to this heading">¶</a></h1>
+<p>A natural question may be: “Where do I find the data I need?” Well, you’re in
+luck, because this will show you how to find the data you seek. bat Data is
+hosted publicly on the HEASARC FTP server
+and the data are stored in a consistent directory structure. But instead of
+having to navigate a winding maze of FTP directories, we provide a couple of
+classes built to retrieve the data you want. These finders are currently setup to download data for Swift BAT GRBs and have been processed by the pipeline as well as the Auxiliary files that provide the spacecraft information.
+An analysis thread on how to perform the GRB processing script is ‘here&lt;<a class="reference external" href="https://swift.gsfc.nasa.gov/analysis/threads/batgrbproductthread.html">https://swift.gsfc.nasa.gov/analysis/threads/batgrbproductthread.html</a>&gt;’, although this is done automatically by the Swift pipeline.</p>
+<section id="finding-pipeline-processed-bat-data">
+<h2>Finding Pipeline Processed BAT Data<a class="headerlink" href="#finding-pipeline-processed-bat-data" title="Permalink to this heading">¶</a></h2>
+<p>Let’s start with the pipeline processed GRB data. To download the data you will need to know the observtation ID which is an 11 digit sequence number that identifies the observation. GRB data that has been processed with the BAT pipeline will have an observation ID ended in ‘000’. You will need to know the observation ID number you’re
+interested in (01116441) and the year and month (‘2022-07’) of the GRB:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.finders</span> <span class="kn">import</span> <span class="n">TriggerFtp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finder</span> <span class="o">=</span> <span class="n">BatDataProductsFtp</span><span class="p">(</span><span class="s1">&#39;01116441&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-07&#39;</span><span class="p">)</span>
+<span class="go">&lt;TriggerFtp: 190114873&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">finder</span><span class="o">.</span><span class="n">num_files</span>
+<span class="go">122</span>
+</pre></div>
+</div>
+<p>We don’t really care about the directory structure, we just want the data. So
+this quickly gets us to the directory we need. There are 14 files associated
+with this GRB. Say we want to all the data available.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">finder</span><span class="o">.</span><span class="n">ls_cspec</span><span class="p">()</span>
+<span class="go">[&#39;sw01116441000bev1s.lc.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bev1s_lc.gif&#39;,</span>
+<span class="go"> &#39;sw01116441000bev_skim.gif&#39;,</span>
+<span class="go"> &#39;sw01116441000bevas_dt.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevas_sk.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevbu.gti.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevms.lc.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevpb_dt.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevpb_sk.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevps.pha.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevps.rsp.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevps_dt.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevps_sk.img.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000bevsl.pha.gz&#39;]</span>
+</pre></div>
+</div>
+<p>Great! There’s a full complement of BAT Pipeline data. How about we download this data to a specified directory?</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">finder</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="s1">&#39;downlaod-dir&#39;</span><span class="p">)</span>
+<span class="go">sw01116441000bev1s.lc.gz ━━━━━━━━━━━ 100.0% • 88.7/88.7   • 271.6 kB/s • 0:00:00</span>
+<span class="go">sw01116441000bev1s_lc.gif ━━━━━━━━━━ 100.0% • 21.4/21.4   • 137.3 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bev_skim.gif ━━━━━━━━━━ 100.0% • 100.6/100.6 • 791.6 kB/s • 0:00:00</span>
+<span class="go">sw01116441000bevas_dt.img.gz ━━━━━━━━━ 100.0% • 193.0/193… • 438.6 kB/s • 0:00:00</span>
+<span class="go">sw01116441000bevas_sk.img.gz ━━━━━━━━━━ 100.0% • 11.9/11.9  • 6.7 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bevbu.gti.gz ━━━━━━━━━━━━━━━━━━━━ 100.0% • 4.1/4.1 kB • ? • 0:00:00</span>
+<span class="go">sw01116441000bevms.lc.gz ━━━━━━━━━━━━━━ 100.0% • 1.3/1.3 MB • 1.8 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bevpb_dt.img.gz ━━━━━━━━━ 100.0% • 167.2/167… • 586.2  kB/s    • 0:00:00</span>
+<span class="go">sw01116441000bevpb_sk.img.gz ━━━━━━━━━━ 100.0% • 11.3/11.3  • 3.7 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bevps.pha.gz ━━━━━━━━━━━ 100.0% • 9.8/9.8 kB • 101.2 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bevps.rsp.gz ━━━━━━━━━━ 100.0% • 46.5/46.5   • 621.9 kB/s • 0:00:00</span>
+<span class="go">sw01116441000bevps_dt.img.gz ━━━━━━━━━ 100.0% • 117.2/117… • 337.4 kB/s    • 0:00:00</span>
+<span class="go">sw01116441000bevps_sk.img.gz ━━━━━━━━━━ 100.0% • 10.8/10.8  • 5.6 MB/s • 0:00:00</span>
+<span class="go">sw01116441000bevsl.pha.gz ━━━━━━━━━━━━ 100.0% • 9.8/9.8 kB • 97.9 MB/s • 0:00:00</span>
+</pre></div>
+</div>
+</section>
+<section id="finding-auxiliary-bat-data">
+<h2>Finding Auxiliary BAT Data<a class="headerlink" href="#finding-auxiliary-bat-data" title="Permalink to this heading">¶</a></h2>
+<p>Now we want the auxiliary data which describes the spacecraft position/orientation files. A breakdown of these data products are in :ref:list-table. To find the data you
+need, instead of a trigger number, you need to create a <a href="#id1"><span class="problematic" id="id2">|BatAuxiliaryFtp|</span></a>
+object by specifying a time using Astropy Time:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gdt.missions.swift.bat.finders</span> <span class="kn">import</span> <span class="n">BatAuxiliaryFtp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aux_finder</span> <span class="o">=</span> <span class="n">BatAuxiliaryFtp</span><span class="p">(</span><span class="s1">&#39;01116441&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-07&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aux_finder</span>
+<span class="go">&lt;ContinuousFtp: 587683338.0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">aux_finder</span><span class="o">.</span><span class="n">num_files</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+<p>That’s a whole lotta files in this directory. Most of them are TTE; remember
+that each hour has a TTE file (since the end of 2012) for each detector. Let’s
+just list the CTIME that’s available:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">aux_finder</span><span class="o">.</span><span class="n">ls_all</span><span class="p">()</span>
+<span class="go">[&#39;SWIFT_TLE_ARCHIVE.txt.22202.86649910.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000pat.fits.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000pjb.par.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000pob.cat.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000ppr.par.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000s.mkf.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000sao.fits.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000sat.fits.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000sen.hk.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000sti.fits.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000uat.fits.gz&#39;,</span>
+<span class="go"> &#39;sw01116441000x.mkf.gz&#39;]</span>
+</pre></div>
+</div>
+<p>Now let’s list the available TTE for this time. This will only list the TTE
+files in the directory that cover the relevant time:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">aux_finder</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span>
+<span class="go">SWIFT_TLE_ARCHIVE.txt.22202.86649910.gz ━━━━━━━━━━━ 100.0% • 174.6/174.6 • 832.1 kB/s • 0:00:00</span>
+<span class="go">sw01116441000pat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 489.7/489.7 kB • 1.5 MB/s • 0:00:00</span>
+<span class="go">sw01116441000pjb.par.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 2.5/2.5 kB • ? • 0:00:00</span>
+<span class="go">sw01116441000pob.cat.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 7.3/7.3 kB • ? • 0:00:00</span>
+<span class="go">sw01116441000ppr.par.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 1.7/1.7 kB • ? • 0:00:00</span>
+<span class="go">sw01116441000s.mkf.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 177.2/177.2 kB • 417.9 kB/s • 0:00:00</span>
+<span class="go">sw01116441000sao.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 608.2/608.2 kB • 982.9 kB/s • 0:00:00</span>
+<span class="go">sw01116441000sat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 495.8/495.8 kB • 1.2 MB/s • 0:00:00</span>
+<span class="go">sw01116441000sen.hk.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 1.9/1.9 MB • 2.2 MB/s • 0:00:00</span>
+<span class="go">sw01116441000sti.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 6.2/6.2 kB • ? • 0:00:00</span>
+<span class="go">sw01116441000uat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 352.8/352.8 kB • 607.4 kB/s • 0:00:00</span>
+<span class="go">sw01116441000x.mkf.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 177.2/177.2 kB • 811.4 kB/s • 0:00:00</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="https://astro-gdt.readthedocs.io/en/latest/core/heasarc.html#core-heasarc-finder" title="(in The Gamma-ray Data Tools v2.0.2)"><span class="xref std std-ref">The FtpFinder Class</span></a> for more details
+on using data finders.</p>
+</section>
+<section id="data-products-descriptions">
+<h2>Data Products Descriptions:<a class="headerlink" href="#data-products-descriptions" title="Permalink to this heading">¶</a></h2>
+<p>The following descriptions were found in links ‘/<a class="reference external" href="https://swift.gsfc.nasa.gov/analysis/bat_swguide_v6_3.pdf">https://swift.gsfc.nasa.gov/analysis/bat_swguide_v6_3.pdf</a>’ and ‘<a class="reference external" href="https://swift.gsfc.nasa.gov/archive/archiveguide1/node5.html">https://swift.gsfc.nasa.gov/archive/archiveguide1/node5.html</a>’. Not all of these data files may be in the directory you are working with.</p>
+<p>[#] Files were added to the auxil directories in 2007</p>
+</section>
+<section id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this heading">¶</a></h2>
+<section id="module-gdt.missions.swift.bat.finders">
+<span id="gdt-missions-swift-bat-finders-module"></span><h3>gdt.missions.swift.bat.finders Module<a class="headerlink" href="#module-gdt.missions.swift.bat.finders" title="Permalink to this heading">¶</a></h3>
+<section id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h4>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html#gdt.missions.swift.bat.finders.BatDataProductsFtp" title="gdt.missions.swift.bat.finders.BatDataProductsFtp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatDataProductsFtp</span></code></a>(*args[, host, progress])</p></td>
+<td><p>A class that interfaces with the HEASARC FTP directories.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../api/gdt.missions.swift.bat.finders.BatAuxiliaryFtp.html#gdt.missions.swift.bat.finders.BatAuxiliaryFtp" title="gdt.missions.swift.bat.finders.BatAuxiliaryFtp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BatAuxiliaryFtp</span></code></a>(*args[, host, progress])</p></td>
+<td><p>A class that interfaces with the HEASARC FTP observation auxiliary directories.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this heading">¶</a></h4>
+<div class="graphviz"><img src="../../../_images/inheritance-e0917b7518786aa44e2d7b79c5b3e8170471e704.png" alt="Inheritance diagram of gdt.missions.swift.bat.finders.BatDataProductsFtp, gdt.missions.swift.bat.finders.BatAuxiliaryFtp" usemap="#inheritance0dc435f0f1" class="inheritance graphviz" /></div>
+<map id="inheritance0dc435f0f1" name="inheritance0dc435f0f1">
+<area shape="rect" id="node4" href="../../../api/gdt.missions.swift.bat.finders.BatAuxiliaryFtp.html#gdt.missions.swift.bat.finders.BatAuxiliaryFtp" target="_top" title="A class that interfaces with the HEASARC FTP observation auxiliary directories." alt="" coords="653,5,750,28"/>
+<area shape="rect" id="node6" href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html#gdt.missions.swift.bat.finders.BatDataProductsFtp" target="_top" title="A class that interfaces with the HEASARC FTP directories." alt="" coords="639,49,763,73"/>
+</map></section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Swift BAT Data Finders (<code class="xref py py-mod docutils literal notranslate"><span class="pre">gdt.missions.swift.bat.finders</span></code>)</a><ul>
+<li><a class="reference internal" href="#finding-pipeline-processed-bat-data">Finding Pipeline Processed BAT Data</a></li>
+<li><a class="reference internal" href="#finding-auxiliary-bat-data">Finding Auxiliary BAT Data</a></li>
+<li><a class="reference internal" href="#data-products-descriptions">Data Products Descriptions:</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-gdt.missions.swift.bat.finders">gdt.missions.swift.bat.finders Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.poshist.BatSao.html"
+                          title="previous chapter">BatSao</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../../../api/gdt.missions.swift.bat.finders.BatDataProductsFtp.html"
+                          title="next chapter">BatDataProductsFtp</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/missions/swift/bat/finders.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../../../_sources/missions/swift/bat/finders.rst.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright .<br/>
+    Created using <a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> 5.0.2. &nbsp;
+  </p>
+</footer>
+  </body>
+</html>

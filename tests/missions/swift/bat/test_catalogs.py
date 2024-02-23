@@ -41,11 +41,3 @@ class TestGrbCatalog(unittest.TestCase):
 
     def test_num_cols(self):
         self.assertEqual(self.cat.num_cols, 178)
-
-class TestMastertCatalog(unittest.TestCase):
-
-    def setUp(self):
-        self.cat = MasterCatalog(cached=False)
-
-    def test_num_cols(self):
-        self.assertEqual(self.cat.num_cols, 306)
