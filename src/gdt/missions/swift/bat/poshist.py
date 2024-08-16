@@ -56,24 +56,32 @@ __all__ = ['BatSao']
 SWIFT_TO_UNIX_OFFSET = 978307200.0
 
 class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileContextManager):
-    """Class for reading a GBM Position history file.
+    """Class for reading a BAT SAO Position history file.
     """
+
+    @staticmethod
+    def _reorder_bytes(arr):
+        """Method to reorder bytes according to old and new numpy API"""
+        if np.__version__ >= '2.0.0':
+            return arr.view(arr.dtype.newbyteorder()).byteswap()
+        return arr.byteswap().newbyteorder()
+
     def get_spacecraft_frame(self) -> SpacecraftFrame:
 
         sc_frame = SpacecraftFrame(
             obsgeoloc=r.CartesianRepresentation(
-                x = self.ndim_column_as_array(1, 'POSITION', 0).byteswap().newbyteorder(),
-                y = self.ndim_column_as_array(1, 'POSITION', 1).byteswap().newbyteorder(),
-                z = self.ndim_column_as_array(1, 'POSITION', 2).byteswap().newbyteorder(),
+                x = self._reorder_bytes(self.ndim_column_as_array(1, 'POSITION', 0)),
+                y = self._reorder_bytes(self.ndim_column_as_array(1, 'POSITION', 1)),
+                z = self._reorder_bytes(self.ndim_column_as_array(1, 'POSITION', 2)),
                 unit=u.km
             ),
             obsgeovel=r.CartesianRepresentation(
-                x=self.ndim_column_as_array(1, 'VELOCITY', 0).byteswap().newbyteorder() ,
-                y=self.ndim_column_as_array(1, 'VELOCITY', 1).byteswap().newbyteorder(),
-                z=self.ndim_column_as_array(1, 'VELOCITY', 2).byteswap().newbyteorder(),
+                x=self._reorder_bytes(self.ndim_column_as_array(1, 'VELOCITY', 0)),
+                y=self._reorder_bytes(self.ndim_column_as_array(1, 'VELOCITY', 1)),
+                z=self._reorder_bytes(self.ndim_column_as_array(1, 'VELOCITY', 2)),
                 unit=u.km/u.s
             ),
-            quaternion=Quaternion(self.column(1,'QUATERNION').byteswap().newbyteorder()),
+            quaternion=Quaternion(self._reorder_bytes(self.column(1,'QUATERNION'))),
             obstime=Time(self.column(1, 'TIME'), format='swift'),
             detectors = BatDetector
         )

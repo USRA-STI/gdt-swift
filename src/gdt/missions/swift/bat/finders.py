@@ -45,9 +45,11 @@ from ..time import *
 
 __all__ = ['BatDataProductsFtp', 'BatAuxiliaryFtp']
 
+
 class BatFinder(FtpFinder):
     """Subclassing FtpFinder to enable _file_filter() to take a list
     """
+
     def _file_filter(self, file_list, filetype, extension):
         """Filters the directory for the requested filetype, and extension
 
@@ -86,15 +88,15 @@ class BatDataProductsFtp(BatFinder):
     def _validate(self, obsid, date):
         return super()._validate(obsid, date)
 
-    def cd(self):
+    def cd(self, obsid: str, date: str):
         """Change directory to obsid number.
 
         Args:
             obsid (str): A valid observation ID number
             date (str): a date (YYYY-MM) for the observation
         """
+        super().cd(obsid, date)
 
-        super().cd(self)
 
     def get_all(self, download_dir, **kwargs):
         """Download all files within a data products directory.
@@ -106,6 +108,7 @@ class BatDataProductsFtp(BatFinder):
         """
         return self.get(download_dir, self._file_list, **kwargs)
 
+
     def ls_all(self):
         """List all files for the observations data products
 
@@ -114,6 +117,7 @@ class BatDataProductsFtp(BatFinder):
 
         """
         return self._file_filter(self.files, '', '')
+
 
     def ls_lightcurve(self):
         """List all lightcurve data for the observation
@@ -126,7 +130,8 @@ class BatDataProductsFtp(BatFinder):
         files.extend(self._file_filter(self.files, 'lc', ''))
         return files
 
-    def get_lightcurve(self, download_dir,*args, **kwargs):
+
+    def get_lightcurve(self, download_dir, *args, **kwargs):
         """Download the lightcurve data for the observation
 
         Args:
@@ -137,6 +142,7 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, 'lc', '')
         self.get(download_dir, files, **kwargs)
 
+
     def ls_gti(self):
         """List all good timing interval data for the observation
 
@@ -145,7 +151,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, '', 'gti.gz')
 
-    def get_gti(self, download_dir,*args, **kwargs):
+
+    def get_gti(self, download_dir, *args, **kwargs):
         """Download the good timing interval data for the observation
 
         Args:
@@ -156,6 +163,7 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, '', 'gti.gz')
         self.get(download_dir, files, **kwargs)
 
+
     def ls_response(self):
         """List all response files for the observation
 
@@ -164,7 +172,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, '', 'rsp.gz')
 
-    def get_response(self, download_dir,*args, **kwargs):
+
+    def get_response(self, download_dir, *args, **kwargs):
         """Download the response files for the observation
 
         Args:
@@ -184,7 +193,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, '', 'pha.gz')
 
-    def get_pha(self, download_dir,*args, **kwargs):
+
+    def get_pha(self, download_dir, *args, **kwargs):
         """Download the pha files for the observation
 
         Args:
@@ -195,6 +205,7 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, '', 'pha.gz')
         self.get(download_dir, files, **kwargs)
 
+
     def ls_preslew(self):
         """List all pre-slew files for the observation
 
@@ -203,7 +214,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, 'bevps', '')
 
-    def get_preslew(self, download_dir,*args, **kwargs):
+
+    def get_preslew(self, download_dir, *args, **kwargs):
         """Download the pre-slew files for the observation
 
         Args:
@@ -214,6 +226,7 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, 'bevps', '')
         self.get(download_dir, files, **kwargs)
 
+
     def ls_slew(self):
         """List all files during slew for the observation
 
@@ -222,7 +235,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, 'bevsl', '')
 
-    def get_slew(self, download_dir,*args, **kwargs):
+
+    def get_slew(self, download_dir, *args, **kwargs):
         """Download the files during slew for the observation
 
         Args:
@@ -233,6 +247,7 @@ class BatDataProductsFtp(BatFinder):
         files = self._file_filter(self.files, 'bevsl', '')
         self.get(download_dir, files, **kwargs)
 
+
     def ls_afterslew(self):
         """List all after-slew files for the observation
 
@@ -241,7 +256,8 @@ class BatDataProductsFtp(BatFinder):
         """
         return self._file_filter(self.files, 'bevas', '')
 
-    def get_afterslew(self, download_dir,*args, **kwargs):
+
+    def get_afterslew(self, download_dir, *args, **kwargs):
         """Download the after-slew for the observation
 
         Args:
@@ -251,6 +267,7 @@ class BatDataProductsFtp(BatFinder):
         """
         files = self._file_filter(self.files, 'bevas', '')
         self.get(download_dir, files, **kwargs)
+
 
     def _construct_path(self, obsid, date):
         """Constructs the FTP path for a observation
@@ -265,14 +282,15 @@ class BatDataProductsFtp(BatFinder):
 
         year = date[:4]
         day = date[5:]
-        path = os.path.join(self._root, year + '_' + day,  obsid +'000', 'bat', 'products')
+        path = os.path.join(self._root, year + '_' + day, obsid + '000', 'bat', 'products')
 
         try:
-            trigger_dirs = self._ftp.nlst(path)
+            trigger_dirs = self._protocol.ls(path)
         except:
             raise FileExistsError
 
         return path
+
 
 class BatAuxiliaryFtp(BatFinder):
     """A class that interfaces with the HEASARC FTP observation auxiliary directories.
@@ -321,7 +339,7 @@ class BatAuxiliaryFtp(BatFinder):
         """
         return self._file_filter(self.files, 'sao', '.')
 
-    def get_sao(self, download_dir,*args, **kwargs):
+    def get_sao(self, download_dir, *args, **kwargs):
         """Download the SAO file for the observation
 
         Args:
@@ -340,7 +358,7 @@ class BatAuxiliaryFtp(BatFinder):
         """
         return self._file_filter(self.files, 'sat', '.')
 
-    def get_sat(self, download_dir,*args, **kwargs):
+    def get_sat(self, download_dir, *args, **kwargs):
         """Download SAT File for the observation
 
         Args:
@@ -350,7 +368,6 @@ class BatAuxiliaryFtp(BatFinder):
         """
         files = self._file_filter(self.files, 'sat', '')
         self.get(download_dir, files, **kwargs)
-
 
     def _construct_path(self, obsid, date):
         """Constructs the FTP path for a observation
@@ -365,10 +382,10 @@ class BatAuxiliaryFtp(BatFinder):
 
         year = date[:4]
         day = date[5:]
-        path = os.path.join(self._root, year + '_' + day,  obsid +'000', 'auxil')
+        path = os.path.join(self._root, year + '_' + day, obsid + '000', 'auxil')
 
         try:
-            trigger_dirs = self._ftp.nlst(path)
+            trigger_dirs = self._protocol.ls(path)
         except:
             raise FileExistsError
 
