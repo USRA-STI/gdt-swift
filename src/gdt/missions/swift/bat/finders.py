@@ -44,10 +44,33 @@ from gdt.core.heasarc import FtpFinder
 from ..finders import SwiftObsFinder, SwiftTemporalFinder
 from ..time import *
 
-__all__ = ['BatHousekeepingFinder', 'BatRateFinder', 'BatRateTemporalFinder',
-           'BatSurveyFinder', 'BatTriggerFinder', 'BatHousekeepingTemporalFinder',
-           'BatSurveyTemporalFinder', 'BatTriggerTemporalFinder',
-           'BatDataProductsFtp', 'BatAuxiliaryFtp']
+__all__ = ['BatEventFinder', 'BatEventTemporalFinder', 
+           'BatHousekeepingFinder','BatHousekeepingTemporalFinder', 
+           'BatRateFinder', 'BatRateTemporalFinder',
+           'BatSurveyFinder', 'BatSurveyTemporalFinder', 
+           'BatTriggerFinder', 'BatTriggerTemporalFinder']
+
+class BatEventFinder(SwiftObsFinder):
+    """This class finds Swift BAT event data based on date and 
+    observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'event')
+        return path
 
 
 class BatHousekeepingFinder(SwiftObsFinder):
@@ -139,6 +162,39 @@ class BatTriggerFinder(SwiftObsFinder):
                             'bat', 'products')
         return path
 
+
+class BatEventTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT event data that covers a given time or time range.
+    
+    See :class:`SwiftTemporalFinder` for details on how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatEventFinder
+
+    def get_event(self, download_dir, **kwargs):
+        """Download the event data files.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_event(), **kwargs)
+    
+    def ls_event(self):
+        """List the event data files
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('', 'evt.gz')
 
 class BatHousekeepingTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT housekeeping data that covers a given time or time range.
