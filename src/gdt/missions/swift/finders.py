@@ -186,8 +186,14 @@ class SwiftTemporalFinder:
     
         # get the finders for each directory that *might* contain data at/over
         # the requested time
-        self._finders = [self._base_obs_finder(tstarts[i], obsids[i]) \
-                         for i in range(num_dirs)]
+        self._finders = []
+        for i in range(num_dirs):
+            try:
+                finder = self._base_obs_finder(tstarts[i], obsids[i])
+                self._finders.append(finder)
+            except ValueError:
+                # data does not exist for this observation ID
+                pass
       
     def get(self, download_dir, files, verbose=True):
         """Downloads files to a directory and returns the downloaded file paths
@@ -238,7 +244,7 @@ class SwiftTemporalFinder:
         query = 'tablehead=name=heasarc_swiftmastr'
         query += '&varon=obsid&varon=start_time&sortvar=start_time' \
                  f'&bparam_start_time={quote(tstart.iso)}&varon=stop_time' \
-                 f'&bparam_stop_time={quote(tstop.iso)}&'
+                 f'&bparam_stop_time={quote("<=" + tstop.iso)}&'
         params = '&displaymode=FitsDisplay&ResultMax=0'
         url = f'{host}/{script}?{query}{params}'
         
