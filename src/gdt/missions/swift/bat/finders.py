@@ -41,10 +41,266 @@
 import os
 from math import floor
 from gdt.core.heasarc import FtpFinder
+from ..finders import SwiftObsFinder, SwiftTemporalFinder
 from ..time import *
 
-__all__ = ['BatDataProductsFtp', 'BatAuxiliaryFtp']
+__all__ = ['BatHousekeepingFinder', 'BatRateFinder', 'BatRateTemporalFinder',
+           'BatSurveyFinder', 'BatHousekeepingTemporalFinder',
+           'BatSurveyTemporalFinder', 'BatDataProductsFtp', 'BatAuxiliaryFtp']
 
+
+class BatHousekeepingFinder(SwiftObsFinder):
+    """This class finds Swift BAT housekeeping data based on date and 
+    observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'hk')
+        return path
+
+
+
+class BatRateFinder(SwiftObsFinder):
+    """This class finds Swift BAT rate data based on date and observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'rate')
+        return path
+
+
+class BatSurveyFinder(SwiftObsFinder):
+    """This class finds Swift BAT survey data based on date and observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'survey')
+        return path
+
+
+class BatHousekeepingTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT housekeeping data that covers a given time or time range.
+    
+    See :class:`SwiftTemporalFinder` for details on how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatHousekeepingFinder
+
+    def get_det_enabled(self, download_dir, **kwargs):
+        """Download the files containing the map of enabled BAT detectors.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_det_enabled(), **kwargs)
+
+    def get_gain_offset(self, download_dir, **kwargs):
+        """Download the files containing the gain and offset of the BAT detectors.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_gain_offset(), **kwargs)
+
+    def ls_det_enabled(self):
+        """List the files containing the map of enabled BAT detectors.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('decb', 'hk.gz')
+
+    def ls_gain_offset(self):
+        """List the files containing the gain and offset of the BAT detectors.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('bgoc', 'hk.gz')
+    
+
+class BatRateTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT rate data that covers a given time or time range.
+    
+    See :class:`SwiftTemporalFinder` for details on how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatRateFinder
+
+    def get_millisecond_lc(self, download_dir, **kwargs):
+        """Download the millisecond lightcurve data.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_millisecond_lc(), **kwargs)
+
+    def get_multichannel_lc(self, download_dir, **kwargs):
+        """Download the multi-channel lightcurve data.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_multichannel_lc(), **kwargs)
+
+    def get_quadrant_lc(self, download_dir, **kwargs):
+        """Download the lightcurve data split into observing quadrants.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_quadrant_lc(), **kwargs)
+
+    def get_second_lc(self, download_dir, **kwargs):
+        """Download the 1-second resolution lightcurve.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_second_lc(), **kwargs)
+
+    def ls_millisecond_lc(self):
+        """List the millisecond lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtms', 'lc.gz')
+    
+    def ls_multichannel_lc(self):
+        """List the multi-channel lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtmc', 'lc.gz')
+
+    def ls_quadrant_lc(self):
+        """List the quadrant lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtqd', 'lc.gz')
+
+    def ls_second_lc(self):
+        """List the 1-second resolution lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brt1s', 'lc.gz')
+
+
+class BatSurveyTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT survey data that covers a given time or time range.
+    
+    See :class:`SwiftTemporalFinder` for details on how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatSurveyFinder
+    
+    def get_survey(self, download_dir, **kwargs):
+        """Download the survey detector plane histogram files.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_survey(), **kwargs)
+    
+    def ls_survey(self):
+        """List the survey detector plane histogram files.
+        
+        Returns: 
+            (list of str)
+        """
+        return self.filter('bsv', 'dph.gz')
+    
+    
+    
+#####
 
 class BatFinder(FtpFinder):
     """Subclassing FtpFinder to enable _file_filter() to take a list
