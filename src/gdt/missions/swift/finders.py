@@ -245,6 +245,10 @@ class SwiftTemporalFinder:
         # submit query and write to a temp file
         context = ssl._create_unverified_context()
         page = urlopen(url, context=context)
+        
+        if not os.path.exists(cache_path):
+            os.makedirs(cache_path)
+        
         fpath = os.path.join(cache_path, f'{tstart.isot}_{tstart.isot}.fit')
         with open(fpath, 'wb') as f:
             f.write(page.read())
