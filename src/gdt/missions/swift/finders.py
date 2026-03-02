@@ -238,13 +238,21 @@ class SwiftTemporalFinder:
         """Queries the Swift Master catalog to figure out with observation IDs
         have data between `tstart` and `tstop`."""
         
+        # if a single time, then we need to query in a different way than if
+        # we are doing a time range.  A single time query is tstart : tstop, 
+        # where tstart == tstop.  A time range query is tstart : <=tstop
+        if tstop == tstart:
+            tstop_str = quote(tstop.iso)
+        else:
+            tstop_str = quote("<=" + tstop.iso)
+        
         # construct the URL query
         host = 'https://heasarc.gsfc.nasa.gov'
         script = 'db-perl/W3Browse/w3query.pl'
         query = 'tablehead=name=heasarc_swiftmastr'
         query += '&varon=obsid&varon=start_time&sortvar=start_time' \
                  f'&bparam_start_time={quote(tstart.iso)}&varon=stop_time' \
-                 f'&bparam_stop_time={quote("<=" + tstop.iso)}&'
+                 f'&bparam_stop_time={tstop_str}&'
         params = '&displaymode=FitsDisplay&ResultMax=0'
         url = f'{host}/{script}?{query}{params}'
         
