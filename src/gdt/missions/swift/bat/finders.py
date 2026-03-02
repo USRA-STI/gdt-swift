@@ -45,8 +45,9 @@ from ..finders import SwiftObsFinder, SwiftTemporalFinder
 from ..time import *
 
 __all__ = ['BatHousekeepingFinder', 'BatRateFinder', 'BatRateTemporalFinder',
-           'BatSurveyFinder', 'BatHousekeepingTemporalFinder',
-           'BatSurveyTemporalFinder', 'BatDataProductsFtp', 'BatAuxiliaryFtp']
+           'BatSurveyFinder', 'BatTriggerFinder', 'BatHousekeepingTemporalFinder',
+           'BatSurveyTemporalFinder', 'BatTriggerTemporalFinder',
+           'BatDataProductsFtp', 'BatAuxiliaryFtp']
 
 
 class BatHousekeepingFinder(SwiftObsFinder):
@@ -70,7 +71,6 @@ class BatHousekeepingFinder(SwiftObsFinder):
         path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
                             'bat', 'hk')
         return path
-
 
 
 class BatRateFinder(SwiftObsFinder):
@@ -114,6 +114,29 @@ class BatSurveyFinder(SwiftObsFinder):
         """
         path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
                             'bat', 'survey')
+        return path
+
+
+class BatTriggerFinder(SwiftObsFinder):
+    """This class finds Swift BAT triggered data based on date and observation 
+    ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'products')
         return path
 
 
@@ -297,31 +320,147 @@ class BatSurveyTemporalFinder(SwiftTemporalFinder):
             (list of str)
         """
         return self.filter('bsv', 'dph.gz')
+
+
+class BatTriggerTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT triggered data that covers a given time or time range.
     
+    See :class:`SwiftTemporalFinder` for details on how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatTriggerFinder
+
+    def get_afterslew(self, download_dir, **kwargs):
+        """Download the afterslew files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_afterslew(), **kwargs)
+
+    def get_all(self, download_dir, **kwargs):
+        """Download all files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.files, **kwargs)
+    
+    def get_gti(self, download_dir, **kwargs):
+        """Download the GTI data.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_gti(), **kwargs)
+    
+    def get_lightcurve(self, download_dir, **kwargs):
+        """Download the lightcurve data.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_lightcurve(), **kwargs)
+
+    def get_peak(self, download_dir, **kwargs):
+        """Download the peak intensity files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_peak(), **kwargs)
+    
+    def get_preslew(self, download_dir, **kwargs):
+        """Download the preslew files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_preslew(), **kwargs)
+    
+    def get_quicklook(self, download_dir, **kwargs):
+        """Download the quicklook images (typically lightcurve and sky image).
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_quicklook(), **kwargs)
+
+    def get_slew(self, download_dir, **kwargs):
+        """Download the files during slew.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_slew(), **kwargs)
+    
+    def ls_afterslew(self):
+        """List the after-slew files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevas', '')
+    
+    def ls_gti(self):
+        """List the GTI files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('gti', '')
+    
+    def ls_lightcurve(self):
+        """List the lightcurve data available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bev', 'lc.gz')
+
+    def ls_peak(self):
+        """List the files at peak intensity that are available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevpb', '')
+    
+    def ls_preslew(self):
+        """List the pre-slew files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevpb', '')
+    
+    def ls_quicklook(self):
+        """List the quicklook images available (typically lightcurve and 
+        sky image).
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('', 'gif')
+
+    def ls_slew(self):
+        """List the files during slew that are available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevsl', '')
     
     
 #####
 
-class BatFinder(FtpFinder):
-    """Subclassing FtpFinder to enable _file_filter() to take a list
-    """
 
-    def _file_filter(self, file_list, filetype, extension):
-        """Filters the directory for the requested filetype, and extension
-
-        Args:
-            filetype (str): The type of file, e.g. 'cont'
-            extension (str): The file extension, e.g. '.fit'
-
-        Returns:
-            (list): The filtered file list
-        """
-        files = super()._file_filter(file_list, filetype, extension)
-
-        return files
-
-
-class BatDataProductsFtp(BatFinder):
+class BatDataProductsFtp(FtpFinder):
     """A class that interfaces with the HEASARC FTP directories.
     An instance of this class will represent the available files associated
     with a single event.
@@ -548,7 +687,7 @@ class BatDataProductsFtp(BatFinder):
         return path
 
 
-class BatAuxiliaryFtp(BatFinder):
+class BatAuxiliaryFtp(FtpFinder):
     """A class that interfaces with the HEASARC FTP observation auxiliary directories.
     An instance of this class will represent the available files associated
     with an the observation.
