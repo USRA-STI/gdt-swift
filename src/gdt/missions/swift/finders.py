@@ -399,4 +399,4 @@ class SwiftAuxilTemporalFinder(SwiftTemporalFinder):
         """
         return self.filter('sao', 'fits.gz')
     
-    
+
