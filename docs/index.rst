@@ -98,7 +98,8 @@ Data Finders and Catalogs
 
 .. toctree::
    :maxdepth: 1
-
+   
+   missions/swift/finders
    missions/swift/bat/finders
    missions/swift/bat/catalogs
 

@@ -89,7 +89,8 @@ class SwiftObsFinder(BaseFinder):
 
 
 class SwiftAuxilFinder(SwiftObsFinder):
-   
+    """Finds Swift auxiliary data given a date and an observation ID.
+    """
     def _construct_path(self, date, obsid):
         """Constructs the FTP path for a observation
 
@@ -311,7 +312,7 @@ class SwiftTemporalFinder:
 
 
 class SwiftAuxilTemporalFinder(SwiftTemporalFinder):
-    """Find Swift auxiliary data that covers a given time or time range.
+    """Finds Swift auxiliary data that covers a given time or time range.
     
     See :class:`SwiftTemporalFinder` for details on how this class works.
     
