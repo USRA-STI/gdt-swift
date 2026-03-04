@@ -4,6 +4,8 @@ GDT-Swift
 
 The GDT-Swift is an extension to Gamma-ray Data Tools that adds functions specific to the Swift mission.
 
+The full documentation can be found `here <https://astro-gdt-swift.readthedocs.io/en/latest/>`_.
+
 Normal Installation
 -------------------
 
