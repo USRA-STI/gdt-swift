@@ -19,8 +19,8 @@ the archive is organized in a hybrid time-ObsID way, where one must know both
 the month of observation *and* the ObsID in order to find the data for a given 
 observation.  
 
-Finding Swift Observations with a Time and an ObsID
-===================================================
+Finding Swift Data with a Time and an ObsID
+===========================================
 If you know the ObsID and a time of interest, then finding the data you want is
 easy.  This is generally performed by the |SwiftObsFinder| base class, which
 is inherited by |SwiftAuxilFinder| to find files such as the orbit position and
@@ -65,8 +65,10 @@ method.
     >>> download_paths = finder.get('download_dir', finder.files)
 
 
-Finding Swift Observations with Only a Time
-===========================================
+.. _swift-temporal-finders:
+
+Finding Swift Data with Only a Time
+===================================
 The problem with finding Swift data arises whenever one does not have the ObsID
 on hand.  For example, perhaps you want to know the pointing history of Swift
 over some time range.  In the previous example, you would need to know all of
@@ -158,36 +160,38 @@ or download:
 
 Table of Swift Auxiliary Data Products
 ======================================
-
+More information can be found in the 
+`Swift Archive Documentation <https://swift.gsfc.nasa.gov/archive/archiveguide1/node5.html>`_.
 
 .. list-table::
-  :widths: 25 50
-  :header-rows: 1
+   :widths: auto
+   :align: left
+   :header-rows: 1
 
-  * - File Name
-    - Description
-  * - sw[obs-id]sat.fits
-    - uncorrected attitude information
-  * - sw[obs-id]sao.fits
-    - orbit information
-  * - sw[obs-id]sen.fits
-    - spacecraft engineering parameters
-  * - sw[obs-id]s.mkf
-    - filter file where the attitude and the instrument housekeeping (HK) paramaters are collected for use during screening
-  * - sw[obs-id]sti.mkf
-    - UTCF timing correction for the observation
-  * - sw[obs-id]pob.cat
-    - Catalog file listing all the files within the observation
-  * - sw[obs-id]ppr.par
-    - processing parameter file (ASCII)
-  * - sw[obs-id]pjb.par
-    - 'job' parameter file (ASCII)
-  * - SWIFT_TLE_ARCHIVE.txt.
-    - two-line element file used in the orbit derivation (ASCII)
-  * - sw[obs-id]pat.fits
-    - smoothed attitude on-ground
-  * - sw[obs-id]uat.fits
-    - attitude calibrated with UVOT observations (best)
+   * - File Name
+     - Description
+   * - sw[obs-id]sat.fits
+     - uncorrected attitude information
+   * - sw[obs-id]sao.fits
+     - orbit information
+   * - sw[obs-id]sen.fits
+     - spacecraft engineering parameters
+   * - sw[obs-id]s.mkf
+     - filter file where the attitude and the instrument housekeeping (HK) paramaters are collected for use during screening
+   * - sw[obs-id]sti.mkf
+     - UTCF timing correction for the observation
+   * - sw[obs-id]pob.cat
+     - Catalog file listing all the files within the observation
+   * - sw[obs-id]ppr.par
+     - processing parameter file (ASCII)
+   * - sw[obs-id]pjb.par
+     - 'job' parameter file (ASCII)
+   * - SWIFT_TLE_ARCHIVE.txt.
+     - two-line element file used in the orbit derivation (ASCII)
+   * - sw[obs-id]pat.fits
+     - smoothed attitude on-ground
+   * - sw[obs-id]uat.fits
+     - attitude calibrated with UVOT observations (best)
 
 
 
