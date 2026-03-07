@@ -269,13 +269,13 @@ class TestBatRateTemporalFinder(unittest.TestCase):
         for file in ms_lc_files:
             assert file in files
 
-    def test_ls_multichannel_lc(self):
+    def test_ls_maxrate_lc(self):
         files = ['sw00013483015brtmc.lc.gz', 'sw03106436001brtmc.lc.gz', 
                  'sw00095119034brtmc.lc.gz', 'sw00974827000brtmc.lc.gz']
                  
-        multi_lc_files = self.finder.ls_multichannel_lc()
-        assert len(multi_lc_files) == 4
-        for file in multi_lc_files:
+        mr_lc_files = self.finder.ls_maxrate_lc()
+        assert len(mr_lc_files) == 4
+        for file in mr_lc_files:
             assert file in files
 
     def test_ls_quadrant_lc(self):
@@ -302,8 +302,8 @@ class TestBatRateTemporalFinder(unittest.TestCase):
             assert os.path.exists(filepath)
             os.remove(filepath)
 
-    def test_get_multichannel_lc(self):
-        filepaths = self.finder.get_multichannel_lc(download_dir)
+    def test_get_maxrate_lc(self):
+        filepaths = self.finder.get_maxrate_lc(download_dir)
         for filepath in filepaths:
             assert os.path.exists(filepath)
             os.remove(filepath)

@@ -165,7 +165,8 @@ class BatTriggerFinder(SwiftObsFinder):
 class BatEventTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT event data that covers a given time or time range.
     
-    See :class:`SwiftTemporalFinder` for details on how this class works.
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
     
     Parameters:
         tstart (astropy.Time): A time of interest or start time for a time 
@@ -199,7 +200,8 @@ class BatEventTemporalFinder(SwiftTemporalFinder):
 class BatHousekeepingTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT housekeeping data that covers a given time or time range.
     
-    See :class:`SwiftTemporalFinder` for details on how this class works.
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
     
     Parameters:
         tstart (astropy.Time): A time of interest or start time for a time 
@@ -253,7 +255,8 @@ class BatHousekeepingTemporalFinder(SwiftTemporalFinder):
 class BatRateTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT rate data that covers a given time or time range.
     
-    See :class:`SwiftTemporalFinder` for details on how this class works.
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
     
     Parameters:
         tstart (astropy.Time): A time of interest or start time for a time 
@@ -275,8 +278,8 @@ class BatRateTemporalFinder(SwiftTemporalFinder):
         """
         return self.get(download_dir, self.ls_millisecond_lc(), **kwargs)
 
-    def get_multichannel_lc(self, download_dir, **kwargs):
-        """Download the multi-channel lightcurve data.
+    def get_maxrate_lc(self, download_dir, **kwargs):
+        """Download the maximum count rate data spanning multiple timescales.
 
         Args:
             download_dir (str): The download directory
@@ -285,7 +288,7 @@ class BatRateTemporalFinder(SwiftTemporalFinder):
         Returns:
             (list): The file paths of the downloaded files
         """
-        return self.get(download_dir, self.ls_multichannel_lc(), **kwargs)
+        return self.get(download_dir, self.ls_maxrate_lc(), **kwargs)
 
     def get_quadrant_lc(self, download_dir, **kwargs):
         """Download the lightcurve data split into observing quadrants.
@@ -319,8 +322,8 @@ class BatRateTemporalFinder(SwiftTemporalFinder):
         """
         return self.filter('brtms', 'lc.gz')
     
-    def ls_multichannel_lc(self):
-        """List the multi-channel lightcurve data files.
+    def ls_maxrate_lc(self):
+        """List the maximum count rate data files.
 
         Returns:
             (list of str)
@@ -347,7 +350,8 @@ class BatRateTemporalFinder(SwiftTemporalFinder):
 class BatSurveyTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT survey data that covers a given time or time range.
     
-    See :class:`SwiftTemporalFinder` for details on how this class works.
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
     
     Parameters:
         tstart (astropy.Time): A time of interest or start time for a time 
@@ -381,7 +385,8 @@ class BatSurveyTemporalFinder(SwiftTemporalFinder):
 class BatTriggerTemporalFinder(SwiftTemporalFinder):
     """Find Swift BAT triggered data that covers a given time or time range.
     
-    See :class:`SwiftTemporalFinder` for details on how this class works.
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
     
     Parameters:
         tstart (astropy.Time): A time of interest or start time for a time 
