@@ -26,78 +26,146 @@
 # implied. See the License for the specific language governing permissions and limitations under the
 # License.
 #
-import astropy.units as u
-from gdt.core.detector import Detectors
-from astropy import wcs
-import healpy as hp
-import astropy.io.fits as fits
-import numpy as np
-from gdt.core.plot.sky import EquatorialPlot
-from scipy.spatial.transform import Rotation
 from copy import deepcopy
+from pathlib import Path
+from astropy import wcs
+import astropy.io.fits as fits
+import healpy as hp
 from matplotlib.pyplot import contour as Contour
+import numpy as np
+from scipy.spatial.transform import Rotation
 
-__all__ = ['BatPartialCoding', 'BatDetector']
+from gdt.core.healpix import HealPix
+from gdt.core.plot.plot import SkyPolygon
 
-# unfortunately Sphinx has a major bug that prevents the autodoc of Enums,
-# so we have to define all of this in the docstring...
+#__all__ = ['BatPartialCoding']
 
-data_path = '/Users/cfletch3/Documents/Research/GBM/GDT/gdt_devel/gdt-swift/src/gdt/missions/swift/bat/'
-_file = data_path + 'pcode_default.img'
-class BatPartialCoding():
-    nside = 128
-    def __init__(self):
-        hdulist = fits.open(_file, memmap=False)
-        w = wcs.WCS(hdulist[0].header)
-        data = hdulist[0].data
+class HealPixPartialCoding(HealPix):
+    """Class supporting HEALPix operatings for coded-aperture partial coding.
+    """
+    @property
+    def pcoding(self):
+        """(np.array): The partial coding fraction HEALPix array"""
+        return self._hpx
+    
+    def area(self, fraction):
+        """Calculate the area, in square degrees, covered by a given partial 
+        coding fraction.
+        
+        Args:
+            fraction (float): The partial coding fraction (between 0 and 1).
+        
+        Returns:
+            (float)
+        """
+        if fraction < 0.0 or fraction > 1.0:
+            raise ValueError('fraction must be between 0 and 1')
+        num_pix = (self.pcoding >= fraction).sum()
+        return num_pix * self.pixel_area
+    
+    def partial_coding(self, az, zen):
+        """Calculate the partial coding at a given point.  This
+        function interpolates the map at the requested point rather than
+        providing the vale at the nearest pixel center.
 
+        Args:
+            az (float): The Azimuth
+            zen (float): The Zenith
+
+        Returns:
+            (float)
+        """
+        phi = self._ra_to_phi(az)
+        theta = np.deg2rad(zen)
+        pcoding = hp.get_interp_val(self.pcoding, theta, phi)
+        return pcoding
+
+    def partial_coding_path(self, fraction, numpts_az=360, numpts_zen=180):
+        """Return the bounding path for a given partial coding fraction
+
+        Args:
+            fraction (float): The partial coding fraction (valid range 0-1)
+            numpts_az (int, optional): The number of grid points along the 
+                                       azimuthal axis. Default is 360.
+            numpts_zen (int, optional): The number of grid points along the
+                                        polar axis. Default is 180.
+
+        Returns:
+            [(np.array, np.array), ...]: A list of Az, Zen points, where each 
+                item in the list is a continuous closed path.
+        """
+        if fraction < 0.0 or fraction > 1.0:
+            raise ValueError('fraction must be between 0 and 1')
+        
+        # create the grid and integrated probability array
+        grid_pix, phi, theta = self._mesh_grid(numpts_az, numpts_zen)
+        frac_arr = self.pcoding[grid_pix]
+        az = self._phi_to_ra(phi)
+        zen = self._theta_to_dec(theta)
+
+        # use matplotlib contour to produce a path object
+        contour = Contour(az, zen, frac_arr, [fraction])
+
+        # extract all the vertices
+        pts = contour.allsegs[0]
+
+        # unfortunately matplotlib will plot this, so we need to remove
+        contour.remove()
+
+        return pts
+
+    def _assert_pcoding(self, pcoding):
+        """Ensures partial coding array is between 0-1"""
+        pcoding[(pcoding > 1.0)] = 1.0
+        pcoding[(pcoding < 0.0)] = 0.0
+        return pcoding
+        
+  
+class BatPartialCoding(HealPixPartialCoding):
+    """Represents the Swift BAT partial coding fraction in HEALPix.
+    
+    Parameters:
+        nside (int, optional): The NSIDE resolution at which to create the 
+                               partial coding map. Default is 128.
+    """
+    _path = Path(__file__).resolve().parent / 'data' / 'pcode_default.img'
+    
+    def __init__(self, nside=128):
+        super().__init__()
+        
+        self._nside = nside
+        
+        with fits.open(self._path) as hdulist:
+            # the file stores in celestial coordinates instead of spacecraft
+            # this is a simple 90 deg rotation at read time into Az/Zen
+            hdulist[0].header['CRVAL2'] = 90.0 - hdulist[0].header['CRVAL2']
+            w = wcs.WCS(hdulist[0].header)
+            data = hdulist[0].data
+        
+        # generate a grid of azimuth and zenith based on the WCS
         num_y, num_x = w.array_shape
         x = np.arange(num_x)
         y = np.arange(num_y)
         x, y = np.meshgrid(x, y)
-        ra, dec = w.wcs_pix2world(x, y, 1)
-        ra += 360.0
-
-        npix = hp.nside2npix(self.nside)
-        pix = hp.ang2pix(self.nside, ra, dec, lonlat=True)
+        az, zen = w.wcs_pix2world(x, y, 1)
+        az += 360.0
+        
+        # create and fill the HEALPix array
+        npix = hp.nside2npix(self._nside)
+        pix = hp.ang2pix(self._nside, ra, dec, lonlat=True)
         self._hpx = np.zeros(npix)
-        self._hpx[pix] = data.reshape(pix.shape)
+        self._hpx[pix] = self._assert_pcoding(data.reshape(pix.shape))
 
-    def partial_coding_path(self, frac, numpts_ra=360, numpts_dec=180):
-        """Return the bounding path for a given partial coding fraction
-
-        Args:
-            frac (float): The partial coding fraction (valid range 0-1)
-            numpts_ra (int, optional): The number of grid points along the RA
-                                       axis. Default is 360.
-            numpts_dec (int, optional): The number of grid points along the Dec
-                                        axis. Default is 180.
-
-        Returns:
-            [(np.array, np.array), ...]: A list of RA, Dec points, where each \
-                item in the list is a continuous closed path.
-        """
-        # create the grid and integrated probability array
-        grid_pix, phi, theta = self._mesh_grid(numpts_ra, numpts_dec)
-        frac_arr = self._hpx[grid_pix]
-
-        ra = self._phi_to_ra(phi)
-        dec = self._theta_to_dec(theta)
-        print(ra,dec)
-        # use matplotlib contour to produce a path object
-        contour = Contour(ra, dec, frac_arr, [frac])
-
-        # get the contour path, which is made up of segments
-        paths = contour.collections[0].get_paths()
-
-        # extract all the vertices
-        pts = [path.vertices for path in paths]
-
-        # unfortunately matplotlib will plot this, so we need to remove
-        for c in contour.collections:
-            c.remove()
-
-        return pts
+    def make_polygon(self, fraction, ax, **kwargs):
+        
+        paths = self.partial_coding_path(fraction)
+        
+        polys = []
+        for path in paths:
+            poly = SkyPolygon(path[:,0], path[:,1], ax, flipped=False, frame='spacecraft',
+                              **kwargs)
+            polys.append(poly)
+        return polys
 
     def rotate(self, quaternion):
         # use scipy to convert between quaternion and euler angle, which is
@@ -115,86 +183,3 @@ class BatPartialCoding():
         obj = deepcopy(self)
         obj._hpx = rot_hpx
         return obj
-
-    def _mesh_grid(self, num_phi, num_theta):
-        # create the mesh grid in phi and theta
-        theta = np.linspace(np.pi, 0.0, num_theta)
-        phi = np.linspace(0.0, 2 * np.pi, num_phi)
-        phi_grid, theta_grid = np.meshgrid(phi, theta)
-        grid_pix = hp.ang2pix(self.nside, theta_grid, phi_grid)
-        return (grid_pix, phi, theta)
-
-    @staticmethod
-    def _phi_to_ra(phi):
-        return np.rad2deg(phi)
-
-    @staticmethod
-    def _theta_to_dec(theta):
-        return np.rad2deg(np.pi / 2.0 - theta)
-
-class BatDetector(Detectors):
-    """The Bat Detector name and orientation definitions.
-
-    .. rubric:: Attributes Summary
-    .. autosummary::
-
-      azimuth
-      elevation
-      full_name
-      number
-      zenith
-
-    .. rubric:: Methods Summary
-
-    .. autosummary::
-
-      bgo
-      from_full_name
-      from_num
-      from_str
-      is_bgo
-      is_nai
-      nai
-      pointing
-      skycoord
-
-    .. rubric:: Attributes Documentation
-
-    .. autoattribute:: azimuth
-    .. autoattribute:: elevation
-    .. autoattribute:: full_name
-    .. autoattribute:: number
-    .. autoattribute:: zenith
-
-    .. rubric:: Methods Documentation
-
-    .. autoattribute:: bgo
-    .. automethod:: from_full_name
-    .. automethod:: from_num
-    .. automethod:: from_str
-    .. automethod:: is_bgo
-    .. automethod:: is_nai
-    .. autoattribute:: nai
-    .. automethod:: pointing
-    .. automethod:: skycoord
-    """
-    bat = ('BAT', 0, 0.0 * u.deg, 0.0 * u.deg)
-
-
-    @classmethod
-    def bat_det(cls):
-        """Get all detectors that are BAT
-
-        Returns:
-            (list of :class:`BAT Detectors`)
-        """
-        return [x for x in cls if x.is_bat()]
-
-
-    def is_bat(self):
-        """Check if detector is an Bat.
-
-        Returns:
-            (bool)
-        """
-        return self.name[0] == 'bat'
