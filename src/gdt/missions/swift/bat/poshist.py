@@ -48,12 +48,11 @@ from gdt.core.coords.spacecraft import SpacecraftFrameModelMixin, SpacecraftStat
 from gdt.core.coords.spacecraft import SpacecraftFrame
 from gdt.missions.swift.time import Time
 from gdt.missions.swift.bat.headers import SaoHeaders
-from .detectors import BatDetector, BatPartialCoding
+from .detectors import BatPartialCoding
 
 
 __all__ = ['BatSao']
 
-SWIFT_TO_UNIX_OFFSET = 978307200.0
 
 class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileContextManager):
     """Class for reading a BAT SAO Position history file.
@@ -82,8 +81,7 @@ class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileCont
                 unit=u.km/u.s
             ),
             quaternion=Quaternion(self._reorder_bytes(self.column(1,'QUATERNION'))),
-            obstime=Time(self.column(1, 'TIME'), format='swift'),
-            detectors = BatDetector
+            obstime=Time(self.column(1, 'TIME'), format='swift')
         )
 
 
