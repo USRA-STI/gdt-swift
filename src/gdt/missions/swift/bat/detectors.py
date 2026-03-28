@@ -29,6 +29,7 @@
 from copy import deepcopy
 from pathlib import Path
 from astropy import wcs
+from astropy.coordinates import SkyCoord
 import astropy.io.fits as fits
 import healpy as hp
 from matplotlib.pyplot import contour as Contour
@@ -38,8 +39,9 @@ from scipy.spatial.transform import Rotation
 from gdt.core.healpix import HealPix
 from gdt.core.plot.plot import SkyPolygon
 
-#__all__ = ['BatPartialCoding']
+__all__ = ['BatPartialCoding']
 
+#mark TODO: Look at moving this into gdt-core
 class HealPixPartialCoding(HealPix):
     """Class supporting HEALPix operatings for coded-aperture partial coding.
     """
@@ -62,6 +64,14 @@ class HealPixPartialCoding(HealPix):
             raise ValueError('fraction must be between 0 and 1')
         num_pix = (self.pcoding >= fraction).sum()
         return num_pix * self.pixel_area
+    
+    @classmethod
+    def from_data(cls, hpx_arr, filename=None, **kwargs):
+        hpx_arr = cls._assert_pcoding(hpx_arr)
+        obj = super(HealPixPartialCoding, cls).from_data(hpx_arr, 
+                                                         filename=filename, 
+                                                         **kwargs)
+        return obj
     
     def partial_coding(self, az, zen):
         """Calculate the partial coding at a given point.  This
@@ -113,8 +123,9 @@ class HealPixPartialCoding(HealPix):
         contour.remove()
 
         return pts
-
-    def _assert_pcoding(self, pcoding):
+    
+    @staticmethod
+    def _assert_pcoding(pcoding):
         """Ensures partial coding array is between 0-1"""
         pcoding[(pcoding > 1.0)] = 1.0
         pcoding[(pcoding < 0.0)] = 0.0
@@ -136,9 +147,6 @@ class BatPartialCoding(HealPixPartialCoding):
         self._nside = nside
         
         with fits.open(self._path) as hdulist:
-            # the file stores in celestial coordinates instead of spacecraft
-            # this is a simple 90 deg rotation at read time into Az/Zen
-            hdulist[0].header['CRVAL2'] = 90.0 - hdulist[0].header['CRVAL2']
             w = wcs.WCS(hdulist[0].header)
             data = hdulist[0].data
         
@@ -152,34 +160,72 @@ class BatPartialCoding(HealPixPartialCoding):
         
         # create and fill the HEALPix array
         npix = hp.nside2npix(self._nside)
-        pix = hp.ang2pix(self._nside, ra, dec, lonlat=True)
+        pix = hp.ang2pix(self._nside, az, zen, lonlat=True)
         self._hpx = np.zeros(npix)
         self._hpx[pix] = self._assert_pcoding(data.reshape(pix.shape))
 
-    def make_polygon(self, fraction, ax, **kwargs):
+    def plot_polygon(self, fraction, sky_plot, color='gray', alpha=0.3, 
+                     **kwargs):
+        """Plot the polygon defined by a partial coding fraction on the sky.
+        
+        Args:
+            fraction (float): The partial coding fraction
+            sky_plot (:class:`~gdt.core.plot.sky.Skyplot`): The sky plot
+            color (str, optional): The color of the polygon
+            alpha (float, optional): The alpha opacity of the polygon
+            kwargs (optional): Other options to pass to SkyPolygon
+        
+        Returns:
+            (list of :class:`~gdt.core.plot.plot.SkyPolygon`)
+        """
         
         paths = self.partial_coding_path(fraction)
         
         polys = []
         for path in paths:
-            poly = SkyPolygon(path[:,0], path[:,1], ax, flipped=False, frame='spacecraft',
-                              **kwargs)
+            poly = SkyPolygon(path[:,0], path[:,1], sky_plot.ax, color=color,
+                              alpha=alpha, flipped=sky_plot._frame, 
+                              frame=sky_plot._frame, **kwargs)
             polys.append(poly)
         return polys
 
-    def rotate(self, quaternion):
-        # use scipy to convert between quaternion and euler angle, which is
-        # what healpy uses
-        eulers = Rotation.from_quat(quaternion).as_euler('ZYX')
+    def partial_coding(self, phi, theta):
+        """Calculate the partial coding fraction at the given coordinate. 
+        If the BAT partial coding has been rotated into the celestial frame then
+        (phi, theta) corresponds to (ra, dec), otherwise it corresponds to 
+        (az, zen).
+        
+        Args:
+            phi (float or np.array): The azimuthal coordinate
+            theta (float or np.array): The polar coordinate
+        
+        Returns:
+            (float or np.array) 
+        """
+        return super().partial_coding(az, 90.0-zen)
 
-        # rotate partial coding map according to euler angle
-        rotator = hp.Rotator(rot=np.rad2deg(eulers))
-        rot_hpx = rotator.rotate_map_pixel(self._hpx)
-        # rotate it again because the reference frame for the map is in
-        # equatorial coordinates instead of spacecraft coordinates
-        rotator = hp.Rotator(rot=[0.0, 0.0, 90.0])
-        rot_hpx = rotator.rotate_map_pixel(rot_hpx)
+    def rotate(self, sc_frame):
+        """Given a spacecraft frame, rotates the partial coding fraction map
+        into the celestial frame.
+        
+        Args:
+            sc_frame (SpacecraftFrame): The spacecraft frame
+        
+        Returns:
+            (:class:`BatPartialCoding`)
+        """
+        # create grid in target frame
+        ra, dec = hp.pix2ang(self.nside, np.arange(self.npix), lonlat=True)
+        
+        # rotate to spacecraft frame
+        coords = SkyCoord(ra, dec, frame='icrs', unit='deg').transform_to(sc_frame)
+        
+        # interpolate into the grid
+        theta = self._dec_to_theta(coords.el.value)
+        phi = self._ra_to_phi(coords.az.value)
+        rot_hpx = hp.get_interp_val(self._hpx, theta, phi)
+        
+        # create the new object
+        new_obj = self.__class__.from_data(rot_hpx)
+        return new_obj
 
-        obj = deepcopy(self)
-        obj._hpx = rot_hpx
-        return obj
