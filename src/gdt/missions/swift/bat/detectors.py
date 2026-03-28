@@ -26,14 +26,14 @@
 # implied. See the License for the specific language governing permissions and limitations under the
 # License.
 #
-from copy import deepcopy
-from pathlib import Path
-from astropy import wcs
 from astropy.coordinates import SkyCoord
 import astropy.io.fits as fits
+from astropy import wcs
+from copy import deepcopy
 import healpy as hp
 from matplotlib.pyplot import contour as Contour
 import numpy as np
+from pathlib import Path
 from scipy.spatial.transform import Rotation
 
 from gdt.core.healpix import HealPix
@@ -73,42 +73,44 @@ class HealPixPartialCoding(HealPix):
                                                          **kwargs)
         return obj
     
-    def partial_coding(self, az, zen):
-        """Calculate the partial coding at a given point.  This
-        function interpolates the map at the requested point rather than
-        providing the vale at the nearest pixel center.
+    def partial_coding(self, phi, theta):
+        """Calculate the partial coding fraction at the given coordinate. 
+        If the partial coding has been rotated into the celestial frame then
+        (phi, theta) corresponds to (ra, dec), otherwise it corresponds to 
+        (az, zen).  This function interpolates the map at the requested point 
+        rather than providing the vale at the nearest pixel center.
 
         Args:
-            az (float): The Azimuth
-            zen (float): The Zenith
+            phi (float): The azimuthal value
+            theta (float): The polar value
 
         Returns:
             (float)
         """
-        phi = self._ra_to_phi(az)
-        theta = np.deg2rad(zen)
-        pcoding = hp.get_interp_val(self.pcoding, theta, phi)
+        _phi = self._ra_to_phi(phi)
+        _theta = self._dec_to_theta(theta)
+        pcoding = hp.get_interp_val(self.pcoding, _theta, _phi)
         return pcoding
 
-    def partial_coding_path(self, fraction, numpts_az=360, numpts_zen=180):
+    def partial_coding_path(self, fraction, numpts_phi=360, numpts_theta=180):
         """Return the bounding path for a given partial coding fraction
 
         Args:
             fraction (float): The partial coding fraction (valid range 0-1)
-            numpts_az (int, optional): The number of grid points along the 
-                                       azimuthal axis. Default is 360.
-            numpts_zen (int, optional): The number of grid points along the
-                                        polar axis. Default is 180.
+            numpts_phi (int, optional): The number of grid points along the 
+                                        azimuthal axis. Default is 360.
+            numpts_theta (int, optional): The number of grid points along the
+                                          polar axis. Default is 180.
 
         Returns:
-            [(np.array, np.array), ...]: A list of Az, Zen points, where each 
+            [(np.array, np.array), ...]: A list of phi, theta points, where each 
                 item in the list is a continuous closed path.
         """
         if fraction < 0.0 or fraction > 1.0:
             raise ValueError('fraction must be between 0 and 1')
         
         # create the grid and integrated probability array
-        grid_pix, phi, theta = self._mesh_grid(numpts_az, numpts_zen)
+        grid_pix, phi, theta = self._mesh_grid(numpts_phi, numpts_theta)
         frac_arr = self.pcoding[grid_pix]
         az = self._phi_to_ra(phi)
         zen = self._theta_to_dec(theta)
@@ -123,6 +125,56 @@ class HealPixPartialCoding(HealPix):
         contour.remove()
 
         return pts
+
+    def plot_polygon(self, fraction, sky_plot, color='gray', alpha=0.3, 
+                     **kwargs):
+        """Plot the polygon defined by a partial coding fraction on the sky.
+        
+        Args:
+            fraction (float): The partial coding fraction
+            sky_plot (:class:`~gdt.core.plot.sky.Skyplot`): The sky plot
+            color (str, optional): The color of the polygon
+            alpha (float, optional): The alpha opacity of the polygon
+            kwargs (optional): Other options to pass to SkyPolygon
+        
+        Returns:
+            (list of :class:`~gdt.core.plot.plot.SkyPolygon`)
+        """
+        
+        paths = self.partial_coding_path(fraction)
+        
+        polys = []
+        for path in paths:
+            poly = SkyPolygon(path[:,0], path[:,1], sky_plot.ax, color=color,
+                              alpha=alpha, flipped=sky_plot._frame, 
+                              frame=sky_plot._frame, **kwargs)
+            polys.append(poly)
+        return polys
+
+    def rotate(self, sc_frame):
+        """Given a spacecraft frame, rotates the partial coding fraction map
+        into the celestial frame.
+        
+        Args:
+            sc_frame (SpacecraftFrame): The spacecraft frame
+        
+        Returns:
+            (:class:`BatPartialCoding`)
+        """
+        # create grid in target frame
+        ra, dec = hp.pix2ang(self.nside, np.arange(self.npix), lonlat=True)
+        
+        # rotate to spacecraft frame
+        coords = SkyCoord(ra, dec, frame='icrs', unit='deg').transform_to(sc_frame)
+        
+        # interpolate into the grid
+        theta = self._dec_to_theta(coords.el.value)
+        phi = self._ra_to_phi(coords.az.value)
+        rot_hpx = hp.get_interp_val(self._hpx, theta, phi)
+        
+        # create the new object
+        new_obj = self.__class__.from_data(rot_hpx)
+        return new_obj
     
     @staticmethod
     def _assert_pcoding(pcoding):
@@ -164,68 +216,4 @@ class BatPartialCoding(HealPixPartialCoding):
         self._hpx = np.zeros(npix)
         self._hpx[pix] = self._assert_pcoding(data.reshape(pix.shape))
 
-    def plot_polygon(self, fraction, sky_plot, color='gray', alpha=0.3, 
-                     **kwargs):
-        """Plot the polygon defined by a partial coding fraction on the sky.
-        
-        Args:
-            fraction (float): The partial coding fraction
-            sky_plot (:class:`~gdt.core.plot.sky.Skyplot`): The sky plot
-            color (str, optional): The color of the polygon
-            alpha (float, optional): The alpha opacity of the polygon
-            kwargs (optional): Other options to pass to SkyPolygon
-        
-        Returns:
-            (list of :class:`~gdt.core.plot.plot.SkyPolygon`)
-        """
-        
-        paths = self.partial_coding_path(fraction)
-        
-        polys = []
-        for path in paths:
-            poly = SkyPolygon(path[:,0], path[:,1], sky_plot.ax, color=color,
-                              alpha=alpha, flipped=sky_plot._frame, 
-                              frame=sky_plot._frame, **kwargs)
-            polys.append(poly)
-        return polys
-
-    def partial_coding(self, phi, theta):
-        """Calculate the partial coding fraction at the given coordinate. 
-        If the BAT partial coding has been rotated into the celestial frame then
-        (phi, theta) corresponds to (ra, dec), otherwise it corresponds to 
-        (az, zen).
-        
-        Args:
-            phi (float or np.array): The azimuthal coordinate
-            theta (float or np.array): The polar coordinate
-        
-        Returns:
-            (float or np.array) 
-        """
-        return super().partial_coding(az, 90.0-zen)
-
-    def rotate(self, sc_frame):
-        """Given a spacecraft frame, rotates the partial coding fraction map
-        into the celestial frame.
-        
-        Args:
-            sc_frame (SpacecraftFrame): The spacecraft frame
-        
-        Returns:
-            (:class:`BatPartialCoding`)
-        """
-        # create grid in target frame
-        ra, dec = hp.pix2ang(self.nside, np.arange(self.npix), lonlat=True)
-        
-        # rotate to spacecraft frame
-        coords = SkyCoord(ra, dec, frame='icrs', unit='deg').transform_to(sc_frame)
-        
-        # interpolate into the grid
-        theta = self._dec_to_theta(coords.el.value)
-        phi = self._ra_to_phi(coords.az.value)
-        rot_hpx = hp.get_interp_val(self._hpx, theta, phi)
-        
-        # create the new object
-        new_obj = self.__class__.from_data(rot_hpx)
-        return new_obj
 
