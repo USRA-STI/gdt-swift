@@ -1,6 +1,6 @@
 .. _swift-frame:
 .. |SwiftFrame| replace:: :class:`~gdt.missions.swift.frame.SwiftFrame`
-.. |GbmPosHist| replace:: :class:`~gdt.missions.swift.bat.poshist.BatSao`
+.. |GbmPosHist| replace:: :class:`~gdt.missions.swift.poshist.SwiftSao`
 .. |Quaternion| replace:: :class:`~gdt.core.coords.Quaternion`
 
 ********************************************************

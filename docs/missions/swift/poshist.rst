@@ -1,31 +1,31 @@
 .. _bat-poshist:
-.. |batPosHist| replace:: :class:`~gdt.missions.swift.bat.poshist.batPosHist`
-.. |Gti| replace:: :class:`~gdt.core.data_primitives.Gti`
+.. |SwiftSao| replace:: :class:`~gdt.missions.swift.poshist.SwiftSao`
+.. |Gti| replace:: :class:`~gdt.core.data\_primitives.Gti`
 .. |SpacecraftFrame| replace:: :class:`~gdt.core.coords.SpacecraftFrame`
 
 ********************************************************************************
-Swift BAT Position/Attitude History Data (:mod:`gdt.missions.swift.bat.poshist`)
+Swift Position/Attitude History Data (:mod:`gdt.missions.swift.poshist`)
 ********************************************************************************
-Probably the most critical auxiliary file bat produces is the Spacecraft Attitude/Orbit
-(SAO) history file. The SAO contains the spacecraft
+Probably the most critical auxiliary file Swift produces is the Spacecraft 
+Attitude/Orbit (SAO) history file. The SAO contains the spacecraft
 location in orbit and pointing information, sampled on a 1 second timescale.
 You may want to know if a source is visible at a particular time
-(i.e. not behind the Earth). You may want to know if there are specific contributions to the
-background during a time interval, such as sun visibility or high geomagnetic
-latitude in orbit. You may want to rotate something from the equatorial frame
-to the swift inertial frame, or vice versa. Or you may want to make a pretty
-gif of the detector pointings over time.
+(i.e. not behind the Earth). You may want to know if there are specific 
+contributions to the background during a time interval, such as sun visibility 
+or high geomagnetic latitude in orbit. You may want to rotate something from 
+the equatorial frame to the Swift inertial frame, or vice versa. Or you may want 
+to make a pretty gif of the detector pointings over time.
 
-To read a SAO file, we open it with the |BatSao| class:
+To read a SAO file, we open it with the |SwiftSao| class:
 
     >>> from gdt.core import data_path
-    >>> from gdt.missions.swift.bat.poshist import BatSao
+    >>> from gdt.missions.swift.poshist import SwiftSao
     >>> filepath = data_path / 'swift-bat' / 'sw00974827000sao.fits.gz'
-    >>> sao = BatSao.open(filepath)
+    >>> sao = SwiftSao.open(filepath)
     >>> sao
-    <BatSao(filename="sw00974827000sao.fits") at 0x7fd63d9ebd90>
+    <SwiftSao(filename="sw00974827000sao.fits") at 0x7fd63d9ebd90>
 
-The sao object contains the spacecraft **frame**, which is the spacecraft
+The SwiftSao object contains the spacecraft **frame**, which is the spacecraft
 position and orientation as a function of time, and the spacecraft **states**,
 which are the series of state flags as a function of time.
 
@@ -34,25 +34,30 @@ in the following way:
 
     >>> states = sao.get_spacecraft_states()
     >>> states
-    TimeSeries length=2162
-    time             sun	saa
-    Time	           bool	bool
-    ---------------- ---- -----
-    612353536.6006	False	False
-    612353537.6006	False	False
-    612353538.6006	False	False
-    612353539.6006	False	False
-    612353540.6006	False	False
-    612353541.6006	False	False
-    612353542.6006	False	False
-    ...	...	...
-    612355691.6006	True	False
-    612355692.6006	True	False
-    612355693.6006	True	False
-    612355694.6006	True	False
-    612355695.6006	True	False
-    612355696.6006	True	False
-    612355697.6006	True	False
+    <TimeSeries length=2162>
+         time       sun   saa 
+         Time      int16 int16
+    -------------- ----- -----
+    612353536.6006     0     0
+    612353537.6006     0     0
+    612353538.6006     0     0
+    612353539.6006     0     0
+    612353540.6006     0     0
+    612353541.6006     0     0
+    612353542.6006     0     0
+    612353543.6006     0     0
+    612353544.6006     0     0
+               ...   ...   ...
+    612355688.6006     1     0
+    612355689.6006     1     0
+    612355690.6006     1     0
+    612355691.6006     1     0
+    612355692.6006     1     0
+    612355693.6006     1     0
+    612355694.6006     1     0
+    612355695.6006     1     0
+    612355696.6006     1     0
+    612355697.6006     1     0
 
 
 The state flags are stored in an Astropy TimeSeries object, and for each
@@ -97,7 +102,7 @@ long as it exists within the boundaries of the file.
      obsgeovel=[(2323.70922852, 6723.68066406, -2668.9206543) m / s]
      quaternion=[(x, y, z, w) [-0.2434614 ,  0.39559507, -0.55300576,  0.69167602]]>
 
-We can retrieve where swift was in orbit at that time:
+We can retrieve where Swift was in orbit at that time:
 
     >>> one_frame.earth_location.lat, one_frame.earth_location.lon
     (<Latitude 1.22700959 deg>, <Longitude -66.81447614 deg>)
@@ -105,7 +110,7 @@ We can retrieve where swift was in orbit at that time:
     <Quantity 542665.41017423 m>
 
 We might be interested to know where the Earth is (and its apparent radius)
-relative to swift:
+relative to Swift:
 
     >>> one_frame.geocenter.ra, one_frame.geocenter.dec
     (<Longitude 161.39248212 deg>, <Latitude -1.11366964 deg>)
@@ -114,7 +119,7 @@ relative to swift:
     <Quantity 67.15947244 deg>
 
 We could also be interested in a particular known source, and it would be
-helpful to know if it is even visible to swift at the time of interest:
+helpful to know if it is even visible to Swift at the time of interest:
 
     >>> from astropy.coordinates import SkyCoord
     >>> coord = SkyCoord(324.3, -20.8, frame='icrs', unit='deg')
@@ -124,7 +129,7 @@ helpful to know if it is even visible to swift at the time of interest:
 Well, that's good to know.
 
 Sometimes it's useful to transform a source location of interest in equatorial
-coordinates to the swift inertial frame. You can do that by the following:
+coordinates to the Swift inertial frame. You can do that by the following:
 
     >>> coord_sc_frame = coord.transform_to(one_frame)
     >>> coord_sc_frame.az, coord_sc_frame.el
@@ -151,5 +156,5 @@ see :external:ref:`Spacecraft Attitude, Position, and Coordinates<core-coords>`.
 Reference/API
 =============
 
-.. automodapi:: gdt.missions.swift.bat.poshist
+.. automodapi:: gdt.missions.swift.poshist
    :inherited-members:
