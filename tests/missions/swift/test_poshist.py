@@ -32,7 +32,7 @@ import numpy as np
 from tempfile import TemporaryDirectory
 from gdt.core import data_path
 from gdt.core.coords import Quaternion
-from gdt.missions.swift.bat.poshist import BatSao
+from gdt.missions.swift.poshist import SwiftSao
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def test_get_spacecraft_frame(test_file):
     # if not test_file.exists():
     #     pytest.skip("test files aren't downloaded. run gdt-download-data.")
 
-    with BatSao.open(test_file) as poshist:
+    with SwiftSao.open(test_file) as poshist:
         frame = poshist.get_spacecraft_frame()
         # This file has 2162 rows
         assert frame.obstime.size == 2162
@@ -85,7 +85,7 @@ def test_get_spacecraft_states(test_file):
     # if not test_file.exists():
     #     pytest.skip("test files aren't downloaded. run gdt-download-data.")
 
-    with BatSao.open(test_file) as poshist:
+    with SwiftSao.open(test_file) as poshist:
         states = poshist.get_spacecraft_states()
         # This file has 86520 rows
         assert len(states) == 2162

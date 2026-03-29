@@ -48,14 +48,13 @@ from gdt.core.coords.spacecraft import SpacecraftFrameModelMixin, SpacecraftStat
 from gdt.core.coords.spacecraft import SpacecraftFrame
 from gdt.missions.swift.time import Time
 from gdt.missions.swift.bat.headers import SaoHeaders
-from .detectors import BatPartialCoding
 
 
-__all__ = ['BatSao']
+__all__ = ['SwiftSao']
 
 
-class BatSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileContextManager):
-    """Class for reading a BAT SAO Position history file.
+class SwiftSao(SpacecraftFrameModelMixin, SpacecraftStatesModelMixin, FitsFileContextManager):
+    """Class for reading a Swift SAO Position history file.
     """
 
     @staticmethod
