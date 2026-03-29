@@ -79,6 +79,7 @@ Instrument Definitions
 .. toctree::
    :maxdepth: 1
 
+   missions/swift/bat/detector
    missions/swift/bat/headers
 
 Data Types
