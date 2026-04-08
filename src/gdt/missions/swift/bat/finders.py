@@ -39,354 +39,480 @@
 # the License.
 #
 import os
-from math import floor
-from gdt.core.heasarc import FtpFinder
+from ..finders import SwiftObsFinder, SwiftTemporalFinder
 from ..time import *
 
-__all__ = ['BatDataProductsFtp', 'BatAuxiliaryFtp']
+__all__ = ['BatEventFinder', 'BatEventTemporalFinder', 
+           'BatHousekeepingFinder','BatHousekeepingTemporalFinder', 
+           'BatRateFinder', 'BatRateTemporalFinder',
+           'BatSurveyFinder', 'BatSurveyTemporalFinder', 
+           'BatTriggerFinder', 'BatTriggerTemporalFinder']
 
 
-class BatFinder(FtpFinder):
-    """Subclassing FtpFinder to enable _file_filter() to take a list
-    """
-
-    def _file_filter(self, file_list, filetype, extension):
-        """Filters the directory for the requested filetype, and extension
-
-        Args:
-            filetype (str): The type of file, e.g. 'cont'
-            extension (str): The file extension, e.g. '.fit'
-
-        Returns:
-            (list): The filtered file list
-        """
-        files = super()._file_filter(file_list, filetype, extension)
-
-        return files
-
-
-class BatDataProductsFtp(BatFinder):
-    """A class that interfaces with the HEASARC FTP directories.
-    An instance of this class will represent the available files associated
-    with a single event.
-
-    An instance can be created with an observation ID and a date (YYYY-MM) to query and download files.
-    An instance can also be changed from one trigger number to another without
-    having to create a new instance.  If multiple instances are created and
-    exist simultaneously, they will all use a single FTP connection.
-
+class BatEventFinder(SwiftObsFinder):
+    """This class finds Swift BAT event data based on date and 
+    observation ID.
+    
     Parameters:
+        date (astropy.Time, optional): A time for the observation
         obsid (str, optional): A valid observation ID number
-        date (str, optional): a date (YYYY-MM) for the observation
-
-    Attributes:
-        num_files (int): Number of files in the current directory
-        files (list of str): The list of files in the current directory
     """
-    _root = '/swift/data/obs/'
-
-    def _validate(self, obsid, date):
-        return super()._validate(obsid, date)
-
-    def cd(self, obsid: str, date: str):
-        """Change directory to obsid number.
-
-        Args:
-            obsid (str): A valid observation ID number
-            date (str): a date (YYYY-MM) for the observation
-        """
-        super().cd(obsid, date)
-
-
-    def get_all(self, download_dir, **kwargs):
-        """Download all files within a data products directory.
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        return self.get(download_dir, self._file_list, **kwargs)
-
-
-    def ls_all(self):
-        """List all files for the observations data products
-
-        Returns:
-            (list of str)
-
-        """
-        return self._file_filter(self.files, '', '')
-
-
-    def ls_lightcurve(self):
-        """List all lightcurve data for the observation
-
-        Returns:
-            (list of str)
-        """
-
-        files = []
-        files.extend(self._file_filter(self.files, 'lc', ''))
-        return files
-
-
-    def get_lightcurve(self, download_dir, *args, **kwargs):
-        """Download the lightcurve data for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'lc', '')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_gti(self):
-        """List all good timing interval data for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, '', 'gti.gz')
-
-
-    def get_gti(self, download_dir, *args, **kwargs):
-        """Download the good timing interval data for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, '', 'gti.gz')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_response(self):
-        """List all response files for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, '', 'rsp.gz')
-
-
-    def get_response(self, download_dir, *args, **kwargs):
-        """Download the response files for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, '', 'rsp.gz')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_pha(self):
-        """List all pha files for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, '', 'pha.gz')
-
-
-    def get_pha(self, download_dir, *args, **kwargs):
-        """Download the pha files for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, '', 'pha.gz')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_preslew(self):
-        """List all pre-slew files for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, 'bevps', '')
-
-
-    def get_preslew(self, download_dir, *args, **kwargs):
-        """Download the pre-slew files for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'bevps', '')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_slew(self):
-        """List all files during slew for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, 'bevsl', '')
-
-
-    def get_slew(self, download_dir, *args, **kwargs):
-        """Download the files during slew for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'bevsl', '')
-        self.get(download_dir, files, **kwargs)
-
-
-    def ls_afterslew(self):
-        """List all after-slew files for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, 'bevas', '')
-
-
-    def get_afterslew(self, download_dir, *args, **kwargs):
-        """Download the after-slew for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'bevas', '')
-        self.get(download_dir, files, **kwargs)
-
-
-    def _construct_path(self, obsid, date):
+    def _construct_path(self, date, obsid):
         """Constructs the FTP path for a observation
 
         Args:
+            date (astropy.Time): The date/time
             obsid (str): The observation ID
-            date (str): given in YYYY-MM
 
         Returns:
             str: The path of the FTP directory for the observation
         """
-
-        year = date[:4]
-        day = date[5:]
-        path = os.path.join(self._root, year + '_' + day, obsid + '000', 'bat', 'products')
-
-        try:
-            trigger_dirs = self._protocol.ls(path)
-        except:
-            raise FileExistsError
-
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'event')
         return path
 
 
-class BatAuxiliaryFtp(BatFinder):
-    """A class that interfaces with the HEASARC FTP observation auxiliary directories.
-    An instance of this class will represent the available files associated
-    with an the observation.
-
-    An instance can be created with an observation ID and a date (YYYY-MM) to query and download files.
-    An instance can also be changed from one trigger number to another without
-    having to create a new instance.  If multiple instances are created and
-    exist simultaneously, they will all use a single FTP connection.
-
+class BatHousekeepingFinder(SwiftObsFinder):
+    """This class finds Swift BAT housekeeping data based on date and 
+    observation ID.
+    
     Parameters:
+        date (astropy.Time, optional): A time for the observation
         obsid (str, optional): A valid observation ID number
-        date (str, optional): a date (YYYY-MM) for the observation
-
-    Attributes:
-        num_files (int): Number of files in the current directory
-        files (list of str): The list of files in the current directory
     """
-    _root = '/swift/data/obs/'
-
-    def ls_all(self):
-        """List all files for the observation
-
-        Returns:
-            (list of str)
-
-        """
-        return self._file_filter(self.files, '', '')
-
-    def get_all(self, download_dir, **kwargs):
-        """Download all files within a data products observation.
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        self.get(download_dir, self._file_list, **kwargs)
-
-    def ls_sao(self):
-        """List SAO file for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, 'sao', '.')
-
-    def get_sao(self, download_dir, *args, **kwargs):
-        """Download the SAO file for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'sao', '')
-        self.get(download_dir, files, **kwargs)
-
-    def ls_sat(self):
-        """List the SAT file for the observation
-
-        Returns:
-            (list of str)
-        """
-        return self._file_filter(self.files, 'sat', '.')
-
-    def get_sat(self, download_dir, *args, **kwargs):
-        """Download SAT File for the observation
-
-        Args:
-            download_dir (str): The download directory
-            verbose (bool, optional): If True, will output the download status.
-                                      Default is True.
-        """
-        files = self._file_filter(self.files, 'sat', '')
-        self.get(download_dir, files, **kwargs)
-
-    def _construct_path(self, obsid, date):
+    def _construct_path(self, date, obsid):
         """Constructs the FTP path for a observation
 
         Args:
+            date (astropy.Time): The date/time
             obsid (str): The observation ID
-            date (str): given in YYYY-MM
 
         Returns:
-            str: The path of the FTP directory for the trigger
+            str: The path of the FTP directory for the observation
         """
-
-        year = date[:4]
-        day = date[5:]
-        path = os.path.join(self._root, year + '_' + day, obsid + '000', 'auxil')
-
-        try:
-            trigger_dirs = self._protocol.ls(path)
-        except:
-            raise FileExistsError
-
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'hk')
         return path
+
+
+class BatRateFinder(SwiftObsFinder):
+    """This class finds Swift BAT rate data based on date and observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'rate')
+        return path
+
+
+class BatSurveyFinder(SwiftObsFinder):
+    """This class finds Swift BAT survey data based on date and observation ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'survey')
+        return path
+
+
+class BatTriggerFinder(SwiftObsFinder):
+    """This class finds Swift BAT triggered data based on date and observation 
+    ID.
+    
+    Parameters:
+        date (astropy.Time, optional): A time for the observation
+        obsid (str, optional): A valid observation ID number
+    """
+    def _construct_path(self, date, obsid):
+        """Constructs the FTP path for a observation
+
+        Args:
+            date (astropy.Time): The date/time
+            obsid (str): The observation ID
+
+        Returns:
+            str: The path of the FTP directory for the observation
+        """
+        path = os.path.join(self._root, date.utc.strftime('%Y_%m'), obsid, 
+                            'bat', 'products')
+        return path
+
+
+class BatEventTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT event data that covers a given time or time range.
+    
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatEventFinder
+
+    def get_event(self, download_dir, **kwargs):
+        """Download the event data files.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_event(), **kwargs)
+    
+    def ls_event(self):
+        """List the event data files
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('', 'evt.gz')
+
+
+class BatHousekeepingTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT housekeeping data that covers a given time or time range.
+    
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatHousekeepingFinder
+
+    def get_det_enabled(self, download_dir, **kwargs):
+        """Download the files containing the map of enabled BAT detectors.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_det_enabled(), **kwargs)
+
+    def get_gain_offset(self, download_dir, **kwargs):
+        """Download the files containing the gain and offset of the BAT detectors.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_gain_offset(), **kwargs)
+
+    def ls_det_enabled(self):
+        """List the files containing the map of enabled BAT detectors.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('decb', 'hk.gz')
+
+    def ls_gain_offset(self):
+        """List the files containing the gain and offset of the BAT detectors.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('bgoc', 'hk.gz')
+    
+
+class BatRateTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT rate data that covers a given time or time range.
+    
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatRateFinder
+
+    def get_millisecond_lc(self, download_dir, **kwargs):
+        """Download the millisecond lightcurve data.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_millisecond_lc(), **kwargs)
+
+    def get_maxrate_lc(self, download_dir, **kwargs):
+        """Download the maximum count rate data spanning multiple timescales.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_maxrate_lc(), **kwargs)
+
+    def get_quadrant_lc(self, download_dir, **kwargs):
+        """Download the lightcurve data split into observing quadrants.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_quadrant_lc(), **kwargs)
+
+    def get_second_lc(self, download_dir, **kwargs):
+        """Download the 1-second resolution lightcurve.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_second_lc(), **kwargs)
+
+    def ls_millisecond_lc(self):
+        """List the millisecond lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtms', 'lc.gz')
+    
+    def ls_maxrate_lc(self):
+        """List the maximum count rate data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtmc', 'lc.gz')
+
+    def ls_quadrant_lc(self):
+        """List the quadrant lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brtqd', 'lc.gz')
+
+    def ls_second_lc(self):
+        """List the 1-second resolution lightcurve data files.
+
+        Returns:
+            (list of str)
+        """
+        return self.filter('brt1s', 'lc.gz')
+
+
+class BatSurveyTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT survey data that covers a given time or time range.
+    
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatSurveyFinder
+    
+    def get_survey(self, download_dir, **kwargs):
+        """Download the survey detector plane histogram files.
+
+        Args:
+            download_dir (str): The download directory
+            verbose (bool, optional): If True, will output the download status.
+
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_survey(), **kwargs)
+    
+    def ls_survey(self):
+        """List the survey detector plane histogram files.
+        
+        Returns: 
+            (list of str)
+        """
+        return self.filter('bsv', 'dph.gz')
+
+
+class BatTriggerTemporalFinder(SwiftTemporalFinder):
+    """Find Swift BAT triggered data that covers a given time or time range.
+    
+    See :class:`~gdt.missions.swift.finders.SwiftTemporalFinder` for details on 
+    how this class works.
+    
+    Parameters:
+        tstart (astropy.Time): A time of interest or start time for a time 
+                               range of interest
+        tstop (astropy.Time, optional): The stop time for a time range of 
+                                        interest.
+    """
+    _base_obs_finder = BatTriggerFinder
+
+    def get_afterslew(self, download_dir, **kwargs):
+        """Download the afterslew files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_afterslew(), **kwargs)
+
+    def get_all(self, download_dir, **kwargs):
+        """Download all files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.files, **kwargs)
+    
+    def get_gti(self, download_dir, **kwargs):
+        """Download the GTI data.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_gti(), **kwargs)
+    
+    def get_lightcurve(self, download_dir, **kwargs):
+        """Download the lightcurve data.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_lightcurve(), **kwargs)
+
+    def get_peak(self, download_dir, **kwargs):
+        """Download the peak intensity files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_peak(), **kwargs)
+    
+    def get_preslew(self, download_dir, **kwargs):
+        """Download the preslew files.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_preslew(), **kwargs)
+    
+    def get_quicklook(self, download_dir, **kwargs):
+        """Download the quicklook images (typically lightcurve and sky image).
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_quicklook(), **kwargs)
+
+    def get_slew(self, download_dir, **kwargs):
+        """Download the files during slew.
+        
+        Returns:
+            (list): The file paths of the downloaded files
+        """
+        return self.get(download_dir, self.ls_slew(), **kwargs)
+    
+    def ls_afterslew(self):
+        """List the after-slew files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevas', '')
+    
+    def ls_gti(self):
+        """List the GTI files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('gti', '')
+    
+    def ls_lightcurve(self):
+        """List the lightcurve data available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bev', 'lc.gz')
+
+    def ls_peak(self):
+        """List the files at peak intensity that are available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevpb', '')
+    
+    def ls_preslew(self):
+        """List the pre-slew files available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevpb', '')
+    
+    def ls_quicklook(self):
+        """List the quicklook images available (typically lightcurve and 
+        sky image).
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('', 'gif')
+
+    def ls_slew(self):
+        """List the files during slew that are available.
+        
+        Returns:
+            (list of str)
+        """
+        return self.filter('bevsl', '')

@@ -1,128 +1,264 @@
 .. _bat-finders:
-.. |BatAuxiliaryFtp| replace:: :class:`~gdt.missions.swift.bat.finders.BatAuxiliaryFtp`
-.. |BatDataProductsFtp| replace:: :class:`~gdt.missions.swift.bat.finders.BatDataProductsFtp`
-.. 
+.. |BatEventFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatEventFinder`
+.. |BatHousekeepingFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatHousekeepingFinder`
+.. |BatRateFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatRateFinder`
+.. |BatSurveyFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatSurveyFinder`
+.. |BatTriggerFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatTriggerFinder`
+.. |BatEventTemporalFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatEventTemporalFinder`
+.. |BatHousekeepingTemporalFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatHousekeepingTemporalFinder`
+.. |BatRateTemporalFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatRateTemporalFinder`
+.. |BatSurveyTemporalFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatSurveyTemporalFinder`
+.. |BatTriggerTemporalFinder| replace:: :class:`~gdt.missions.swift.bat.finders.BatTriggerTemporalFinder`
+..
+
 **************************************************************
 Swift BAT Data Finders (:mod:`gdt.missions.swift.bat.finders`)
 **************************************************************
-A natural question may be: "Where do I find the data I need?" Well, you're in
-luck, because this will show you how to find the data you seek. bat Data is
-hosted publicly on the HEASARC FTP server
-and the data are stored in a consistent directory structure. But instead of
-having to navigate a winding maze of FTP directories, we provide a couple of
-classes built to retrieve the data you want. These finders are currently setup to download data for Swift BAT GRBs and have been processed by the pipeline as well as the Auxiliary files that provide the spacecraft information.
-An analysis thread on how to perform the GRB processing script is 'here<https://swift.gsfc.nasa.gov/analysis/threads/batgrbproductthread.html>', although this is done automatically by the Swift pipeline.
+Similar to the :ref:`observatory-level data finders<swift-finders>` (e.g. for 
+finding auxiliary data containing the observatory orbital position and 
+pointing), the BAT data are stored relative to an observation ID (ObsID), where
+a time series of BAT data may be split up over many different ObsIDs, and hence
+different directories, without a direct and simple way to extract the data in
+its original time-sequenced form.  This package provides two different ways to
+search for data: a search based on the ObsID, and a search that finds data that
+covers a time range of interest.
 
-Finding Pipeline Processed BAT Data
-===================================
+Finding BAT Data with a Time and an ObsID
+=========================================
+The simplest way to find BAT data is if you know the ObsID and the time of 
+the observation.  There are five different data finders that are responsible for
+the different types of BAT data:
 
-Let's start with the pipeline processed GRB data. To download the data you will need to know the observtation ID which is an 11 digit sequence number that identifies the observation. GRB data that has been processed with the BAT pipeline will have an observation ID ended in '000'. You will need to know the observation ID number you're
-interested in (01116441) and the year and month ('2022-07') of the GRB:
+.. list-table:: **Data Finders**
+   :widths: auto
+   :align: left
+   :header-rows: 1
 
-    >>> from gdt.missions.swift.bat.finders import TriggerFtp
-    >>> finder = BatDataProductsFtp('01116441', '2022-07')
-    <TriggerFtp: 190114873>
+   * - Class
+     - Description
+   * - |BatEventFinder|
+     - Finds BAT event data
+   * - |BatHousekeepingFinder|
+     - Finds BAT housekeeping data
+   * - |BatRateFinder|
+     - Finds BAT continuous rate data
+   * - |BatSurveyFinder|
+     - Finds BAT survey data
+   * - |BatTriggerFinder|
+     - Finds BAT data products from on-board triggers
+     
+
+As an example, we know that we want the rate data for ObsID 00974827000 that
+covers a specific time on May 28, 2020:
+
+    >>> from gdt.missions.swift.time import *
+    >>> from gdt.missions.swift.bat.finders import BatRateFinder
+    >>> t0 = Time('2020-05-28 10:28:00')
+    >>> obsid = '00974827000'
+    >>> finder = BatRateFinder(t0, obsid)
+    >>> print(finder)
+    <BatRateFinder: 2020-05-28 10:28:00.000, 00974827000>
+
+We can display the remote archive directory:
+
+    >>> finder.cwd
+    '/swift/data/obs/2020_05/00974827000/bat/rate'
+
+And we can list the files in the directory:
+
+    >>> finder.files
+    ['sw00974827000brt1s.lc.gz',
+     'sw00974827000brtmc.lc.gz',
+     'sw00974827000brtms.lc.gz',
+     'sw00974827000brtqd.lc.gz']
+     
+Finally, we can download the full file list or a subset:
+    
+    >>> # download full file list
+    >>> download_paths = finder.get('download_dir', finder.files)
+
+
+Finding BAT Data with Only a Time
+=================================
+This package enables searching for Swift BAT data using only a time or time
+range without requiring knowledge of the ObsID.  For a more complete description
+of this process and the resulting pitfalls, see the documentation about the 
+:ref:`observatory-level data finders<swift-temporal-finders>`.  The important 
+thing to note here is that the following finders will search over multiple 
+ObsIDs to find the requested data, **however**, the data files it finds 
+**encompasses** the data requested, hence some of the files may not contain
+relevant data. The only way to determine which of the files contain the data
+you want is to read them.  This is a consequence of how the archive and data
+files are organized.
+
+There are five temporal data finders corresponding to the finders listed in
+the previous section:
+
+.. list-table:: **Temporal Data Finders**
+   :widths: 25 40
+   :header-rows: 1
+
+   * - Class
+     - Description
+   * - |BatEventTemporalFinder|
+     - Finds BAT event data
+   * - |BatHousekeepingTemporalFinder|
+     - Finds BAT housekeeping data
+   * - |BatRateTemporalFinder|
+     - Finds BAT continuous rate data
+   * - |BatSurveyTemporalFinder|
+     - Finds BAT survey data
+   * - |BatTriggerTemporalFinder|
+     - Finds BAT data products from on-board triggers
+
+Let's demonstrate how these finders work, by searching for BAT rate data 
+covering a one-hour period on May 28, 2020:
+
+    >>> from gdt.missions.swift.bat.finders import BatRateTemporalFinder
+    >>> t0 = Time('2020-05-28T10:28:00')
+    >>> t1 = Time('2020-05-28T11:28:00')
+    >>> finder = BatRateTemporalFinder(t0, tstop=t1)
+    >>> print(finder)
+    <BatRateTemporalFinder: 2020-05-28 10:28:00.000, 2020-05-28 11:28:00.000>
+
+Displaying the remote archive directories:
+
+    >>> finder.cwd
+    ['/swift/data/obs/2020_05/00013483015/bat/rate',
+     '/swift/data/obs/2020_05/03106436001/bat/rate',
+     '/swift/data/obs/2020_05/00095119034/bat/rate',
+     '/swift/data/obs/2020_05/00974827000/bat/rate']
+
+Notice that now instead of a single directory, there are four different 
+directories containing the files spanning this time range.  We see how many
+total files there are in these directories:
+
     >>> finder.num_files
-    122
+    16
 
-We don't really care about the directory structure, we just want the data. So
-this quickly gets us to the directory we need. There are 14 files associated
-with this GRB. Say we want to all the data available.
+There are 16 files across 4 directories. As with the previous example, 
+you can list all the files and download them all, but these finders also 
+provide helper functions that group specific files together.  For example, we
+can list and download all of the millisecond-scale rate lightcurve data:
 
-    >>> finder.ls_cspec()
-    ['sw01116441000bev1s.lc.gz',
-     'sw01116441000bev1s_lc.gif',
-     'sw01116441000bev_skim.gif',
-     'sw01116441000bevas_dt.img.gz',
-     'sw01116441000bevas_sk.img.gz',
-     'sw01116441000bevbu.gti.gz',
-     'sw01116441000bevms.lc.gz',
-     'sw01116441000bevpb_dt.img.gz',
-     'sw01116441000bevpb_sk.img.gz',
-     'sw01116441000bevps.pha.gz',
-     'sw01116441000bevps.rsp.gz',
-     'sw01116441000bevps_dt.img.gz',
-     'sw01116441000bevps_sk.img.gz',
-     'sw01116441000bevsl.pha.gz']
+    >>> finder.ls_millisecond_lc()
+    ['sw00013483015brtms.lc.gz',
+     'sw03106436001brtms.lc.gz',
+     'sw00095119034brtms.lc.gz',
+     'sw00974827000brtms.lc.gz']
+    
+    >>> finder.get_millisecond_lc('download_dir')
 
-Great! There's a full complement of BAT Pipeline data. How about we download this data to a specified directory?
+We can similarly do this for the maximum count rate lightcurve data:
 
-    >>> finder.det('downlaod-dir')
-    sw01116441000bev1s.lc.gz ━━━━━━━━━━━ 100.0% • 88.7/88.7   • 271.6 kB/s • 0:00:00
-    sw01116441000bev1s_lc.gif ━━━━━━━━━━ 100.0% • 21.4/21.4   • 137.3 MB/s • 0:00:00
-    sw01116441000bev_skim.gif ━━━━━━━━━━ 100.0% • 100.6/100.6 • 791.6 kB/s • 0:00:00
-    sw01116441000bevas_dt.img.gz ━━━━━━━━━ 100.0% • 193.0/193… • 438.6 kB/s • 0:00:00
-    sw01116441000bevas_sk.img.gz ━━━━━━━━━━ 100.0% • 11.9/11.9  • 6.7 MB/s • 0:00:00
-    sw01116441000bevbu.gti.gz ━━━━━━━━━━━━━━━━━━━━ 100.0% • 4.1/4.1 kB • ? • 0:00:00
-    sw01116441000bevms.lc.gz ━━━━━━━━━━━━━━ 100.0% • 1.3/1.3 MB • 1.8 MB/s • 0:00:00
-    sw01116441000bevpb_dt.img.gz ━━━━━━━━━ 100.0% • 167.2/167… • 586.2  kB/s    • 0:00:00
-    sw01116441000bevpb_sk.img.gz ━━━━━━━━━━ 100.0% • 11.3/11.3  • 3.7 MB/s • 0:00:00
-    sw01116441000bevps.pha.gz ━━━━━━━━━━━ 100.0% • 9.8/9.8 kB • 101.2 MB/s • 0:00:00
-    sw01116441000bevps.rsp.gz ━━━━━━━━━━ 100.0% • 46.5/46.5   • 621.9 kB/s • 0:00:00
-    sw01116441000bevps_dt.img.gz ━━━━━━━━━ 100.0% • 117.2/117… • 337.4 kB/s    • 0:00:00
-    sw01116441000bevps_sk.img.gz ━━━━━━━━━━ 100.0% • 10.8/10.8  • 5.6 MB/s • 0:00:00
-    sw01116441000bevsl.pha.gz ━━━━━━━━━━━━ 100.0% • 9.8/9.8 kB • 97.9 MB/s • 0:00:00
+    >>> finder.ls_maxrate_lc()
+    ['sw00013483015brtmc.lc.gz',
+     'sw03106436001brtmc.lc.gz',
+     'sw00095119034brtmc.lc.gz',
+     'sw00974827000brtmc.lc.gz']
+    
+    >>> finder.get_maxrate_lc('download_dir')
+
+Each of the temporal data finders provide a variety of helper functions to
+group data types together for download, so checkout the documentation for the
+respective classes.
 
 
+BAT Data Products Descriptions:
+===============================
+More information can be found in the 
+`Swift Archive Documentation <https://swift.gsfc.nasa.gov/archive/archiveguide1/node5.html>`_.
 
-Finding Auxiliary BAT Data
-==========================
-Now we want the auxiliary data which describes the spacecraft position/orientation files. A breakdown of these data products are in :ref:list-table. To find the data you
-need, instead of a trigger number, you need to create a |BatAuxiliaryFtp|
-object by specifying a time using Astropy Time:
+Event Data
+----------
+.. list-table::
+   :widths: auto
+   :align: left
+   :header-rows: 1
+   
+   * - File Name
+     - Description
+   * - sw[obs_id]bevshsp_uf.evt
+     - Standard event data during both slew and pointing
+   * - sw[obs_id]bevshsl_uf.evt
+     - Standard event data during slew only
+   * - sw[obs_id]bevshpo_uf.evt
+     - Standard event data during pointing only
+   * - sw[obs_id]bevrt_uf.evt
+     - Derived information from ray tracing used to construct a response
 
-    >>> from gdt.missions.swift.bat.finders import BatAuxiliaryFtp
-    >>> aux_finder = BatAuxiliaryFtp('01116441', '2022-07')
-    >>> aux_finder
-    <ContinuousFtp: 587683338.0>
-    >>> aux_finder.num_files
-    12
+----
 
-That's a whole lotta files in this directory. Most of them are TTE; remember
-that each hour has a TTE file (since the end of 2012) for each detector. Let's
-just list the CTIME that's available:
+Housekeeping Data
+-----------------
+.. list-table::
+   :widths: auto
+   :align: left
+   :header-rows: 1
 
-    >>> aux_finder.ls_all()
-    ['SWIFT_TLE_ARCHIVE.txt.22202.86649910.gz',
-     'sw01116441000pat.fits.gz',
-     'sw01116441000pjb.par.gz',
-     'sw01116441000pob.cat.gz',
-     'sw01116441000ppr.par.gz',
-     'sw01116441000s.mkf.gz',
-     'sw01116441000sao.fits.gz',
-     'sw01116441000sat.fits.gz',
-     'sw01116441000sen.hk.gz',
-     'sw01116441000sti.fits.gz',
-     'sw01116441000uat.fits.gz',
-     'sw01116441000x.mkf.gz']
+   * - File Name
+     - Description
+   * - sw[obs_id]bhd.hk
+     - Housekeeping header data
+   * - sw[obs_id]ben.hk
+     - Engineering housekeeping parameters
+   * - sw[obs_id]bdp.hk
+     - Detector panel housekeeping parameters
+   * - sw[obs_id]bevtssp.hk
+     - Contains the timestamps of event data
+   * - sw[obs_id]bevtlsp.hk
+     - Contains additional telemetry relevant to event data
+   * - sw[obs_id]bgocb.hk
+     - The gain and offset calibration values for each detector
+   * - sw[obs_id]bdecb.hk
+     - Contains the detectors that are enabled during the observation
+   * - sw[obs_id]bdqcb.hk
+     - Contains the detector quality flags
 
-Now let's list the available TTE for this time. This will only list the TTE
-files in the directory that cover the relevant time:
+----     
 
-    >>> aux_finder.get_all()
-    SWIFT_TLE_ARCHIVE.txt.22202.86649910.gz ━━━━━━━━━━━ 100.0% • 174.6/174.6 • 832.1 kB/s • 0:00:00
-    sw01116441000pat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 489.7/489.7 kB • 1.5 MB/s • 0:00:00
-    sw01116441000pjb.par.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 2.5/2.5 kB • ? • 0:00:00
-    sw01116441000pob.cat.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 7.3/7.3 kB • ? • 0:00:00
-    sw01116441000ppr.par.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 1.7/1.7 kB • ? • 0:00:00
-    sw01116441000s.mkf.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 177.2/177.2 kB • 417.9 kB/s • 0:00:00
-    sw01116441000sao.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 608.2/608.2 kB • 982.9 kB/s • 0:00:00
-    sw01116441000sat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 495.8/495.8 kB • 1.2 MB/s • 0:00:00
-    sw01116441000sen.hk.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 1.9/1.9 MB • 2.2 MB/s • 0:00:00
-    sw01116441000sti.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 6.2/6.2 kB • ? • 0:00:00
-    sw01116441000uat.fits.gz ━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 352.8/352.8 kB • 607.4 kB/s • 0:00:00
-    sw01116441000x.mkf.gz ━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.0% • 177.2/177.2 kB • 811.4 kB/s • 0:00:00
+Rate Data
+---------
+.. list-table::
+   :widths: auto
+   :align: left
+   :header-rows: 1
 
+   * - File Name
+     - Description
+   * - sw[obs_id]brt1s.lc
+     - 1-second lightcurve data in four energy channels
+   * - sw[obs_id]brtms.lc
+     - 64-ms lightcurve data in four energy channels
+   * - sw[obs_id]brtqd.lc
+     - 1.6-second lightcurve data in four energy channels separated into 
+       quadrants
+   * - sw[obs_id]brtmc.lc
+     - Maximum count rate per quadrant on different timescales in four energy 
+       channels
 
-See :external:ref:`The FtpFinder Class<core-heasarc-finder>` for more details
-on using data finders.
+----
 
-Data Products Descriptions:
-===========================
-The following descriptions were found in links '/https://swift.gsfc.nasa.gov/analysis/bat_swguide_v6_3.pdf' and 'https://swift.gsfc.nasa.gov/archive/archiveguide1/node5.html'. Not all of these data files may be in the directory you are working with.
+Survey Data
+-----------
+.. list-table::
+   :widths: auto
+   :align: left
+   :header-rows: 1
 
-.. list-table:: Pipline Data Products
-   :widths: 25 50
+   * - File Name
+     - Description
+   * - sw[obs_id]bsv[ab|pb]o[offset]g[gain].dph,
+     - Detector plane histograms compiled either after a burst (ab) or pre-burst
+       (pb).
+
+----   
+
+Trigger Data
+------------
+.. list-table::
+   :widths: auto
+   :align: left
    :header-rows: 1
 
    * - File Name
@@ -155,41 +291,6 @@ The following descriptions were found in links '/https://swift.gsfc.nasa.gov/ana
      - BAT Spectrum for post-slew burst interval
    * - sw[obs-id]bevas.rsp
      - BAT Response matrix for post-slew spectrum
-
-
-.. list-table:: Auxiliary Data Products
-  :widths: 25 50
-  :header-rows: 1
-
-  * - File Name
-    - Description
-  * - sw[obs-id]sat.fits
-    - attitude information.
-  * - sw[obs-id]sao.fits
-    - orbit information.
-  * - sw[obs-id]sen.fits
-    - spacecraft engineering parameters.
-  * - sw[obs-id]s.mkf
-    - filter file where the attitude and the instrument housekeeping (HK) paramaters are collected for use during screening.
-  * - sw[obs-id]sti.mkf
-    - UTCF timing correction for the observation.
-  * - sw[obs-id]pob.cat
-    - Catalog file listing all the files within the observation.
-  * - sw[obs-id]ppr.par
-    - processing parameter file (ASCII).
-  * - sw[obs-id]pjb.par
-    - 'job' parameter file (ASCII).
-  * - SWIFT_TLE_ARCHIVE.txt.
-    - Two line element file used in the orbit derivation (ASCII).
-  * - sw[obs-id]pat.fits
-    - Processed attitude[#]_
-  * - sw[obs-id]uat.fits
-    - UVOT attitude[#]_
-
-[#] Files were added to the auxil directories in 2007
-
-
-
 
 
 
