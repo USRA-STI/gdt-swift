@@ -1,6 +1,6 @@
 .. _swift-frame:
 .. |SwiftFrame| replace:: :class:`~gdt.missions.swift.frame.SwiftFrame`
-.. |GbmPosHist| replace:: :class:`~gdt.missions.swift.poshist.SwiftSao`
+.. |SwiftSao| replace:: :class:`~gdt.missions.swift.poshist.SwiftSao`
 .. |Quaternion| replace:: :class:`~gdt.core.coords.Quaternion`
 
 ********************************************************
@@ -15,7 +15,7 @@ design, so we can use the SwiftFrame to convert Astropy SkyCoord objects
 between the SwiftFrame and any celestial frame.
 
 While the SwiftFrame is typically initialized when reading from a mission
-position history file (e.g. |GbmPosHist|) instead of manually by a user, we
+position history file (e.g. |SwiftSao|) instead of manually by a user, we
 can manually define the frame with a |Quaternion|:
 
     >>> from gdt.core.coords import Quaternion
