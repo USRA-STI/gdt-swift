@@ -63,7 +63,8 @@ if __name__ == '__main__':
         keywords=['astronomy', 'gammaray', 'gamma-ray', 'usra'],
         package_dir={"": "src"},
         package_data={
-            'gdt.data': ['swift.urls']
+            'gdt.data': ['swift.urls'], 
+            'gdt.missions.swift.bat.data': ['pcode_default.img']
         },
         include_package_data=True,
         python_requires='>=3.8',

@@ -66,6 +66,7 @@ Swift Definitions
 
    missions/swift/time
    missions/swift/frame
+   missions/swift/poshist
 
 
 
@@ -78,7 +79,7 @@ Instrument Definitions
 .. toctree::
    :maxdepth: 1
 
-
+   missions/swift/bat/detector
    missions/swift/bat/headers
 
 Data Types
@@ -90,7 +91,6 @@ Data Types
    missions/swift/bat/pha
    missions/swift/bat/lightcurve
    missions/swift/bat/response
-   missions/swift/bat/poshist
 
 
 Data Finders and Catalogs
